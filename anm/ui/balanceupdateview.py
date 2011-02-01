@@ -7,9 +7,13 @@ import re
 import operator
 
 from database import *
+from data_helpers import *
+from utils import raise_error, raise_success
 from sqlalchemy import desc
 from PyQt4 import QtGui
 from PyQt4 import QtCore
+
+
 from PyQt4.QtCore import QVariant, Qt
 
 
@@ -18,66 +22,99 @@ class UpdateBalancesWidget(QtGui.QWidget):
     def __init__(self):
 
         QtGui.QWidget.__init__(self)
-        #~ account = QLineEdit()
 
-        self.data = [(bud.account.number, bud.account.name, bud.amount)\
+        self.data = [(bud.account.number, bud.account.name, 0)\
                             for bud in session.query(Budget).all()]
 
-        print self.data
-
         # create the view
-        table = QtGui.QTableView()
+        self.table = QtGui.QTableView()
         # set the table model
         header = [_(u"Account numbers"), _(u"Account names"),\
-                            _(u"Previous Amount"), _(u'Next amount')]
+                                        _(u'New amount')]
         tm = MyTableModel(self.data, header, self)
-        table.setModel(tm)
-
-        # active sorting
-        table.setSortingEnabled(True)
-
-        table.sortByColumn(2, Qt.DescendingOrder)
+        self.table.setModel(tm)
 
         # set the font
         font = QtGui.QFont("Courier New", 10)
-        table.setFont(font)
+        self.table.setFont(font)
 
         # hide vertical header
-        vh = table.verticalHeader()
-        vh.setVisible(False)
+        vh = self.table.verticalHeader()
 
         # set horizontal header properties
-        hh = table.horizontalHeader()
+        hh = self.table.horizontalHeader()
         hh.setStretchLastSection(True)
 
         # set column width to fit contents
-        table.resizeColumnsToContents()
+        self.table.resizeColumnsToContents()
 
         # set row height
         nrows = len(self.data)
         for row in xrange(nrows):
-            table.setRowHeight(row, 20)
+            self.table.setRowHeight(row, 20)
 
         # selects the line
-        table.setSelectionBehavior(QtGui.QAbstractItemView.SelectRows)
+        self.table.setSelectionBehavior(QtGui.QAbstractItemView.SelectRows)
 
         titlebox = QtGui.QHBoxLayout()
-        titlebox.addWidget(QtGui.QLabel(u"Update periodic budgets"))
+        titlebox.addWidget(QtGui.QLabel(_(u"Update periodic budgets")))
 
-        buttonbox = QtGui.QFormLayout()
-        buttonbox.addWidget(QtGui.QPushButton("Save"))
+        buttonbox = QtGui.QHBoxLayout()
 
+        button = QtGui.QPushButton(_("Save"))
+        buttonbox.addWidget(QtGui.QLabel(""))
+        buttonbox.addWidget(QtGui.QLabel(""))
+        buttonbox.addWidget(button)
+
+        self.connect(button, QtCore.SIGNAL('clicked()'), self.saveupdate)
         tablebox = QtGui.QHBoxLayout()
-        tablebox.addWidget(table)
+        tablebox.addWidget(self.table)
 
         QtGui.QVBoxLayout()
 
         vbox = QtGui.QVBoxLayout()
         vbox.addLayout(titlebox)
-        vbox.addLayout(buttonbox)
         vbox.addLayout(tablebox)
-
+        vbox.addLayout(buttonbox)
         self.setLayout(vbox)
+
+    def saveupdate(self):
+        ''' To save the new budget in the database '''
+
+        # on récupère la période en fonction de la date d'aujourd'hui
+        try:
+            period_ = current_period()
+        except:
+            title_ = _(u"Adding operation budget")
+            message_ = _(u"was already recorded ")
+            raise_error(title_, message_)
+
+        flag = True
+        for row in self.data:
+            number, account_name, new_amount = row[0], row[1], row[2]
+            account_ = Account(number, account_name)
+            budget = Budget(new_amount)
+            budget.period = period_
+            budget.account = account_
+            session.add_all((period_, account_, budget))
+            #save
+            try:
+                session.commit()
+            except:
+                session.rollback()
+                flag = False
+
+        title_ = _(u"Adding operation budget")
+        if flag == True:
+            message_ = _(\
+            u"The budget for the period %s has been well recorded ")\
+             % period_
+            raise_success(title_, message_)
+        if flag == False:
+            message_ = _(\
+            u"The budget for the period %s it does not properly recorded ")\
+             % period_
+            raise_error(title_, message_)
 
 
 class MyTableModel(QtCore.QAbstractTableModel):
@@ -92,7 +129,7 @@ class MyTableModel(QtCore.QAbstractTableModel):
         return len(self.arraydata)
 
     def columnCount(self, parent):
-        return len(self.arraydata[0]) + 1
+        return len(self.arraydata[0])
 
     def data(self, index, role):
         if not index.isValid():
@@ -105,12 +142,3 @@ class MyTableModel(QtCore.QAbstractTableModel):
         if orientation == Qt.Horizontal and role == Qt.DisplayRole:
             return QVariant(self.headerdata[col])
         return QVariant()
-
-    def sort(self, Ncol, order):
-        """Sort table by given column number.
-        """
-        self.emit(QtCore.SIGNAL("layoutAboutToBeChanged()"))
-        self.arraydata = sorted(self.arraydata, key=operator.itemgetter(Ncol))
-        if order == Qt.DescendingOrder:
-            self.arraydata.reverse()
-        self.emit(QtCore.SIGNAL("layoutChanged()"))
