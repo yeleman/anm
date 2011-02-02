@@ -11,11 +11,12 @@ from PyQt4.QtCore import QVariant, Qt, QObject
 
 from sqlalchemy import func, desc
 
-from datetime import datetime
+from datetime import date
 
 from database import Operation, session
 from utils import raise_success, raise_error
 from deleteview import deleteViewWidget
+from data_helpers import *
 
 class OperationWidget(QtGui.QWidget):
 
@@ -122,7 +123,8 @@ class OperationWidget(QtGui.QWidget):
     def add_operation(self):
         """add operation"""
         year, month, day = self.invoice_date.text().split('-')
-        invoice_date = datetime(int(year), int(month), int(day))
+        invoice_date = date(int(year), int(month), int(day))
+        ped = period_for(invoice_date)
 
         if self.order_number.text() and self.invoice_number.text() and \
             invoice_date and self.provider.text()and self.amount.text():
@@ -130,7 +132,8 @@ class OperationWidget(QtGui.QWidget):
                         str(self.invoice_number.text()), invoice_date, \
                         unicode(self.provider.text()), str(self.amount.text()))
             operation.account = self.account
-
+            operation.period = ped
+            print operation.period
             session.add(operation)
             session.commit()
 

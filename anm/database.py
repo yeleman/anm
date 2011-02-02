@@ -42,6 +42,7 @@ budgets_table = Table('budget', metadata,
 operations_table = Table('operation', metadata,
     Column('id', Integer, primary_key=True),
     Column('account_id', Integer, ForeignKey('account.id')),
+    Column('period_id', Integer, ForeignKey('period.id')),
     Column('order_number', String(20)),
     Column('invoice_number', String(20)),
     Column('invoice_date', Date),
@@ -172,6 +173,7 @@ mapper(Account, accounts_table, properties={
     'budgets': relationship(Budget, backref='account'),
 })
 mapper(Period, periods_table, properties={
+    'operations': relationship(Operation, backref='period'),
     'budgets': relationship(Budget, backref='period'),
 })
 mapper(Budget, budgets_table)
