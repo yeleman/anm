@@ -46,6 +46,7 @@ operations_table = Table('operation', metadata,
 
 metadata.create_all(engine)
 
+
 class Period(object):
     def __init__(self, name, start_on, end_on):
         self.name = name
@@ -58,6 +59,7 @@ class Period(object):
     def __unicode__(self):
         return self.name
 
+
 class Account(object):
     def __init__(self, number, name):
         self.number = number
@@ -66,6 +68,7 @@ class Account(object):
     def __repr__(self):
         return "<Account('%s')>" % (self.number)
 
+
 class Budget(object):
     def __init__(self, amount):
         self.amount = amount
@@ -73,8 +76,10 @@ class Budget(object):
     def __repr__(self):
         return "<Budget('%s','%s')>" % (self.period, self.amount)
 
+
 class Operation(object):
-    def __init__(self, order_number, invoice_number, invoice_date, provider, amount):
+    def __init__(self, order_number, invoice_number, \
+                 invoice_date, provider, amount):
         self.order_number = order_number
         self.invoice_number = invoice_number
         self.invoice_date = invoice_date
@@ -86,10 +91,10 @@ class Operation(object):
 
 mapper(Account, accounts_table, properties={
     'operations': relationship(Operation, backref='account'),
-    'budgets': relationship(Budget, backref='account')
+    'budgets': relationship(Budget, backref='account'),
 })
 mapper(Period, periods_table, properties={
-    'budgets': relationship(Budget, backref='period')
+    'budgets': relationship(Budget, backref='period'),
 })
 mapper(Budget, budgets_table)
 mapper(Operation, operations_table)
