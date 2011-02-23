@@ -22,8 +22,8 @@ class OperationViewWidget(QtGui.QWidget):
         tv = QtGui.QTableView()
 
         # set the table model
-        header = ['Number mandat', 'Numero facture', 'date facture',
-                  'fournisseur', 'Montant TTC']
+        header = [_(u'Order number'), _(u'Invoice number'), _(u'Invoice date'),
+                  _(u'Provider'), _(u'Amount')]
         tm = MyTableModel(self.data, header, self)
         tv.setModel(tm)
         tv.setSortingEnabled(True)
