@@ -3,6 +3,7 @@
 # maintainer: rgaudin
 
 import sys
+
 from PyQt4 import QtGui, QtCore
 
 from menubar import MenuBar
@@ -13,7 +14,7 @@ class MainWindow(QtGui.QMainWindow):
         QtGui.QMainWindow.__init__(self)
 
         self.resize(800, 600)
-        self.setWindowTitle(u"Gestion des budgets ANM")
+        self.setWindowTitle(_(u"ANM Budgets Manager"))
         #self.setWindowIcon(QtGui.QIcon('icons/anm.png'))
 
         menubar = MenuBar(self)
@@ -24,5 +25,3 @@ class MainWindow(QtGui.QMainWindow):
     def switch_context(self, context_widget):
         self.view_widget = context_widget
         self.setCentralWidget(self.view_widget)
-        
-

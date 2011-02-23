@@ -1,0 +1,21 @@
+# French translations for PACKAGE package.
+# Copyright (C) 2011 yɛlɛman s.à.r.l
+# This file is distributed under the same license as the PACKAGE package.
+# reg <rgaudin@gmail.com>, 2011.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: anm 0.1\n"
+"Report-Msgid-Bugs-To: bugs@yeleman.com\n"
+"POT-Creation-Date: 2011-02-23 10:08+0000\n"
+"PO-Revision-Date: 2011-02-23 11:24+0000\n"
+"Last-Translator: reg <rgaudin@gmail.com>\n"
+"Language-Team: French\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: anm/ui/mainwindow.py:18
+msgid "ANM Budgets Manager"
+msgstr "Gestion des budgets ANM"

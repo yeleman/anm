@@ -5,6 +5,7 @@
 import sys
 from PyQt4 import QtGui
 
+
 class BalanceViewWidget(QtGui.QWidget):
 
     def __init__(self):
@@ -16,5 +17,5 @@ class BalanceViewWidget(QtGui.QWidget):
         vbox = QtGui.QVBoxLayout()
         vbox.addLayout(hbox)
         vbox.addStretch(1)
-        
+
         self.setLayout(vbox)
