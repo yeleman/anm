@@ -14,30 +14,30 @@ class MenuBar(QtGui.QMenuBar):
         QtGui.QMenuBar.__init__(self, parent)
         #menubar = self.menuBar()
 
-        exit = QtGui.QAction('Exit', self)
+        exit = QtGui.QAction(_(u'Exit'), self)
         exit.setShortcut('Ctrl+Q')
         self.connect(exit, QtCore.SIGNAL('triggered()'), \
                                          self.parentWidget(), \
                                          QtCore.SLOT('close()'))
 
-        print_ = QtGui.QAction('Print', self)
+        print_ = QtGui.QAction(_(u'Print'), self)
         print_.setShortcut('Ctrl+P')
         self.connect(print_, QtCore.SIGNAL('triggered()'), self.goto_print)
 
-        file_ = self.addMenu('&File')
-        file_.addAction('Delete operation', self.goto_delete_operation)
+        file_ = self.addMenu(_(u'&File'))
+        file_.addAction(_(u'Delete operation'), self.goto_delete_operation)
         file_.addAction(print_)
-        file_.addAction('Export data', self.goto_export_data)
+        file_.addAction(_(u'Export data'), self.goto_export_data)
         file_.addAction(exit)
 
         #aller à
-        goto = QtGui.QAction('Go to', self)
-        file_ = self.addMenu('&Go to')
-        file_.addAction('List of balance', self.goto_list_of_balances)
-        file_.addAction('The updated budget', self.goto_updated_budget)
+        goto = QtGui.QAction(_(u'Go to'), self)
+        file_ = self.addMenu(_(u'&Go to'))
+        file_.addAction(_(u'List of balance'), self.goto_list_of_balances)
+        file_.addAction(_(u'The updated budget'), self.goto_updated_budget)
         #Aide
-        file_ = self.addMenu('Help')
-        file_.addAction('About', self.goto_about)
+        file_ = self.addMenu(_(u'Help'))
+        file_.addAction(_(u'About'), self.goto_about)
 
     #balance
     def goto_balance(self):
