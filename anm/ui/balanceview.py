@@ -16,5 +16,5 @@ class BalanceViewWidget(QtGui.QWidget):
         vbox = QtGui.QVBoxLayout()
         vbox.addLayout(hbox)
         vbox.addStretch(1)
-        
+
         self.setLayout(vbox)
