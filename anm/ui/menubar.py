@@ -14,29 +14,53 @@ class MenuBar(QtGui.QMenuBar):
         QtGui.QMenuBar.__init__(self, parent)
         #menubar = self.menuBar()
 
-        exit = QtGui.QAction('Exit', self)
+        exit = QtGui.QAction(_(u'Exit'), self)
         exit.setShortcut('Ctrl+Q')
         self.connect(exit, QtCore.SIGNAL('triggered()'), \
                                          self.parentWidget(), \
                                          QtCore.SLOT('close()'))
 
-        file_ = self.addMenu('&File')
+        print_ = QtGui.QAction(_(u'Print'), self)
+        print_.setShortcut('Ctrl+P')
+        self.connect(print_, QtCore.SIGNAL('triggered()'), self.goto_print)
+
+        file_ = self.addMenu(_(u'&File'))
+        file_.addAction(_(u'Delete operation'), self.goto_delete_operation)
+        file_.addAction(print_)
+        file_.addAction(_(u'Export data'), self.goto_export_data)
         file_.addAction(exit)
 
-        # accounts
-        balance = QtGui.QAction('View all balances', self)
-        balance.setShortcut('Ctrl+H')
-        self.connect(balance, QtCore.SIGNAL('triggered()'), self.goto_balance)
+        #aller à
+        goto = QtGui.QAction(_(u'Go to'), self)
+        file_ = self.addMenu(_(u'&Go to'))
+        file_.addAction(_(u'List of balance'), self.goto_list_of_balances)
+        file_.addAction(_(u'The updated budget'), self.goto_updated_budget)
+        #Aide
+        file_ = self.addMenu(_(u'Help'))
+        file_.addAction(_(u'About'), self.goto_about)
 
-        blank = QtGui.QAction('TEST BLANK', self)
-        self.connect(blank, QtCore.SIGNAL('triggered()'), self.goto_blank)
-
-        accounts = self.addMenu('&Accounts')
-        accounts.addAction(balance)
-        accounts.addAction(blank)
-
+    #balance
     def goto_balance(self):
+        print 'balance'
+
+    #Print
+    def goto_print(self):
+        print 'Processing a Print Request'
+
+    def goto_delete_operation(self):
+        print 'deleted'
+
+    def goto_export_data(self):
+        print 'export data'
+
+    #list_of_balances
+    def goto_list_of_balances(self):
         self.parentWidget().switch_context(BalanceViewWidget())
 
-    def goto_blank(self):
-        self.parentWidget().switch_context(QtGui.QWidget())
+    #mise à jour de budget
+    def goto_updated_budget(self):
+        print 'updated budget'
+
+    #About
+    def goto_about(self):
+        print 'About'
