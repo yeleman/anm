@@ -5,6 +5,7 @@
 import sys
 from PyQt4 import QtGui
 
+
 class BalanceViewWidget(QtGui.QWidget):
 
     def __init__(self):
