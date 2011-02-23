@@ -4,10 +4,12 @@
 
 import re
 import operator
-from database import *
+
+from database import Operation, session
 from PyQt4 import QtGui
 from PyQt4 import QtCore
 from PyQt4.QtCore import QVariant, Qt
+
 
 class OperationViewWidget(QtGui.QWidget):
 
@@ -15,8 +17,8 @@ class OperationViewWidget(QtGui.QWidget):
         QtGui.QWidget.__init__(self)
 
         # add data
-        self.data = [(op.order_number, op.invoice_number, \
-                      op.invoice_date.strftime('%F'), op.provider, op.amount) \
+        self.data = [(op.order_number, op.invoice_number,\
+                      op.invoice_date.strftime('%F'), op.provider, op.amount)\
                       for op in session.query(Operation).all()]
 
         tv = QtGui.QTableView()
@@ -36,6 +38,7 @@ class OperationViewWidget(QtGui.QWidget):
         vbox.addStretch(1)
 
         self.setLayout(vbox)
+
 
 class MyTableModel(QtCore.QAbstractTableModel):
     def __init__(self, datain, headerdata, parent=None, *args):
