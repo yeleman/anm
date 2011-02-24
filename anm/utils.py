@@ -10,6 +10,7 @@ import subprocess
 class PDFFileUnavailable(IOError):
     pass
 
+
 def uopen_prefix(platform=sys.platform):
 
     if platform in ('win32', 'win64'):
@@ -32,6 +33,7 @@ def uopen_file(filename):
     if not os.path.exist(pdf_file):
         raise PDFFileUnavailable(_(u"PDF file %s is not available."))
         subprocess.call([uopen_prefix(), filename], shell=True)
+
 
 def display_pdf(pdf_file):
     return uopen_file(pdf_file)
