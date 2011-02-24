@@ -6,38 +6,84 @@ import re
 import operator
 
 from database import Operation, session
+from sqlalchemy import desc
 from PyQt4 import QtGui
 from PyQt4 import QtCore
 from PyQt4.QtCore import QVariant, Qt
 
 
-class OperationViewWidget(QtGui.QWidget):
 
-    def __init__(self):
+class OperationWidget(QtGui.QWidget):
+
+    def __init__(self, account):
         QtGui.QWidget.__init__(self)
 
-        # add data
-        self.data = [(op.order_number, op.invoice_number,\
-                      op.invoice_date.strftime('%F'), op.provider, op.amount)\
-                      for op in session.query(Operation).all()]
+        self.account = account
 
-        tv = QtGui.QTableView()
+        # add data
+        self.tabledata = [(operation.order_number, operation.invoice_number,\
+                      operation.invoice_date.strftime('%F'),\
+                      operation.provider, operation.amount, operation) \
+                      for operation in session.query(Operation).\
+                      filter_by(account=self.account).\
+                      order_by(desc(Operation.invoice_date)).all()]
+
+        # create the view
+        table = QtGui.QTableView()
 
         # set the table model
         header = [_(u'Order number'), _(u'Invoice number'), _(u'Invoice date'),
                   _(u'Provider'), _(u'Amount')]
-        tm = MyTableModel(self.data, header, self)
-        tv.setModel(tm)
-        tv.setSortingEnabled(True)
+        tm = MyTableModel(self.tabledata, header, self)
+        table.setModel(tm)
+
+        # active sorting
+        table.setSortingEnabled(True)
+
+        table.sortByColumn(2, Qt.DescendingOrder)
+
+        # set the font
+        font = QtGui.QFont("Courier New", 10)
+        table.setFont(font)
+
+        # hide vertical header
+        vh = table.verticalHeader()
+        vh.setVisible(False)
+
+        # set horizontal header properties
+        hh = table.horizontalHeader()
+        hh.setStretchLastSection(True)
+
+        # set column width to fit contents
+        table.resizeColumnsToContents()
+
+        # set row height
+        nrows = len(self.tabledata)
+        for row in xrange(nrows):
+            table.setRowHeight(row, 20)
+
+        # selects the line
+        table.setSelectionBehavior(QtGui.QAbstractItemView.SelectRows)
+
+        table.clicked.connect(self.goto_operations)
 
         hbox = QtGui.QHBoxLayout()
-        hbox.addWidget(tv)
+        hbox.addWidget(table)
+
+        hbox2 = QtGui.QHBoxLayout()
+        hbox2.addWidget(QtGui.QLabel("Account %s" %(self.account.name)))
 
         vbox = QtGui.QVBoxLayout()
+        vbox.addLayout(hbox2)
         vbox.addLayout(hbox)
         vbox.addStretch(1)
 
         self.setLayout(vbox)
+
+    def goto_operations(self, index):
+        op = self.tabledata[index.row()][self.tabledata[0].__len__() - 1]
+        QtGui.QMessageBox.information(self, "OPP", 'operation: %s %s' \
+                % (op.invoice_number, op.invoice_date.strftime('%F')))
 
 
 class MyTableModel(QtCore.QAbstractTableModel):
@@ -52,7 +98,7 @@ class MyTableModel(QtCore.QAbstractTableModel):
         return len(self.arraydata)
 
     def columnCount(self, parent):
-        return len(self.arraydata[0])
+        return len(self.arraydata[0]) - 1
 
     def data(self, index, role):
         if not index.isValid():
