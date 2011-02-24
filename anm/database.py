@@ -8,7 +8,7 @@ from sqlalchemy.orm import mapper, relationship
 from sqlalchemy import Table, Column, Integer, String, \
                        MetaData, ForeignKey, DateTime, Unicode
 
-engine = create_engine('sqlite:///anm.db', echo=True)
+engine = create_engine('sqlite:///anm.db', echo=False)
 Session = sessionmaker(bind=engine)
 session = Session()
 

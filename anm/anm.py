@@ -14,7 +14,8 @@ def main():
     gettext.install('anm', localedir='locale', unicode=True)
     app = QtGui.QApplication(sys.argv)
     window = MainWindow()
-    window.showMaximized()
+    window.show()
+    #window.showMaximized()
     sys.exit(app.exec_())
 
 if __name__ == "__main__":
