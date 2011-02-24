@@ -12,7 +12,6 @@ from PyQt4 import QtCore
 from PyQt4.QtCore import QVariant, Qt
 
 
-
 class OperationWidget(QtGui.QWidget):
 
     def __init__(self, account):
@@ -71,7 +70,7 @@ class OperationWidget(QtGui.QWidget):
         hbox.addWidget(table)
 
         hbox2 = QtGui.QHBoxLayout()
-        hbox2.addWidget(QtGui.QLabel("Account %s" %(self.account.name)))
+        hbox2.addWidget(QtGui.QLabel("Account %s" % (self.account.name)))
 
         vbox = QtGui.QVBoxLayout()
         vbox.addLayout(hbox2)
