@@ -2,7 +2,6 @@
 # encoding=utf-8
 # maintainer: rgaudin
 
-import sys
 from PyQt4 import QtGui, QtCore
 
 from balanceview import BalanceViewWidget
@@ -12,55 +11,63 @@ class MenuBar(QtGui.QMenuBar):
 
     def __init__(self, parent=None):
         QtGui.QMenuBar.__init__(self, parent)
-        #menubar = self.menuBar()
 
-        exit = QtGui.QAction(_(u'Exit'), self)
-        exit.setShortcut('Ctrl+Q')
-        self.connect(exit, QtCore.SIGNAL('triggered()'), \
-                                         self.parentWidget(), \
-                                         QtCore.SLOT('close()'))
-
-        print_ = QtGui.QAction(_(u'Print'), self)
-        print_.setShortcut('Ctrl+P')
-        self.connect(print_, QtCore.SIGNAL('triggered()'), self.goto_print)
-
-        file_ = self.addMenu(_(u'&File'))
-        file_.addAction(_(u'Delete operation'), self.goto_delete_operation)
+        #Menu File
+        file_ = self.addMenu(_(u"&File"))
+        # Dele
+        file_.addAction(_(u"Delete an operation"),\
+                                     self.goto_delete_operation)
+        # Print
+        print_ = QtGui.QAction(_(u"Print"), self)
+        print_.setShortcut("Ctrl+P")
+        print_.setDisabled(True)
+        self.connect(print_, QtCore.SIGNAL("triggered()"),\
+                                            self.goto_print)
         file_.addAction(print_)
-        file_.addAction(_(u'Export data'), self.goto_export_data)
+        # Export
+        export = file_.addMenu(_(u"Export data"))
+        export.addAction(_(u"Db"), self.goto_export_db)
+        export.addAction(_(u"Export an file excel"),\
+                                        self.goto_export_excel)
+        # Exit
+        exit = QtGui.QAction(_(u"Exit"), self)
+        exit.setShortcut("Ctrl+Q")
+        exit.setToolTip(_('Exit application'))
+        self.connect(exit, QtCore.SIGNAL("triggered()"), \
+                                         self.parentWidget(), \
+                                         QtCore.SLOT("close()"))
         file_.addAction(exit)
-
-        #aller à
-        goto = QtGui.QAction(_(u'Go to'), self)
-        file_ = self.addMenu(_(u'&Go to'))
-        file_.addAction(_(u'List of balance'), self.goto_list_of_balances)
-        file_.addAction(_(u'The updated budget'), self.goto_updated_budget)
-        #Aide
-        file_ = self.addMenu(_(u'Help'))
-        file_.addAction(_(u'About'), self.goto_about)
-
-    #balance
-    def goto_balance(self):
-        print 'balance'
+        # Menu aller à
+        goto = self.addMenu(_(u"&Go to"))
+        goto.addAction(_(u"Accounts balances"),\
+                                    self.goto_Accounts_balances)
+        goto.addAction(_(u"Update periodic budgets"),\
+                                       self.goto_updated_budget)
+        #Menu Aide
+        help = self.addMenu(_(u"Help"))
+        help.addAction(_(u"About"), self.goto_about)
 
     #Print
     def goto_print(self):
-        print 'Processing a Print Request'
+        print "Processing a Print Request"
 
     def goto_delete_operation(self):
-        print 'deleted'
+        print "deleted"
 
-    def goto_export_data(self):
-        print 'export data'
+    def goto_export_db(self):
+        print "export db"
+
+    def goto_export_excel(self):
+        print "export an file excel"
 
     #list_of_balances
-    def goto_list_of_balances(self):
+    def goto_Accounts_balances(self):
         self.parentWidget().switch_context(BalanceViewWidget())
 
     #mise à jour de budget
     def goto_updated_budget(self):
-        print 'updated budget'
+        print "updated budget"
 
     #About
     def goto_about(self):
-        print 'About'
+        print "About"
