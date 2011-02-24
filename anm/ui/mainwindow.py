@@ -7,7 +7,7 @@ import sys
 from PyQt4 import QtGui, QtCore
 
 from menubar import MenuBar
-
+from balanceview import BalanceViewWidget
 
 class MainWindow(QtGui.QMainWindow):
     def __init__(self):
@@ -20,7 +20,7 @@ class MainWindow(QtGui.QMainWindow):
         menubar = MenuBar(self)
         self.setMenuBar(menubar)
 
-        self.switch_context(QtGui.QWidget())
+        self.switch_context(BalanceViewWidget())
 
     def switch_context(self, context_widget):
         self.view_widget = context_widget
