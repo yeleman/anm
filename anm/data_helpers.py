@@ -116,6 +116,10 @@ def quarter_dates(quarter, year):
     return (date(year, *s), date(year, *e))
 
 
+def current_period():
+    return period_for(date.today())
+
+
 def check_periods(date_ref):
     ''' ensure existence of current, previous and next period for a date '''
     pass
