@@ -28,8 +28,8 @@ class UpdateBalancesWidget(QtGui.QWidget):
         # create the view
         table = QtGui.QTableView()
         # set the table model
-        header = [_(u"Number Compte"), _(u"name Compte"), _(u"Previous Amount"),
-                  _(u'Next amount')]
+        header = [_(u"Number Compte"), _(u"name Compte"),\
+                            _(u"Previous Amount"), _(u'Next amount')]
         tm = MyTableModel(self.data, header, self)
         table.setModel(tm)
 
@@ -61,15 +61,11 @@ class UpdateBalancesWidget(QtGui.QWidget):
         # selects the line
         table.setSelectionBehavior(QtGui.QAbstractItemView.SelectRows)
 
-        hbox2 = QtGui.QHBoxLayout()
-        hbox2.addWidget(QtGui.QLabel(u"Balance update"))
+        titlebox = QtGui.QHBoxLayout()
+        titlebox.addWidget(QtGui.QLabel(u"Balance update"))
 
-        hbox3 = QtGui.QFormLayout()
-        #~ startdateLineEdit = QtGui.QLineEdit()
-        #~ enddateLineEdit = QtGui.QLineEdit()
-        #~ hbox3.addRow(u"start date", startdateLineEdit)
-        #~ hbox3.addRow(u"end date", enddateLineEdit)
-        hbox3.addWidget(QtGui.QPushButton("OK"))
+        buttonbox = QtGui.QFormLayout()
+        buttonbox.addWidget(QtGui.QPushButton("OK"))
 
         tablebox = QtGui.QHBoxLayout()
         tablebox.addWidget(table)
@@ -77,12 +73,12 @@ class UpdateBalancesWidget(QtGui.QWidget):
         QtGui.QVBoxLayout()
 
         vbox = QtGui.QVBoxLayout()
-
-        vbox.addLayout(hbox3)
-        vbox.addLayout(hbox2)
+        vbox.addLayout(titlebox)
+        vbox.addLayout(buttonbox)
         vbox.addLayout(tablebox)
 
         self.setLayout(vbox)
+
 
 class MyTableModel(QtCore.QAbstractTableModel):
     def __init__(self, datain, headerdata, parent=None, *args):
