@@ -57,6 +57,7 @@ def account_summary(account, period):
 
     return (account.number, account.name, budget, balance, account)
 
+
 def period_for(date_):
     ''' period object a date is part of '''
     quarter = quarter_for(date_)
@@ -74,7 +75,7 @@ def period_for(date_):
         session.add(period)
         session.commit()
     return period
-    
+
 
 def quarter_for(date_):
     ''' returns quarter a date is part of '''
@@ -92,6 +93,7 @@ def next_quarter(quarter, year=None):
     if quarter < 4:
         return (quarter + 1, year)
     return (1, year + 1)
+
 
 def previous_quarter(quarter, year=None):
     ''' return next quarter number '''
@@ -116,4 +118,4 @@ def quarter_dates(quarter, year):
 
 def check_periods(date_ref):
     ''' ensure existence of current, previous and next period for a date '''
-    
+    pass

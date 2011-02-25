@@ -9,10 +9,11 @@ from sqlalchemy import desc
 from database import *
 from data_helpers import period_for
 
+
 def initial_setup():
 
     DB_REVISION = 1
-    
+
     try:
         revision = session.query(Revision.num)\
                           .order_by(desc(Revision.num)).scalar()
@@ -23,7 +24,7 @@ def initial_setup():
         return
 
     period = period_for(date(2011, 1, 1))
-    
+
     data = [
         ('2-611-00', u"Personnel", 938882000),
         ('2-613-23', u"Indemnité de session", 0),
@@ -50,7 +51,6 @@ def initial_setup():
     import_account_budget_data(data, first_period=period)
 
 
-
 def import_account_budget_data(data, first_period):
 
     # create list of periods based on number of elements
@@ -71,7 +71,7 @@ def import_account_budget_data(data, first_period):
             session.add(b)
     session.commit()
 
+
 def period_check(date_ref):
     # check current period and perdiod + 1 exist
     pass
-    
