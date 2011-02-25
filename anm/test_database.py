@@ -20,10 +20,14 @@ bb.account = batim
 bb.period = q1
 
 achat = Operation('12', '201189n', datetime.today(), \
-                  u'yɛlɛman s.à.r.l', 950000)
+                  u'yɛlɛman s.à.r.l', 950000, datetime.today())
 achat.account = perso
 
-session.add_all((perso, batim, bp, bb, q1, achat))
+peinture = Operation('13', '201345b', datetime.today(), \
+                  u'solostice s.à.r.l', 10000, datetime.today())
+achat.account = batim
+
+session.add_all((perso, batim, bp, bb, q1, achat, peinture))
 session.commit()
 
 all_accounts = session.query(Account).all()

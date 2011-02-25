@@ -6,7 +6,7 @@ from PyQt4 import QtGui, QtCore
 
 from balanceview import BalanceViewWidget
 from balanceupdateview import UpdateBalancesWidget
-
+from deleteview import deleteViewWidget
 class MenuBar(QtGui.QMenuBar):
 
     def __init__(self, parent=None):
@@ -53,6 +53,7 @@ class MenuBar(QtGui.QMenuBar):
 
     def goto_delete_operation(self):
         print "deleted"
+        self.parentWidget().switch_context(deleteViewWidget())
 
     def goto_export_db(self):
         print "export db"
