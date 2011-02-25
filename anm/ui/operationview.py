@@ -36,11 +36,6 @@ class OperationWidget(QtGui.QWidget):
         tm = MyTableModel(self.tabledata, header, self)
         self.table.setModel(tm)
 
-        # active sorting
-        self.table.setSortingEnabled(True)
-
-        self.table.sortByColumn(2, Qt.DescendingOrder)
-
         # set the font
         font = QtGui.QFont("Courier New", 10)
         self.table.setFont(font)
@@ -81,6 +76,13 @@ class OperationWidget(QtGui.QWidget):
         self.amount = QtGui.QLineEdit()
         butt = QtGui.QPushButton(_(u"Add"))
 
+        formbox1 = QtGui.QHBoxLayout()
+        formbox1.addWidget(QtGui.QLabel('order_number'))
+        formbox1.addWidget(QtGui.QLabel('invoice_number'))
+        formbox1.addWidget(QtGui.QLabel('invoice_date'))
+        formbox1.addWidget(QtGui.QLabel('provider'))
+        formbox1.addWidget(QtGui.QLabel('amount'))
+
         formbox = QtGui.QHBoxLayout()
         formbox.addWidget(self.order_number)
         formbox.addWidget(self.invoice_number)
@@ -93,6 +95,7 @@ class OperationWidget(QtGui.QWidget):
 
         vbox = QtGui.QVBoxLayout()
         vbox.addLayout(title)
+        vbox.addLayout(formbox1)
         vbox.addLayout(formbox)
         vbox.addLayout(tablebox)
 
@@ -108,7 +111,7 @@ class OperationWidget(QtGui.QWidget):
         session.commit()
         last_operation = session.query(Operation).all()[-1]
 
-        #~ self.table.insert(a)
+        self.parentWidget().switch_context(OperationWidget(self.account))
 
     def goto_operations(self, index):
         op = self.tabledata[index.row()][self.tabledata[0].__len__() - 1]
@@ -145,11 +148,3 @@ class MyTableModel(QtCore.QAbstractTableModel):
             return QVariant(self.headerdata[col])
         return QVariant()
 
-    def sort(self, Ncol, order):
-        """Sort table by given column number.
-        """
-        self.emit(QtCore.SIGNAL("layoutAboutToBeChanged()"))
-        self.arraydata = sorted(self.arraydata, key=operator.itemgetter(Ncol))
-        if order == Qt.DescendingOrder:
-            self.arraydata.reverse()
-        self.emit(QtCore.SIGNAL("layoutChanged()"))
