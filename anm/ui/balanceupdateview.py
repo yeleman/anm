@@ -28,7 +28,7 @@ class UpdateBalancesWidget(QtGui.QWidget):
         # create the view
         table = QtGui.QTableView()
         # set the table model
-        header = [_(u"Number Compte"), _(u"name Compte"),\
+        header = [_(u"Account numbers"), _(u"Account names"),\
                             _(u"Previous Amount"), _(u'Next amount')]
         tm = MyTableModel(self.data, header, self)
         table.setModel(tm)
@@ -62,10 +62,10 @@ class UpdateBalancesWidget(QtGui.QWidget):
         table.setSelectionBehavior(QtGui.QAbstractItemView.SelectRows)
 
         titlebox = QtGui.QHBoxLayout()
-        titlebox.addWidget(QtGui.QLabel(u"Balance update"))
+        titlebox.addWidget(QtGui.QLabel(u"Update periodic budgets"))
 
         buttonbox = QtGui.QFormLayout()
-        buttonbox.addWidget(QtGui.QPushButton("OK"))
+        buttonbox.addWidget(QtGui.QPushButton("Save"))
 
         tablebox = QtGui.QHBoxLayout()
         tablebox.addWidget(table)

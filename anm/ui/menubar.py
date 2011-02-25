@@ -32,7 +32,7 @@ class MenuBar(QtGui.QMenuBar):
         # Exit
         exit = QtGui.QAction(_(u"Exit"), self)
         exit.setShortcut("Ctrl+Q")
-        exit.setToolTip(_('Exit application'))
+        exit.setToolTip(_("Exit application"))
         self.connect(exit, QtCore.SIGNAL("triggered()"), \
                                          self.parentWidget(), \
                                          QtCore.SLOT("close()"))
@@ -66,7 +66,6 @@ class MenuBar(QtGui.QMenuBar):
 
     #mise à jour de budget
     def goto_updated_budget(self):
-        print "updated budget"
         self.parentWidget().switch_context(UpdateBalancesWidget())
 
     #About
