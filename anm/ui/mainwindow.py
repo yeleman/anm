@@ -9,6 +9,7 @@ from PyQt4 import QtGui, QtCore
 from menubar import MenuBar
 from balanceview import BalanceViewWidget
 
+
 class MainWindow(QtGui.QMainWindow):
     def __init__(self):
         QtGui.QMainWindow.__init__(self)
