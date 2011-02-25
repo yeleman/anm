@@ -4,12 +4,12 @@
 
 import re
 import operator
-
+from datetime import datetime
 from database import Operation, session
 from sqlalchemy import desc
 from PyQt4 import QtGui
 from PyQt4 import QtCore
-from PyQt4.QtCore import QVariant, Qt
+from PyQt4.QtCore import QVariant, Qt, QObject
 
 
 class OperationWidget(QtGui.QWidget):
@@ -70,14 +70,43 @@ class OperationWidget(QtGui.QWidget):
         hbox.addWidget(table)
 
         hbox2 = QtGui.QHBoxLayout()
-        hbox2.addWidget(QtGui.QLabel("Account %s" % (self.account.name)))
+        hbox2.addWidget(QtGui.QLabel("Account transactions %s (%s)" %\
+                                     (self.account.name, self.account.number)))
+        hbox2.setAlignment(Qt.AlignHCenter)
+        hbox3 = QtGui.QFormLayout()
+        self.order_number = QtGui.QLineEdit()
+        self.invoice_number = QtGui.QLineEdit()
+        self.invoice_date = QtGui.QLineEdit()
+        self.provider = QtGui.QLineEdit()
+        self.amount = QtGui.QLineEdit()
+        butt = QtGui.QPushButton(_(u"Add"))
+        hbox3.addRow(_(u'Order number'), self.order_number)
+        hbox3.addRow(_(u'Invoice number'), self.invoice_number)
+        hbox3.addRow(_(u'Invoice date'), self.invoice_date)
+        hbox3.addRow(_(u'Provider'), self.provider)
+        hbox3.addRow(_(u'Amount'), self.amount)
+        hbox3.addWidget(butt)
+
+        self.connect(butt, QtCore.SIGNAL('clicked()'), self.goto)
 
         vbox = QtGui.QVBoxLayout()
         vbox.addLayout(hbox2)
+        vbox.addLayout(hbox3)
         vbox.addLayout(hbox)
         vbox.addStretch(1)
 
         self.setLayout(vbox)
+
+    def goto(self):
+        print self.invoice_date.text()
+        achat = Operation(self.order_number.text(), self.invoice_number.text(), datetime.today(), \
+                  self.provider.text(), self.amount.text())
+        achat.account = self.account
+
+        session.add(achat)
+        session.commit()
+        #~ account = session.query(Account).filter_by(number=account_id).one()
+        #~ self.parentWidget().switch_context(OperationWidget(account=account))
 
     def goto_operations(self, index):
         op = self.tabledata[index.row()][self.tabledata[0].__len__() - 1]
