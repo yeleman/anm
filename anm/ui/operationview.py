@@ -28,85 +28,87 @@ class OperationWidget(QtGui.QWidget):
                       order_by(desc(Operation.invoice_date)).all()]
 
         # create the view
-        table = QtGui.QTableView()
+        self.table = QtGui.QTableView()
 
         # set the table model
         header = [_(u'Order number'), _(u'Invoice number'), _(u'Invoice date'),
                   _(u'Provider'), _(u'Amount')]
         tm = MyTableModel(self.tabledata, header, self)
-        table.setModel(tm)
+        self.table.setModel(tm)
 
         # active sorting
-        table.setSortingEnabled(True)
+        self.table.setSortingEnabled(True)
 
-        table.sortByColumn(2, Qt.DescendingOrder)
+        self.table.sortByColumn(2, Qt.DescendingOrder)
 
         # set the font
         font = QtGui.QFont("Courier New", 10)
-        table.setFont(font)
+        self.table.setFont(font)
 
         # hide vertical header
-        vh = table.verticalHeader()
+        vh = self.table.verticalHeader()
         vh.setVisible(False)
 
         # set horizontal header properties
-        hh = table.horizontalHeader()
+        hh = self.table.horizontalHeader()
         hh.setStretchLastSection(True)
 
         # set column width to fit contents
-        table.resizeColumnsToContents()
+        self.table.resizeColumnsToContents()
 
         # set row height
         nrows = len(self.tabledata)
         for row in xrange(nrows):
-            table.setRowHeight(row, 20)
+            self.table.setRowHeight(row, 20)
 
         # selects the line
-        table.setSelectionBehavior(QtGui.QAbstractItemView.SelectRows)
+        self.table.setSelectionBehavior(QtGui.QAbstractItemView.SelectRows)
 
-        table.clicked.connect(self.goto_operations)
+        self.table.clicked.connect(self.goto_operations)
 
-        hbox = QtGui.QHBoxLayout()
-        hbox.addWidget(table)
+        tablebox = QtGui.QHBoxLayout()
+        title = QtGui.QHBoxLayout()
 
-        hbox2 = QtGui.QHBoxLayout()
-        hbox2.addWidget(QtGui.QLabel("Account transactions %s (%s)" %\
+        title.addWidget(QtGui.QLabel("Account transactions %s (%s)" %\
                                      (self.account.name, self.account.number)))
-        hbox2.setAlignment(Qt.AlignHCenter)
-        hbox3 = QtGui.QFormLayout()
+        tablebox.addWidget(self.table)
+
+        formbox = QtGui.QFormLayout()
         self.order_number = QtGui.QLineEdit()
         self.invoice_number = QtGui.QLineEdit()
         self.invoice_date = QtGui.QLineEdit()
         self.provider = QtGui.QLineEdit()
         self.amount = QtGui.QLineEdit()
         butt = QtGui.QPushButton(_(u"Add"))
-        hbox3.addRow(_(u'Order number'), self.order_number)
-        hbox3.addRow(_(u'Invoice number'), self.invoice_number)
-        hbox3.addRow(_(u'Invoice date'), self.invoice_date)
-        hbox3.addRow(_(u'Provider'), self.provider)
-        hbox3.addRow(_(u'Amount'), self.amount)
-        hbox3.addWidget(butt)
 
-        self.connect(butt, QtCore.SIGNAL('clicked()'), self.goto)
+        formbox = QtGui.QHBoxLayout()
+        formbox.addWidget(self.order_number)
+        formbox.addWidget(self.invoice_number)
+        formbox.addWidget(self.invoice_date)
+        formbox.addWidget(self.provider)
+        formbox.addWidget(self.amount)
+        formbox.addWidget(butt)
+
+        self.connect(butt, QtCore.SIGNAL('clicked()'), self.add_operation)
 
         vbox = QtGui.QVBoxLayout()
-        vbox.addLayout(hbox2)
-        vbox.addLayout(hbox3)
-        vbox.addLayout(hbox)
-        vbox.addStretch(1)
+        vbox.addLayout(title)
+        vbox.addLayout(formbox)
+        vbox.addLayout(tablebox)
 
         self.setLayout(vbox)
 
-    def goto(self):
-        print self.invoice_date.text()
-        achat = Operation(self.order_number.text(), self.invoice_number.text(), datetime.today(), \
-                  self.provider.text(), self.amount.text())
-        achat.account = self.account
+    def add_operation(self):
+        operation = Operation(str(self.order_number.text()),
+                    str(self.invoice_number.text()), datetime.today(), \
+                    str(self.provider.text()), str(self.amount.text()))
+        operation.account = self.account
 
-        session.add(achat)
+        session.add(operation)
         session.commit()
-        #~ account = session.query(Account).filter_by(number=account_id).one()
-        #~ self.parentWidget().switch_context(OperationWidget(account=account))
+        last_operation = session.query(Operation).all()[-1]
+
+        #~ self.table.insert(a)
 
     def goto_operations(self, index):
         op = self.tabledata[index.row()][self.tabledata[0].__len__() - 1]
@@ -126,7 +128,10 @@ class MyTableModel(QtCore.QAbstractTableModel):
         return len(self.arraydata)
 
     def columnCount(self, parent):
-        return len(self.arraydata[0]) - 1
+        try:
+            return len(self.arraydata[0]) - 1
+        except IndexError:
+            return 0
 
     def data(self, index, role):
         if not index.isValid():
