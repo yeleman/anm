@@ -5,8 +5,8 @@
 from PyQt4 import QtGui, QtCore
 
 from balanceview import BalanceViewWidget
-
-
+from balanceupdateview import UpdateBalancesWidget
+from deleteview import deleteViewWidget
 class MenuBar(QtGui.QMenuBar):
 
     def __init__(self, parent=None):
@@ -26,13 +26,13 @@ class MenuBar(QtGui.QMenuBar):
         file_.addAction(print_)
         # Export
         export = file_.addMenu(_(u"Export data"))
-        export.addAction(_(u"Db"), self.goto_export_db)
+        export.addAction(_(u"DB"), self.goto_export_db)
         export.addAction(_(u"Export an file excel"),\
                                         self.goto_export_excel)
         # Exit
         exit = QtGui.QAction(_(u"Exit"), self)
         exit.setShortcut("Ctrl+Q")
-        exit.setToolTip(_('Exit application'))
+        exit.setToolTip(_("Exit application"))
         self.connect(exit, QtCore.SIGNAL("triggered()"), \
                                          self.parentWidget(), \
                                          QtCore.SLOT("close()"))
@@ -53,6 +53,7 @@ class MenuBar(QtGui.QMenuBar):
 
     def goto_delete_operation(self):
         print "deleted"
+        self.parentWidget().switch_context(deleteViewWidget())
 
     def goto_export_db(self):
         print "export db"
@@ -66,7 +67,7 @@ class MenuBar(QtGui.QMenuBar):
 
     #mise à jour de budget
     def goto_updated_budget(self):
-        print "updated budget"
+        self.parentWidget().switch_context(UpdateBalancesWidget())
 
     #About
     def goto_about(self):
