@@ -20,7 +20,6 @@ class MenuBar(QtGui.QMenuBar):
         # Print
         print_ = QtGui.QAction(_(u"Print"), self)
         print_.setShortcut("Ctrl+P")
-        print_.setDisabled(True)
         self.connect(print_, QtCore.SIGNAL("triggered()"),\
                                             self.goto_print)
         file_.addAction(print_)
@@ -47,6 +46,8 @@ class MenuBar(QtGui.QMenuBar):
         help = self.addMenu(_(u"Help"))
         help.addAction(_(u"About"), self.goto_about)
 
+        self.setWindowIcon(QtGui.QIcon('images/yeleman_logo.png'))
+
     #Print
     def goto_print(self):
         print "Processing a Print Request"
@@ -71,4 +72,15 @@ class MenuBar(QtGui.QMenuBar):
 
     #About
     def goto_about(self):
-        print "About"
+        mbox = QtGui.QMessageBox.about(self, _(u"About ANM"), \
+                          _(u"ANM Budget Management Software\n\n" \
+                            u"© 2011 yɛlɛman s.à.r.l\n" \
+                            u"Hippodrome, Avenue Al Quds, \n" \
+                            u"BPE. 3713 - Bamako (Mali)\n" \
+                            u"Tel: (223) 76 33 30 05\n" \
+                            u"www.yeleman.com\n" \
+                            u"info@yeleman.com\n\n" \
+                            u"Aboubacar Diarra, Ali Touré, \n" \
+                            u"Alou Dolo, Ibrahima Fadiga, \n" \
+                            u"Renaud Gaudin, Tiefolo Doumbia"))
+
