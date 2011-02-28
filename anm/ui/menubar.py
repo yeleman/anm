@@ -18,8 +18,12 @@ class MenuBar(QtGui.QMenuBar):
         #Menu File
         file_ = self.addMenu(_(u"&File"))
         # Dele
-        file_.addAction(_(u"Delete an operation"),\
-                                     self.goto_delete_operation)
+        self.delete_ = QtGui.QAction(_(u"Delete an operation"), self)
+        self.connect(self.delete_, QtCore.SIGNAL("triggered()"),\
+                                            self.goto_delete_operation)
+        self.delete_.setEnabled(False)
+        file_.addAction(self.delete_)
+                                     
         # Print
         print_ = QtGui.QAction(_(u"Print"), self)
         print_.setShortcut("Ctrl+P")
@@ -50,16 +54,22 @@ class MenuBar(QtGui.QMenuBar):
         help.addAction(_(u"About"), self.goto_about)
 
         self.setWindowIcon(QtGui.QIcon('images/yeleman_logo.png'))
+    
+    #Refresh the menu bar to enabled or disabled the delete menu according case.
+    def refresh(self):
+        self.delete_.setEnabled(bool(self.parentWidget().account))
 
     #Print
     def goto_print(self):
         print "Processing a Print Request"
-
+        
+    #Delete an operation.
     def goto_delete_operation(self):
-        w = deleteViewWidget()
+        w = deleteViewWidget(account=self.parentWidget().account)
         w.setModal(True)
         w.exec_()
-
+    
+    #Export the database.
     def goto_export_db(self):
         export_database_as_file()
 

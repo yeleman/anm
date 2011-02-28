@@ -11,15 +11,16 @@ from database import Operation, session
 from PyQt4 import QtGui
 from PyQt4 import QtCore
 from PyQt4.QtCore import *
-
-from balanceview import BalanceViewWidget
+from sqlalchemy import desc
+#~ from balanceview import BalanceViewWidget
 
 
 class deleteViewWidget(QtGui.QDialog):
 
-    def __init__(self):
+    def __init__(self, account):
         QtGui.QDialog.__init__(self)
-
+        self.account = account
+        print self.account
         self.setWindowTitle(_(u"Delete an operation"))
 
         #Title widget
@@ -31,9 +32,11 @@ class deleteViewWidget(QtGui.QDialog):
         #Combobox widget
         self.box = QtGui.QComboBox()
         self.box.setEditable(False)
-        #Fill Combobox.
         
-        self.data = session.query(Operation).all()
+        #Fill Combobox.
+        self.data = session.query(Operation).\
+                      filter_by(account=self.account).\
+                      order_by(desc(Operation.invoice_date)).all()
         
         for index in xrange(0, len(self.data)):
             op = self.data[index]

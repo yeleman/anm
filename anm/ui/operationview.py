@@ -10,14 +10,18 @@ from sqlalchemy import desc
 from PyQt4 import QtGui
 from PyQt4 import QtCore
 from PyQt4.QtCore import QVariant, Qt, QObject
+from deleteview import deleteViewWidget
 
 
 class OperationWidget(QtGui.QWidget):
 
-    def __init__(self, account):
-        QtGui.QWidget.__init__(self)
+    def __init__(self, account, *args, **kwargs):
+        QtGui.QWidget.__init__(self, *args, **kwargs)
 
         self.account = account
+        
+        #Allow giving the account in parameter to the parentWidjet.
+        self.parentWidget().set_account(self.account)
 
         # add data
         self.tabledata = [(operation.order_number, operation.invoice_number,\
@@ -112,12 +116,11 @@ class OperationWidget(QtGui.QWidget):
         last_operation = session.query(Operation).all()[-1]
 
         self.parentWidget().switch_context(OperationWidget(self.account))
-
+                
     def goto_operations(self, index):
         op = self.tabledata[index.row()][self.tabledata[0].__len__() - 1]
         QtGui.QMessageBox.information(self, "OPP", 'operation: %s %s' \
                 % (op.invoice_number, op.invoice_date.strftime('%F')))
-
 
 class MyTableModel(QtCore.QAbstractTableModel):
     def __init__(self, datain, headerdata, parent=None, *args):
