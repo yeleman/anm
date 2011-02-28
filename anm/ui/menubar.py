@@ -7,6 +7,9 @@ from PyQt4 import QtGui, QtCore
 from balanceview import BalanceViewWidget
 from balanceupdateview import UpdateBalancesWidget
 from deleteview import deleteViewWidget
+from exports import export_database_as_file
+
+
 class MenuBar(QtGui.QMenuBar):
 
     def __init__(self, parent=None):
@@ -58,7 +61,7 @@ class MenuBar(QtGui.QMenuBar):
         w.exec_()
 
     def goto_export_db(self):
-        print "export db"
+        export_database_as_file()
 
     def goto_export_excel(self):
         print "export an file excel"
@@ -84,4 +87,3 @@ class MenuBar(QtGui.QMenuBar):
                             u"Aboubacar Diarra, Ali Touré, \n" \
                             u"Alou Dolo, Ibrahima Fadiga, \n" \
                             u"Renaud Gaudin, Tiefolo Doumbia"))
-

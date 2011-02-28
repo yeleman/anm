@@ -6,6 +6,8 @@ import os
 import sys
 import subprocess
 
+from PyQt4 import QtGui, QtCore
+
 
 class PDFFileUnavailable(IOError):
     pass
@@ -37,3 +39,14 @@ def uopen_file(filename):
 
 def display_pdf(pdf_file):
     return uopen_file(pdf_file)
+
+
+def raise_error(title, message):
+    box = QtGui.QMessageBox.critical(title, message)
+
+
+def raise_success(title, message):
+    box = QtGui.QMessageBox(QtGui.QMessageBox.NoIcon, title, \
+                            message, QtGui.QMessageBox.Ok)
+    box.setIconPixmap(QtGui.QPixmap('images/success.png'))
+    box.exec_()
