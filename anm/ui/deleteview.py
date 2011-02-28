@@ -15,20 +15,22 @@ from PyQt4.QtCore import *
 from balanceview import BalanceViewWidget
 
 
-class deleteViewWidget(QtGui.QWidget):
+class deleteViewWidget(QtGui.QDialog):
 
     def __init__(self):
-        QtGui.QWidget.__init__(self)
+        QtGui.QDialog.__init__(self)
+
+        self.setWindowTitle(_(u"Delete an operation"))
 
         #Title widget
         title = QtGui.QLabel()
-        title.setText(u"Suppression opération")
+        title.setText(_(u"Select an operation to delete"))
         title_hbox = QtGui.QHBoxLayout()
         title_hbox.addWidget(title)
         
         #Combobox widget
         self.box = QtGui.QComboBox()
-        self.box.setEditable(True)
+        self.box.setEditable(False)
         #Fill Combobox.
         
         self.data = session.query(Operation).all()
@@ -40,7 +42,7 @@ class deleteViewWidget(QtGui.QWidget):
         combo_hbox.addWidget(self.box)
 
         #Delete Button widget.
-        delete_but = QtGui.QPushButton("Delete")
+        delete_but = QtGui.QPushButton("Delete operation")
         delete_hbox = QtGui.QHBoxLayout()
         delete_hbox.addWidget(delete_but)
         
@@ -63,7 +65,7 @@ class deleteViewWidget(QtGui.QWidget):
         self.setLayout(vbox)
  
     def cancel(self):
-        self.parentWidget().switch_context(BalanceViewWidget())
+        self.close()
     
     def delete(self):
         print self.box.currentIndex()

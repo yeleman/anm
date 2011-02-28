@@ -53,8 +53,9 @@ class MenuBar(QtGui.QMenuBar):
         print "Processing a Print Request"
 
     def goto_delete_operation(self):
-        print "deleted"
-        self.parentWidget().switch_context(deleteViewWidget())
+        w = deleteViewWidget()
+        w.setModal(True)
+        w.exec_()
 
     def goto_export_db(self):
         print "export db"
