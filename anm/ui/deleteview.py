@@ -20,7 +20,6 @@ class deleteViewWidget(QtGui.QDialog):
     def __init__(self, account):
         QtGui.QDialog.__init__(self)
         self.account = account
-        print self.account
         self.setWindowTitle(_(u"Delete an operation"))
 
         #Title widget
@@ -71,7 +70,6 @@ class deleteViewWidget(QtGui.QDialog):
         self.close()
     
     def delete(self):
-        print self.box.currentIndex()
         op = self.data[self.box.currentIndex()]
         session.delete(op)
         session.commit()
