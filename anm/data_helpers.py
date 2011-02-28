@@ -117,6 +117,7 @@ def quarter_dates(quarter, year):
 
 
 def current_period():
+    ''' period for today() '''
     return period_for(date.today())
 
 

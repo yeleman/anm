@@ -11,7 +11,9 @@ from sqlalchemy.orm import mapper, relationship
 from sqlalchemy import Table, Column, Integer, String, \
                        MetaData, ForeignKey, Date, DateTime, Unicode
 
-engine = create_engine('sqlite:///anm.db', echo=False)
+DB_FILE = 'anm.db'
+
+engine = create_engine('sqlite:///%s' % DB_FILE, echo=False)
 Session = sessionmaker(bind=engine)
 session = Session()
 
