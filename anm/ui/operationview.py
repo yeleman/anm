@@ -15,14 +15,17 @@ from datetime import datetime
 
 from database import Operation, session
 from utils import raise_success, raise_error
-
+from deleteview import deleteViewWidget
 
 class OperationWidget(QtGui.QWidget):
 
-    def __init__(self, account):
-        QtGui.QWidget.__init__(self)
+    def __init__(self, account, *args, **kwargs):
+        QtGui.QWidget.__init__(self, *args, **kwargs)
 
         self.account = account
+        
+        #Allow giving the account in parameter to the parentWidjet.
+        self.parentWidget().set_account(self.account)
 
         # add data
         self.tabledata = [(operation.order_number, operation.invoice_number,\

@@ -80,4 +80,4 @@ class BalanceTableWidget(QtGui.QTableWidget):
             return
 
         self.parent.parentWidget().switch_context(\
-                          OperationWidget(account=self.data[row][last_column]))
+                          OperationWidget(account=self.data[row][last_column], parent=self.parentWidget().parentWidget()))
