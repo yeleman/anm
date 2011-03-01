@@ -4,12 +4,17 @@
 
 import re
 import operator
-from datetime import datetime
-from database import Operation, session
-from sqlalchemy import desc
+
 from PyQt4 import QtGui
 from PyQt4 import QtCore
 from PyQt4.QtCore import QVariant, Qt, QObject
+
+from sqlalchemy import func, desc
+
+from datetime import datetime
+
+from database import Operation, session
+from utils import raise_success, raise_error
 
 
 class OperationWidget(QtGui.QWidget):
@@ -26,6 +31,12 @@ class OperationWidget(QtGui.QWidget):
                       for operation in session.query(Operation).\
                       filter_by(account=self.account).\
                       order_by(desc(Operation.invoice_date)).all()]
+
+        # calcul total
+        self.total = session.query(func.sum(Operation.amount))\
+                   .filter_by(account=self.account).scalar()
+        if self.total == None:
+            self.total = 0
 
         # create the view
         self.table = QtGui.QTableView()
@@ -59,29 +70,32 @@ class OperationWidget(QtGui.QWidget):
         # selects the line
         self.table.setSelectionBehavior(QtGui.QAbstractItemView.SelectRows)
 
-        self.table.clicked.connect(self.goto_operations)
-
         tablebox = QtGui.QHBoxLayout()
         title = QtGui.QHBoxLayout()
 
-        title.addWidget(QtGui.QLabel("Account transactions %s (%s)" %\
+        title.addWidget(QtGui.QLabel(_("Account transactions %s (%s)") %\
                                      (self.account.name, self.account.number)))
         tablebox.addWidget(self.table)
 
         formbox = QtGui.QFormLayout()
         self.order_number = QtGui.QLineEdit()
         self.invoice_number = QtGui.QLineEdit()
-        self.invoice_date = QtGui.QLineEdit()
+        self.invoice_date = QtGui.QDateTimeEdit(QtCore.QDate.currentDate())
+        self.invoice_date.setDisplayFormat("yyyy-MM-dd")
         self.provider = QtGui.QLineEdit()
         self.amount = QtGui.QLineEdit()
+        self.amount.setValidator(QtGui.QIntValidator())
         butt = QtGui.QPushButton(_(u"Add"))
+        totalbox = QtGui.QHBoxLayout()
+        totalbox.addWidget(QtGui.QLabel(_(u'Total')))
+        totalbox.addWidget(QtGui.QLabel(str(self.total)))
 
         formbox1 = QtGui.QHBoxLayout()
-        formbox1.addWidget(QtGui.QLabel('order_number'))
-        formbox1.addWidget(QtGui.QLabel('invoice_number'))
-        formbox1.addWidget(QtGui.QLabel('invoice_date'))
-        formbox1.addWidget(QtGui.QLabel('provider'))
-        formbox1.addWidget(QtGui.QLabel('amount'))
+        formbox1.addWidget(QtGui.QLabel(_(u'Order number')))
+        formbox1.addWidget(QtGui.QLabel(_(u'Invoice number')))
+        formbox1.addWidget(QtGui.QLabel(_(u'Invoice date')))
+        formbox1.addWidget(QtGui.QLabel(_(u'Provider')))
+        formbox1.addWidget(QtGui.QLabel(_(u'Amount')))
 
         formbox = QtGui.QHBoxLayout()
         formbox.addWidget(self.order_number)
@@ -98,25 +112,30 @@ class OperationWidget(QtGui.QWidget):
         vbox.addLayout(formbox1)
         vbox.addLayout(formbox)
         vbox.addLayout(tablebox)
+        vbox.addLayout(totalbox)
 
         self.setLayout(vbox)
 
     def add_operation(self):
-        operation = Operation(str(self.order_number.text()),
-                    str(self.invoice_number.text()), datetime.today(), \
-                    str(self.provider.text()), str(self.amount.text()))
-        operation.account = self.account
+        """add operation"""
+        year, month, day = self.invoice_date.text().split('-')
+        invoice_date = datetime(int(year), int(month), int(day))
 
-        session.add(operation)
-        session.commit()
-        last_operation = session.query(Operation).all()[-1]
+        if self.order_number.text() and self.invoice_number.text() and \
+            invoice_date and self.provider.text()and self.amount.text():
+            operation = Operation(str(self.order_number.text()),
+                        str(self.invoice_number.text()), invoice_date, \
+                        str(self.provider.text()), str(self.amount.text()))
+            operation.account = self.account
 
-        self.parentWidget().switch_context(OperationWidget(self.account))
+            session.add(operation)
+            session.commit()
+            last_operation = session.query(Operation).all()[-1]
 
-    def goto_operations(self, index):
-        op = self.tabledata[index.row()][self.tabledata[0].__len__() - 1]
-        QtGui.QMessageBox.information(self, "OPP", 'operation: %s %s' \
-                % (op.invoice_number, op.invoice_date.strftime('%F')))
+            self.parentWidget().switch_context(OperationWidget(self.account))
+            raise_success(_(u'Confirmation'), _(u'Registered opération'))
+        else:
+            raise_error(_(u'Error'), _(u'You must fill in all fields'))
 
 
 class MyTableModel(QtCore.QAbstractTableModel):
@@ -147,4 +166,3 @@ class MyTableModel(QtCore.QAbstractTableModel):
         if orientation == Qt.Horizontal and role == Qt.DisplayRole:
             return QVariant(self.headerdata[col])
         return QVariant()
-
