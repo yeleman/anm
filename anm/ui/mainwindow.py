@@ -34,7 +34,6 @@ class MainWindow(QtGui.QMainWindow):
         self.setCentralWidget(self.view_widget)
     
     def clear_account(self):
-        print "CLEQR"
         self.account = None
     
     def set_account(self, account):
