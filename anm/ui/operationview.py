@@ -23,7 +23,7 @@ class OperationWidget(QtGui.QWidget):
         QtGui.QWidget.__init__(self, *args, **kwargs)
 
         self.account = account
-        
+
         #Allow giving the account in parameter to the parentWidjet.
         self.parentWidget().set_account(self.account)
 
@@ -128,14 +128,14 @@ class OperationWidget(QtGui.QWidget):
             invoice_date and self.provider.text()and self.amount.text():
             operation = Operation(str(self.order_number.text()),
                         str(self.invoice_number.text()), invoice_date, \
-                        str(self.provider.text()), str(self.amount.text()))
+                        unicode(self.provider.text()), str(self.amount.text()))
             operation.account = self.account
 
             session.add(operation)
             session.commit()
-            last_operation = session.query(Operation).all()[-1]
 
-            self.parentWidget().switch_context(OperationWidget(self.account))
+            self.parentWidget().switch_context(OperationWidget(parent=self.\
+                 parentWidget(), account=self.account))
             raise_success(_(u'Confirmation'), _(u'Registered opération'))
         else:
             raise_error(_(u'Error'), _(u'You must fill in all fields'))
