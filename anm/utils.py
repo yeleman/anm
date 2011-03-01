@@ -42,7 +42,9 @@ def display_pdf(pdf_file):
 
 
 def raise_error(title, message):
-    box = QtGui.QMessageBox.critical(title, message)
+    box = QtGui.QMessageBox(QtGui.QMessageBox.Critical, title, \
+                            message, QtGui.QMessageBox.Ok)
+    box.exec_()
 
 
 def raise_success(title, message):
