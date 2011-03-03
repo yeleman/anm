@@ -124,7 +124,7 @@ class OperationWidget(QtGui.QWidget):
         """add operation"""
         year, month, day = self.invoice_date.text().split('-')
         invoice_date = date(int(year), int(month), int(day))
-        ped = period_for(invoice_date)
+        period = period_for(invoice_date)
 
         if self.order_number.text() and self.invoice_number.text() and \
             invoice_date and self.provider.text()and self.amount.text():
@@ -132,8 +132,7 @@ class OperationWidget(QtGui.QWidget):
                         str(self.invoice_number.text()), invoice_date, \
                         unicode(self.provider.text()), str(self.amount.text()))
             operation.account = self.account
-            operation.period = ped
-            print operation.period
+            operation.period = period
             session.add(operation)
             session.commit()
 
