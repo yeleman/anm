@@ -128,8 +128,8 @@ class OperationWidget(QtGui.QWidget):
 
         if self.order_number.text() and self.invoice_number.text() and \
             invoice_date and self.provider.text()and self.amount.text():
-            operation = Operation(str(self.order_number.text()),
-                        str(self.invoice_number.text()), invoice_date, \
+            operation = Operation(unicode(self.order_number.text()),
+                        unicode(self.invoice_number.text()), invoice_date, \
                         unicode(self.provider.text()), str(self.amount.text()))
             operation.account = self.account
             operation.period = period
