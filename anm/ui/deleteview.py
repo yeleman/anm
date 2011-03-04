@@ -34,7 +34,7 @@ class deleteViewWidget(QtGui.QDialog):
 
         #Fill Combobox.
         self.data = session.query(Operation).\
-                      filter_by(account=self.account).\
+                      filter_by(account=self.account, period=current_period()).\
                       order_by(desc(Operation.invoice_date)).all()
 
         if self.data != []:
