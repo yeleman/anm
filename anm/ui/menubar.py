@@ -10,6 +10,7 @@ from deleteview import deleteViewWidget
 from exports import export_database_as_file
 from export_xls import *
 
+
 class MenuBar(QtGui.QMenuBar):
 
     def __init__(self, parent=None):
@@ -55,13 +56,19 @@ class MenuBar(QtGui.QMenuBar):
 
         self.setWindowIcon(QtGui.QIcon('images/yeleman_logo.png'))
 
-    #Refresh the menu bar to enabled or disabled the delete menu according case.
+    #Refresh the menu bar to enabled or disabled the delete menu
     def refresh(self):
         self.delete_.setEnabled(bool(self.parentWidget().account))
 
     #Print
     def goto_print(self):
-        print "Processing a Print Request"
+        ## following is an example call to PDF builder.
+        ## reuse that in the choice selection window
+        p = current_period()
+        from prints import build_accounts_report
+        pdf_report = build_accounts_report(period=p, filename='test.pdf')
+        from utils import uopen_file
+        uopen_file(pdf_report)
 
     #Delete an operation.
     def goto_delete_operation(self):
