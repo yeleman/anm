@@ -4,6 +4,7 @@
 
 from PyQt4 import QtGui, QtCore
 
+from common import ANMWidget
 from balanceview import BalanceViewWidget
 from balanceupdateview import UpdateBalancesWidget
 from deleteview import deleteViewWidget
@@ -11,10 +12,10 @@ from exports import export_database_as_file
 from export_xls import *
 
 
-class MenuBar(QtGui.QMenuBar):
+class MenuBar(QtGui.QMenuBar, ANMWidget):
 
-    def __init__(self, parent=None):
-        QtGui.QMenuBar.__init__(self, parent)
+    def __init__(self, parent=None, *args, **kwargs):
+        QtGui.QMenuBar.__init__(self, parent, *args, **kwargs)
 
         #Menu File
         file_ = self.addMenu(_(u"&File"))
@@ -72,9 +73,7 @@ class MenuBar(QtGui.QMenuBar):
 
     #Delete an operation.
     def goto_delete_operation(self):
-        w = deleteViewWidget(account=self.parentWidget().account)
-        w.setModal(True)
-        w.exec_()
+        self.open_dialog(deleteViewWidget, modal=True, account=self.account)
 
     #Export the database.
     def goto_export_db(self):
@@ -86,11 +85,11 @@ class MenuBar(QtGui.QMenuBar):
 
     #list_of_balances
     def goto_Accounts_balances(self):
-        self.parentWidget().switch_context(BalanceViewWidget())
+        self.change_main_context(BalanceViewWidget)
 
     #mise à jour de budget
     def goto_updated_budget(self):
-        self.parentWidget().switch_context(UpdateBalancesWidget())
+        self.change_main_context(UpdateBalancesWidget)
 
     #About
     def goto_about(self):

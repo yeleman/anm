@@ -7,20 +7,24 @@
 import re
 import operator
 
-from database import Operation, session
 from PyQt4 import QtGui
 from PyQt4 import QtCore
 from PyQt4.QtCore import *
 from sqlalchemy import desc
+
 from utils import raise_error, raise_success
-#~ from balanceview import BalanceViewWidget
+from common import ANMWidget
+from database import Operation, session
 
 
-class deleteViewWidget(QtGui.QDialog):
+class deleteViewWidget(QtGui.QDialog, ANMWidget):
 
-    def __init__(self, account):
-        QtGui.QDialog.__init__(self)
+    def __init__(self, parent, account, *args, **kwargs):
+        QtGui.QDialog.__init__(self, parent, *args, **kwargs)
+
+        # set global account
         self.account = account
+
         self.setWindowTitle(_(u"Delete an operation"))
 
         #Title widget

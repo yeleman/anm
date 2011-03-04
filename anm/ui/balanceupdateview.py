@@ -6,22 +6,22 @@
 import re
 import operator
 
-from database import *
-from data_helpers import *
-from utils import raise_error, raise_success
 from sqlalchemy import desc
 from PyQt4 import QtGui
 from PyQt4 import QtCore
-
-
 from PyQt4.QtCore import QVariant, Qt
 
+from database import *
+from data_helpers import *
+from utils import raise_error, raise_success
+from common import ANMWidget
 
-class UpdateBalancesWidget(QtGui.QWidget):
 
-    def __init__(self):
+class UpdateBalancesWidget(ANMWidget):
 
-        QtGui.QWidget.__init__(self)
+    def __init__(self, parent, *args, **kwargs):
+
+        QtGui.QWidget.__init__(self, *args, **kwargs)
 
         self.data = [(bud.account.number, bud.account.name, 0)\
                             for bud in session.query(Budget).all()]

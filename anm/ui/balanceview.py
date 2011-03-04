@@ -8,13 +8,14 @@ from PyQt4.QtCore import Qt
 
 from database import *
 from data_helpers import *
+from common import ANMWidget
 from operationview import OperationWidget
 
 
-class BalanceViewWidget(QtGui.QWidget):
+class BalanceViewWidget(ANMWidget):
 
-    def __init__(self):
-        QtGui.QWidget.__init__(self)
+    def __init__(self, parent=0, *args, **kwargs):
+        QtGui.QWidget.__init__(self, parent=parent, *args, **kwargs)
 
         table = BalanceTableWidget(parent=self)
         table.setSortingEnabled(True)
@@ -25,7 +26,16 @@ class BalanceViewWidget(QtGui.QWidget):
         hbox = QtGui.QHBoxLayout()
         hbox.addWidget(table)
 
+        period = current_period()
+
+        tabbar = QtGui.QTabBar()
+        tabbar.addTab(period.previous().display_name())
+        tabbar.addTab(period.display_name())
+        tabbar.addTab(period.next().display_name())
+        tabbar.setCurrentIndex(1)
+
         vbox = QtGui.QVBoxLayout()
+        vbox.addWidget(tabbar)
         vbox.addLayout(hbox)
         vbox.addStretch(1)
 
@@ -79,5 +89,5 @@ class BalanceTableWidget(QtGui.QTableWidget):
         if column != last_column:
             return
 
-        self.parent.parentWidget().switch_context(\
-                          OperationWidget(account=self.data[row][last_column], parent=self.parentWidget().parentWidget()))
+        self.parent.change_main_context(OperationWidget, \
+                                        account=self.data[row][last_column])

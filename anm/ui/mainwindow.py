@@ -6,6 +6,7 @@ import sys
 
 from PyQt4 import QtGui, QtCore
 
+from database import Account
 from menubar import MenuBar
 from balanceview import BalanceViewWidget
 from operationview import OperationWidget
@@ -19,22 +20,40 @@ class MainWindow(QtGui.QMainWindow):
         self.setWindowTitle(_(u"ANM Budgets Manager"))
         #self.setWindowIcon(QtGui.QIcon('icons/anm.png'))
 
-        self.clear_account()
+        self._account = None
 
         self.menubar = MenuBar(self)
         self.setMenuBar(self.menubar)
 
-        self.switch_context(BalanceViewWidget())
+        self.change_context(BalanceViewWidget)
 
-    def switch_context(self, context_widget):
-        if context_widget.__class__ != OperationWidget:
-            self.clear_account()
-        self.menubar.refresh()
-        self.view_widget = context_widget
-        self.setCentralWidget(self.view_widget)
+    def getaccount(self):
+        return self._account
+
+    def setaccount(self, value):
+        if not isinstance(value, (Account, None.__class__)):
+            raise ValueError(_(u"account must be an Account or None."))
+        self._account = value
     
     def clear_account(self):
         self.account = None
-    
-    def set_account(self, account):
-        self.account = account
+
+    account = property(getaccount, setaccount)
+
+    def change_context(self, context_widget, *args, **kwargs):
+        # remove account before switching
+        self.clear_account()
+
+        # instanciate context
+        self.view_widget = context_widget(parent=self, *args, **kwargs)
+
+        # refresh menubar
+        self.menubar.refresh()
+
+        # attach context to window
+        self.setCentralWidget(self.view_widget)
+
+    def open_dialog(self, dialog, modal=False, *args, **kwargs):
+        d = dialog(parent=self, *args, **kwargs)
+        d.setModal(modal)
+        d.exec_()
