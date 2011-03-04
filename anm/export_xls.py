@@ -3,11 +3,19 @@
 # maintainer: Fad
 
 import xlwt
+
 from datetime import datetime, date
-ezxf = xlwt.easyxf
 from sqlalchemy import func, desc
+
 from database import Operation, Account, Period, session
 from data_helpers import *
+
+font0 = xlwt.Font()
+font0.name = 'Times New Roman'
+font0.bold = True
+
+style0 = xlwt.XFStyle()
+style0.font = font0
 
 
 def write_xls():
@@ -16,11 +24,9 @@ def write_xls():
     book = xlwt.Workbook(encoding='ascii')
     file_name = "exports_excel.xls"
 
-    heading_xf = ezxf('font: bold on')
-
     sheet = book.add_sheet(_(u"balance"))
     sheet.write(1, 1, _(u"The list of accounts per quarter per account"),\
-                                        heading_xf)
+                                        style0)
     date_ = _(u"Bamako the %s") % date.today()
     sheet.write(2, 5, unicode(date_))
 
@@ -28,7 +34,7 @@ def write_xls():
 
     rowx1 = 5
     for colx, value in enumerate(hdngs):
-        sheet.write(rowx1, colx, value, heading_xf)
+        sheet.write(rowx1, colx, value, style0)
 
     periods = session.query(Period).all()
     accounts = session.query(Account).all()
@@ -51,9 +57,9 @@ def write_xls():
 
     col = 5
     for nber in range(len(periods)):
-        sheet.write(4, col,period.name)
-        sheet.write(5, col, _(u"Budget"), heading_xf)
-        sheet.write(5, col + 1, _(u"Balance"), heading_xf)
+        sheet.write(4, col, period.name)
+        sheet.write(5, col, _(u"Budget"), style0)
+        sheet.write(5, col + 1, _(u"Balance"), style0)
         col += 2
 
     # Pourles operations
@@ -71,13 +77,13 @@ def write_xls():
                         filter_by(account=account, period=period).\
                         order_by(desc(Operation.invoice_date)).all()]
             if data:
-                sheet.write(rowx + 1, 2, period.name, heading_xf)
+                sheet.write(rowx + 1, 2, period.name, style0)
                 hdngs = [u"No mandat", u"No Facture", u"Date Facture",\
                                             u"Fournisseur", u"Montant"]
 
                 rowx += 3
                 for colx, value in enumerate(hdngs):
-                    sheet.write(rowx, colx, value, heading_xf)
+                    sheet.write(rowx, colx, value, style0)
 
                 sheet.set_panes_frozen(True)
                 sheet.set_horz_split_pos(rowx)
@@ -91,10 +97,10 @@ def write_xls():
                 rowx += 1
             else:
                 rowx += 1
-                sheet.write(rowx, 2, period.name, heading_xf)
+                sheet.write(rowx, 2, period.name, style0)
                 rowx += 1
                 sheet.write(rowx, 1, _(u"This account has no record"),\
-                                        heading_xf)
+                                        style0)
                 rowx += 1
 
     book.save(file_name)
