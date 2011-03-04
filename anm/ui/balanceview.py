@@ -18,16 +18,16 @@ class BalanceViewWidget(QtGui.QWidget):
 
         table = BalanceTableWidget(parent=self)
         table.setSortingEnabled(True)
-        table.setShowGrid(True)
+        #~ table.setShowGrid(True)
         table.setSelectionBehavior(QtGui.QAbstractItemView.SelectRows)
-        table.setCornerButtonEnabled(True)
+        #~ table.setCornerButtonEnabled(True)
 
         hbox = QtGui.QHBoxLayout()
         hbox.addWidget(table)
 
         vbox = QtGui.QVBoxLayout()
         vbox.addLayout(hbox)
-        vbox.addStretch(1)
+        #~ vbox.addStretch(1)
 
         self.setLayout(vbox)
 
@@ -41,6 +41,7 @@ class BalanceTableWidget(QtGui.QTableWidget):
         try:
             self.data = [account_summary(account, self.period)
                         for account in session.query(Account).all()]
+
         except AccountNotConfigured as e:
             pass
 
@@ -50,7 +51,7 @@ class BalanceTableWidget(QtGui.QTableWidget):
 
         QtGui.QTableWidget.__init__(self, *args)
         self.setColumnCount(self.headers.__len__())
-        self.setRowCount(15)
+        self.setRowCount(17)
 
         self.setHorizontalHeaderLabels(self.headers)
 
@@ -60,10 +61,15 @@ class BalanceTableWidget(QtGui.QTableWidget):
 
     def setmydata(self):
         n = 0
+        sum_buget = sum_balance = 0
+
         for row in self.data:
             m = 0
             skip = True
+            sum_buget += row[2]
+            sum_balance += row[3]
             for item in row:
+
                 if m == row.__len__() - 1:
                     newitem = QtGui.QTableWidgetItem(\
                                     QtGui.QIcon('images/go-next.png'), \
@@ -73,6 +79,12 @@ class BalanceTableWidget(QtGui.QTableWidget):
                 self.setItem(n, m, newitem)
                 m += 1
             n += 1
+        sums = QtGui.QTableWidgetItem(u'Totaux')
+        sum_buget = QtGui.QTableWidgetItem(u'%s' % sum_buget)
+        sum_balance = QtGui.QTableWidgetItem(u'%s' % sum_balance)
+        self.setItem(n, 1, sums)
+        self.setItem(n, 2, sum_buget)
+        self.setItem(n, 3, sum_balance)
 
     def click_item(self, row, column, *args):
         last_column = self.headers.__len__() - 1
@@ -80,4 +92,6 @@ class BalanceTableWidget(QtGui.QTableWidget):
             return
 
         self.parent.parentWidget().switch_context(\
-                          OperationWidget(account=self.data[row][last_column], parent=self.parentWidget().parentWidget()))
+                          OperationWidget(account=self.\
+                          data[row][last_column],\
+                           parent=self.parentWidget().parentWidget()))
