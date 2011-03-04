@@ -15,6 +15,7 @@ from sqlalchemy import desc
 from utils import raise_error, raise_success
 from data_helpers import current_period
 
+
 class deleteViewWidget(QtGui.QDialog):
 
     def __init__(self, account):
@@ -35,7 +36,7 @@ class deleteViewWidget(QtGui.QDialog):
 
         #Fill Combobox.
         self.data = session.query(Operation).\
-                      filter_by(account=self.account).\
+                      filter_by(account=self.account, period=current_period()).\
                       order_by(desc(Operation.invoice_date)).all()
 
         if self.data != []:
