@@ -27,7 +27,6 @@ class BalanceViewWidget(QtGui.QWidget):
 
         vbox = QtGui.QVBoxLayout()
         vbox.addLayout(hbox)
-        #~ vbox.addStretch(1)
 
         self.setLayout(vbox)
 
@@ -45,9 +44,9 @@ class BalanceTableWidget(QtGui.QTableWidget):
         except AccountNotConfigured as e:
             pass
 
-        self.headers = [_(u'Account number'), _(u'Account Name'), \
-                        _(u'Account budget'), _(u'Account balance'), \
-                        _(u'Go To')]
+        self.headers = [_(u"Account number"), _(u"Account Name"), \
+                        _(u"Account budget"), _(u"Account balance"), \
+                        _(u"Go To")]
 
         QtGui.QTableWidget.__init__(self, *args)
         self.setColumnCount(self.headers.__len__())
@@ -72,16 +71,16 @@ class BalanceTableWidget(QtGui.QTableWidget):
 
                 if m == row.__len__() - 1:
                     newitem = QtGui.QTableWidgetItem(\
-                                    QtGui.QIcon('images/go-next.png'), \
+                                    QtGui.QIcon("images/go-next.png"), \
                                     _(u"View detail"))
                 else:
-                    newitem = QtGui.QTableWidgetItem(u'%s' % item)
+                    newitem = QtGui.QTableWidgetItem(u"%s" % item)
                 self.setItem(n, m, newitem)
                 m += 1
             n += 1
-        sums = QtGui.QTableWidgetItem(u'Totaux')
-        sum_buget = QtGui.QTableWidgetItem(u'%s' % sum_buget)
-        sum_balance = QtGui.QTableWidgetItem(u'%s' % sum_balance)
+        sums = QtGui.QTableWidgetItem(_(u"Total"))
+        sum_buget = QtGui.QTableWidgetItem(u"%s" % sum_buget)
+        sum_balance = QtGui.QTableWidgetItem(u"%s" % sum_balance)
         self.setItem(n, 1, sums)
         self.setItem(n, 2, sum_buget)
         self.setItem(n, 3, sum_balance)
