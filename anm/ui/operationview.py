@@ -13,20 +13,19 @@ from sqlalchemy import func, desc
 
 from datetime import date
 
+from common import ANMWidget
 from database import Operation, session
 from utils import raise_success, raise_error
 from deleteview import deleteViewWidget
 from data_helpers import *
 
-class OperationWidget(QtGui.QWidget):
+class OperationWidget(ANMWidget):
 
-    def __init__(self, account, *args, **kwargs):
-        QtGui.QWidget.__init__(self, *args, **kwargs)
+    def __init__(self, account, parent=0, *args, **kwargs):
+        QtGui.QWidget.__init__(self, parent, *args, **kwargs)
 
+        # set global account
         self.account = account
-
-        #Allow giving the account in parameter to the parentWidjet.
-        self.parentWidget().set_account(self.account)
 
         # add data
         self.tabledata = [(operation.order_number, operation.invoice_number,\
@@ -143,8 +142,7 @@ class OperationWidget(QtGui.QWidget):
             session.add(operation)
             session.commit()
 
-            self.parentWidget().switch_context(OperationWidget(parent=self.\
-                 parentWidget(), account=self.account))
+            self.refresh()
             raise_success(_(u'Confirmation'), _(u'Registered opération'))
 
         elif invoice_date > current_peri.end_on or\
@@ -156,6 +154,9 @@ class OperationWidget(QtGui.QWidget):
              _(u"There is not enough money for this operation."))
         else:
             raise_error(_(u'Error field'), _(u'You must fill in all fields.'))
+
+    def refresh(self):
+        self.change_main_context(OperationWidget, account=self.account)
 
 
 class MyTableModel(QtCore.QAbstractTableModel):
