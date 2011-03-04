@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 # encoding=utf-8
-# maintainer: alou
-#!/usr/bin/env python
-# encoding=utf-8
+# maintainer: Tief
 
 import re
 import operator
@@ -15,6 +13,7 @@ from sqlalchemy import desc
 from utils import raise_error, raise_success
 from common import ANMWidget
 from database import Operation, session
+from data_helpers import current_period
 
 
 class deleteViewWidget(QtGui.QDialog, ANMWidget):
@@ -36,19 +35,20 @@ class deleteViewWidget(QtGui.QDialog, ANMWidget):
 
         #Combobox widget
         self.box = QtGui.QComboBox()
-        self.box.setEditable(False)
 
         #Fill Combobox.
         self.data = session.query(Operation).\
-                      filter_by(account=self.account).\
+                      filter_by(account=self.account, period=current_period()).\
                       order_by(desc(Operation.invoice_date)).all()
 
         if self.data != []:
             for index in xrange(0, len(self.data)):
                 op = self.data[index]
-                self.box.addItem(u"%s %s %s %s %s" % (op.order_number, \
-                op.invoice_number, op.invoice_date.strftime('%F'),\
-                 op.provider, op.amount), QtCore.QVariant(op.id))
+                self.box.addItem(u" %s  %s  %s  %s   %s" %\
+                                (op.order_number, op.invoice_number,\
+                                 op.invoice_date.strftime('%F'),\
+                                        op.provider, op.amount),\
+                                            QtCore.QVariant(op.id))
             combo_hbox = QtGui.QHBoxLayout()
             combo_hbox.addWidget(self.box)
         else:
@@ -72,8 +72,6 @@ class deleteViewWidget(QtGui.QDialog, ANMWidget):
         vbox.addLayout(title_hbox)
         vbox.addLayout(combo_hbox)
         vbox.addLayout(button_hbox)
-        vbox.addStretch(1)
-
         self.setLayout(vbox)
 
     def cancel(self):
