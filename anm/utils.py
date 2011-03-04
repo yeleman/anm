@@ -21,9 +21,9 @@ def uopen_prefix(platform=sys.platform):
     if 'darwin' in platform:
         return 'open'
 
-    if plaftorm in ('cygwin', 'linux') or \
+    if platform in ('cygwin', 'linux') or \
        platform.startswith('linux') or \
-       plaftorm.startswith('sun') or \
+       platform.startswith('sun') or \
        'bsd' in platform:
         return 'xdg-open'
 
@@ -31,14 +31,18 @@ def uopen_prefix(platform=sys.platform):
 
 
 def uopen_file(filename):
-
-    if not os.path.exist(pdf_file):
-        raise PDFFileUnavailable(_(u"PDF file %s is not available."))
-        subprocess.call([uopen_prefix(), filename], shell=True)
+    if not os.path.exists(filename):
+        raise IOError(_(u"File %s is not available.") % filename)
+    subprocess.call('%(cmd)s %(file)s' \
+                    % {'cmd': uopen_prefix(), 'file': filename}, shell=True)
 
 
 def display_pdf(pdf_file):
-    return uopen_file(pdf_file)
+    try:
+        return uopen_file(pdf_file)
+    except IOError:
+        raise PDFFileUnavailable(_(u"PDF file %s is not available.") \
+                                 % pdf_file)
 
 
 def raise_error(title, message):
