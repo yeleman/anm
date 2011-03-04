@@ -125,12 +125,19 @@ class OperationWidget(QtGui.QWidget):
         year, month, day = self.invoice_date.text().split('-')
         invoice_date = date(int(year), int(month), int(day))
         period = period_for(invoice_date)
-
+        current_peri = current_period()
+        balance = account_balance(self.account, current_peri)
+        try:
+            amount = int(self.amount.text())
+        except ValueError:
+            amount = 0
         if self.order_number.text() and self.invoice_number.text() and \
-            invoice_date and self.provider.text()and self.amount.text():
+            invoice_date and self.provider.text()and self.amount.text()\
+            and invoice_date > current_peri.start_on and invoice_date < \
+            current_peri.end_on and amount < balance:
             operation = Operation(unicode(self.order_number.text()),
                         unicode(self.invoice_number.text()), invoice_date, \
-                        unicode(self.provider.text()), str(self.amount.text()))
+                        unicode(self.provider.text()), amount)
             operation.account = self.account
             operation.period = period
             session.add(operation)
@@ -139,8 +146,16 @@ class OperationWidget(QtGui.QWidget):
             self.parentWidget().switch_context(OperationWidget(parent=self.\
                  parentWidget(), account=self.account))
             raise_success(_(u'Confirmation'), _(u'Registered opération'))
+
+        elif invoice_date > current_peri.end_on or\
+             invoice_date < current_peri.start_on:
+            raise_error(_(u'Error date'), \
+            _(u'The date is not included in the current quarter.'))
+        elif amount > balance:
+            raise_error(_(u'Error money'),\
+             _(u"There is not enough money for this operation."))
         else:
-            raise_error(_(u'Error'), _(u'You must fill in all fields'))
+            raise_error(_(u'Error field'), _(u'You must fill in all fields.'))
 
 
 class MyTableModel(QtCore.QAbstractTableModel):

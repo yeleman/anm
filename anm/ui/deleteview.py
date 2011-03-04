@@ -13,8 +13,7 @@ from PyQt4 import QtCore
 from PyQt4.QtCore import *
 from sqlalchemy import desc
 from utils import raise_error, raise_success
-#~ from balanceview import BalanceViewWidget
-
+from data_helpers import current_period
 
 class deleteViewWidget(QtGui.QDialog):
 
@@ -42,7 +41,7 @@ class deleteViewWidget(QtGui.QDialog):
         if self.data != []:
             for index in xrange(0, len(self.data)):
                 op = self.data[index]
-                self.box.addItem(u"%s %s %s %s %s" % (op.order_number, \
+                self.box.addItem(u"order number: %s, invoice number: %s, invoice date: %s, provider: %s, amount: %s" % (op.order_number, \
                 op.invoice_number, op.invoice_date.strftime('%F'),\
                  op.provider, op.amount), QtCore.QVariant(op.id))
             combo_hbox = QtGui.QHBoxLayout()
