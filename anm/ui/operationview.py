@@ -27,8 +27,10 @@ class OperationWidget(ANMWidget):
 
         title = QtGui.QHBoxLayout()
 
-        title.addWidget(QtGui.QLabel(_("Account transactions %s (%s)") %\
-                                     (self.account.name, self.account.number)))
+        title.addWidget(QtGui.QLabel(_(u"Account transactions %(name)s " \
+                                       u"(%(number)s)") \
+                                     % {'name': self.account.name, \
+                                        'number': self.account.number}))
         hbox = QtGui.QHBoxLayout()
         hbox.addWidget(self.table)
 

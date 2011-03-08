@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: anm 0.1\n"
 "Report-Msgid-Bugs-To: bugs@yeleman.com\n"
-"POT-Creation-Date: 2011-02-23 12:52+0000\n"
+"POT-Creation-Date: 2011-03-08 18:17+0000\n"
 "PO-Revision-Date: 2011-02-23 11:24+0000\n"
 "Last-Translator: reg <rgaudin@gmail.com>\n"
 "Language-Team: French\n"
@@ -16,6 +16,433 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: /home/reg/src/anm/anm/ui/mainwindow.py:17
+#: /home/reg/src/anm/anm//data_helpers.py:72
+#, python-format
+msgid "Q%(quar)d %(year)d"
+msgstr ""
+
+#: /home/reg/src/anm/anm//database.py:75
+msgid "nd"
+msgstr ""
+
+#: /home/reg/src/anm/anm//database.py:75
+msgid "rd"
+msgstr ""
+
+#: /home/reg/src/anm/anm//database.py:75
+msgid "st"
+msgstr ""
+
+#: /home/reg/src/anm/anm//database.py:75
+msgid "th"
+msgstr ""
+
+#: /home/reg/src/anm/anm//database.py:76
+#, python-format
+msgid "%(quar)d%(suf)s Quarter %(year)s"
+msgstr ""
+
+#: /home/reg/src/anm/anm//database.py:91
+#, python-format
+msgid "Q%(quarter)d %(year)d"
+msgstr ""
+
+#: /home/reg/src/anm/anm//database.py:95
+#, python-format
+msgid "Q%(quarter)d/%(year)d"
+msgstr ""
+
+#: /home/reg/src/anm/anm//database.py:118
+#, python-format
+msgid "%s"
+msgstr ""
+
+#: /home/reg/src/anm/anm//database.py:131
+#, python-format
+msgid "%(account)s %(period)s: %(amount)s"
+msgstr ""
+
+#: /home/reg/src/anm/anm//database.py:152
+#, python-format
+msgid "%(inv_num)s %(inv_date)s: %(amount)s"
+msgstr ""
+
+#: /home/reg/src/anm/anm//export_xls.py:44
+msgid "balance"
+msgstr ""
+
+#: /home/reg/src/anm/anm//export_xls.py:45
+msgid "The list of accounts per quarter per account"
+msgstr ""
+
+#: /home/reg/src/anm/anm//export_xls.py:47
+#, python-format
+msgid "Bamako the %s"
+msgstr ""
+
+#: /home/reg/src/anm/anm//export_xls.py:50 /home/reg/src/anm/anm//prints.py:21
+msgid "Account Number"
+msgstr ""
+
+#: /home/reg/src/anm/anm//export_xls.py:50
+msgid "No Account"
+msgstr ""
+
+#: /home/reg/src/anm/anm//export_xls.py:88
+#: /home/reg/src/anm/anm/ui/balanceview.py:60
+#: /home/reg/src/anm/anm/ui/operationview.py:125
+msgid "TOTALS"
+msgstr ""
+
+#: /home/reg/src/anm/anm//export_xls.py:110
+#: /home/reg/src/anm/anm//prints.py:23
+msgid "Budget"
+msgstr ""
+
+#: /home/reg/src/anm/anm//export_xls.py:111
+#: /home/reg/src/anm/anm//prints.py:24
+msgid "Balance"
+msgstr ""
+
+#: /home/reg/src/anm/anm//export_xls.py:120
+#, python-format
+msgid "Account: %s"
+msgstr ""
+
+#: /home/reg/src/anm/anm//export_xls.py:131
+msgid "No invoice"
+msgstr ""
+
+#: /home/reg/src/anm/anm//export_xls.py:131
+msgid "No mandate"
+msgstr ""
+
+#: /home/reg/src/anm/anm//export_xls.py:132
+msgid "Invoice Date"
+msgstr ""
+
+#: /home/reg/src/anm/anm//export_xls.py:132
+#: /home/reg/src/anm/anm//prints.py:63
+#: /home/reg/src/anm/anm/ui/operationview.py:51
+#: /home/reg/src/anm/anm/ui/operationview.py:129
+msgid "Provider"
+msgstr ""
+
+#: /home/reg/src/anm/anm//export_xls.py:133
+#: /home/reg/src/anm/anm//prints.py:64
+#: /home/reg/src/anm/anm/ui/operationview.py:52
+#: /home/reg/src/anm/anm/ui/operationview.py:129
+msgid "Amount"
+msgstr ""
+
+#. On fait le total du montant des operations par teimestre
+#: /home/reg/src/anm/anm//export_xls.py:149
+#: /home/reg/src/anm/anm/ui/common.py:48
+msgid "TOTAL"
+msgstr ""
+
+#: /home/reg/src/anm/anm//export_xls.py:157
+msgid "This account has no record"
+msgstr ""
+
+#: /home/reg/src/anm/anm//exports.py:23
+msgid "Database exported!"
+msgstr ""
+
+#: /home/reg/src/anm/anm//exports.py:24
+msgid ""
+"The Database has been successfuly exported.\n"
+"Keep that file private as it contains your data.\n"
+"Export your data regularly."
+msgstr ""
+
+#: /home/reg/src/anm/anm//exports.py:28
+msgid "Error in exporting Database!"
+msgstr ""
+
+#: /home/reg/src/anm/anm//exports.py:29
+msgid ""
+"The database backup could not be exported.\n"
+"Please verify that you selected a destination folder which you have write permissions to.\n"
+"Then retry.\n"
+"\n"
+"Request assistance if the problem persist."
+msgstr ""
+
+#: /home/reg/src/anm/anm//prints.py:16
+#, python-format
+msgid "Accounts balance for %s"
+msgstr ""
+
+#: /home/reg/src/anm/anm//prints.py:22
+#: /home/reg/src/anm/anm/ui/balanceview.py:55
+msgid "Account Name"
+msgstr ""
+
+#: /home/reg/src/anm/anm//prints.py:55
+#, python-format
+msgid "List operations for %s"
+msgstr ""
+
+#: /home/reg/src/anm/anm//prints.py:60
+#: /home/reg/src/anm/anm/ui/operationview.py:48
+#: /home/reg/src/anm/anm/ui/operationview.py:128
+msgid "Order number"
+msgstr ""
+
+#: /home/reg/src/anm/anm//prints.py:61
+#: /home/reg/src/anm/anm/ui/operationview.py:49
+#: /home/reg/src/anm/anm/ui/operationview.py:128
+msgid "Invoice number"
+msgstr ""
+
+#: /home/reg/src/anm/anm//prints.py:62
+#: /home/reg/src/anm/anm/ui/operationview.py:50
+#: /home/reg/src/anm/anm/ui/operationview.py:129
+msgid "Invoice date"
+msgstr ""
+
+#: /home/reg/src/anm/anm//utils.py:35
+#, python-format
+msgid "File %s is not available."
+msgstr ""
+
+#: /home/reg/src/anm/anm//utils.py:44
+#, python-format
+msgid "PDF file %s is not available."
+msgstr ""
+
+#: /home/reg/src/anm/anm/ui/balanceupdateview.py:32
+msgid "Account names"
+msgstr ""
+
+#. set the table model
+#: /home/reg/src/anm/anm/ui/balanceupdateview.py:32
+msgid "Account numbers"
+msgstr ""
+
+#: /home/reg/src/anm/anm/ui/balanceupdateview.py:33
+msgid "New amount"
+msgstr ""
+
+#: /home/reg/src/anm/anm/ui/balanceupdateview.py:60
+#: /home/reg/src/anm/anm/ui/menubar.py:55
+msgid "Update periodic budgets"
+msgstr ""
+
+#: /home/reg/src/anm/anm/ui/balanceupdateview.py:64
+msgid "Save"
+msgstr ""
+
+#: /home/reg/src/anm/anm/ui/balanceupdateview.py:88
+#: /home/reg/src/anm/anm/ui/balanceupdateview.py:107
+msgid "Adding operation budget"
+msgstr ""
+
+#: /home/reg/src/anm/anm/ui/balanceupdateview.py:89
+msgid "was already recorded "
+msgstr ""
+
+#: /home/reg/src/anm/anm/ui/balanceupdateview.py:110
+#, python-format
+msgid "The budget for the period %s has been well recorded "
+msgstr ""
+
+#: /home/reg/src/anm/anm/ui/balanceupdateview.py:115
+#, python-format
+msgid "The budget for the period %s it does not properly recorded "
+msgstr ""
+
+#: /home/reg/src/anm/anm/ui/balanceview.py:55
+msgid "Account number"
+msgstr ""
+
+#: /home/reg/src/anm/anm/ui/balanceview.py:56
+msgid "Account balance"
+msgstr ""
+
+#: /home/reg/src/anm/anm/ui/balanceview.py:56
+msgid "Account budget"
+msgstr ""
+
+#: /home/reg/src/anm/anm/ui/balanceview.py:57
+msgid "Go"
+msgstr ""
+
+#. Dele
+#: /home/reg/src/anm/anm/ui/deleteview.py:31
+#: /home/reg/src/anm/anm/ui/menubar.py:26
+msgid "Delete an operation"
+msgstr ""
+
+#: /home/reg/src/anm/anm/ui/deleteview.py:35
+msgid "Select an operation to delete"
+msgstr ""
+
+#: /home/reg/src/anm/anm/ui/deleteview.py:45
+#, python-format
+msgid "Order number: %(order_num)s, Invoice number: %(invoice_num)s Provider: %(provider)s, Amount: %(amount)s, Invoice date: %(date)s"
+msgstr ""
+
+#. Delete Button widget.
+#: /home/reg/src/anm/anm/ui/deleteview.py:61
+msgid "Delete operation"
+msgstr ""
+
+#. Cancel Button widget.
+#: /home/reg/src/anm/anm/ui/deleteview.py:66
+#: /home/reg/src/anm/anm/ui/registreview.py:62
+msgid "Cancel"
+msgstr ""
+
+#: /home/reg/src/anm/anm/ui/deleteview.py:78
+msgid "Delete error"
+msgstr ""
+
+#: /home/reg/src/anm/anm/ui/deleteview.py:78
+msgid "Not operation to delete !"
+msgstr ""
+
+#: /home/reg/src/anm/anm/ui/deleteview.py:87
+msgid "Deleting"
+msgstr ""
+
+#: /home/reg/src/anm/anm/ui/deleteview.py:87
+msgid "Operation succefully removed"
+msgstr ""
+
+#: /home/reg/src/anm/anm/ui/mainwindow.py:20
 msgid "ANM Budgets Manager"
 msgstr "Gestion des budgets ANM"
+
+#: /home/reg/src/anm/anm/ui/mainwindow.py:35
+msgid "account must be an Account or None."
+msgstr ""
+
+#. Menu File
+#: /home/reg/src/anm/anm/ui/menubar.py:24
+msgid "&File"
+msgstr ""
+
+#. Print
+#: /home/reg/src/anm/anm/ui/menubar.py:33
+msgid "Print"
+msgstr ""
+
+#. Export
+#: /home/reg/src/anm/anm/ui/menubar.py:39
+msgid "Export data"
+msgstr ""
+
+#: /home/reg/src/anm/anm/ui/menubar.py:40
+msgid "DB"
+msgstr ""
+
+#: /home/reg/src/anm/anm/ui/menubar.py:41
+msgid "Export an file excel"
+msgstr ""
+
+#. Exit
+#: /home/reg/src/anm/anm/ui/menubar.py:44
+msgid "Exit"
+msgstr ""
+
+#: /home/reg/src/anm/anm/ui/menubar.py:46
+msgid "Exit application"
+msgstr ""
+
+#. Menu aller à
+#: /home/reg/src/anm/anm/ui/menubar.py:52
+msgid "&Go to"
+msgstr ""
+
+#: /home/reg/src/anm/anm/ui/menubar.py:53
+msgid "Accounts balances"
+msgstr ""
+
+#. Menu Aide
+#: /home/reg/src/anm/anm/ui/menubar.py:58
+msgid "Help"
+msgstr ""
+
+#: /home/reg/src/anm/anm/ui/menubar.py:59
+msgid "About"
+msgstr ""
+
+#: /home/reg/src/anm/anm/ui/menubar.py:92
+msgid "About ANM"
+msgstr ""
+
+#: /home/reg/src/anm/anm/ui/menubar.py:93
+msgid ""
+"ANM Budget Management Software\n"
+"\n"
+"© 2011 yɛlɛman s.à.r.l\n"
+"Hippodrome, Avenue Al Quds, \n"
+"BPE. 3713 - Bamako (Mali)\n"
+"Tel: (223) 76 33 30 05\n"
+"www.yeleman.com\n"
+"info@yeleman.com\n"
+"\n"
+"Aboubacar Diarra, Ali Touré, \n"
+"Alou Dolo, Ibrahima Fadiga, \n"
+"Renaud Gaudin, Tiefolo Doumbia"
+msgstr ""
+
+#: /home/reg/src/anm/anm/ui/operationview.py:30
+#, python-format
+msgid "Account transactions %(name)s (%(number)s)"
+msgstr ""
+
+#: /home/reg/src/anm/anm/ui/operationview.py:45
+msgid "Add"
+msgstr ""
+
+#: /home/reg/src/anm/anm/ui/operationview.py:94
+msgid "Confirmation"
+msgstr ""
+
+#: /home/reg/src/anm/anm/ui/operationview.py:94
+msgid "Registered opération"
+msgstr ""
+
+#: /home/reg/src/anm/anm/ui/operationview.py:98
+msgid "Error date"
+msgstr ""
+
+#: /home/reg/src/anm/anm/ui/operationview.py:99
+msgid "The date is not included in the current quarter."
+msgstr ""
+
+#: /home/reg/src/anm/anm/ui/operationview.py:101
+msgid "Error money"
+msgstr ""
+
+#: /home/reg/src/anm/anm/ui/operationview.py:102
+msgid "There is not enough money for this operation."
+msgstr ""
+
+#: /home/reg/src/anm/anm/ui/operationview.py:104
+msgid "Error field"
+msgstr ""
+
+#: /home/reg/src/anm/anm/ui/operationview.py:104
+msgid "You must fill in all fields."
+msgstr ""
+
+#: /home/reg/src/anm/anm/ui/registreview.py:20
+msgid "Choice of type and period"
+msgstr ""
+
+#: /home/reg/src/anm/anm/ui/registreview.py:24
+msgid "Choose a period and a type"
+msgstr ""
+
+#: /home/reg/src/anm/anm/ui/registreview.py:40
+msgid "All Accounts"
+msgstr ""
+
+#. Ok Button widget.
+#: /home/reg/src/anm/anm/ui/registreview.py:57
+msgid "OK"
+msgstr ""

@@ -42,11 +42,13 @@ class deleteViewWidget(QtGui.QDialog, ANMWidget):
 
             for index in xrange(0, len(self.data)):
                 op = self.data[index]
-                part1 = _(u"Order number: %s, Invoice number: %s") %\
-                    (op.order_number, op.invoice_number)
-                part2 = _(u"Provider: %s,Amount: %s, Invoice date: %s") % \
-                     (op.provider, op.amount, op.invoice_date.strftime('%F'))
-                sentence = part1 + part2
+                sentence1 = _(u"Order number: %(order_num)s, Invoice number:" \
+                          u" %(invoice_num)s Provider: %(provider)s, " \
+                          u"Amount: %(amount)s, Invoice date: %(date)s") \
+                          % {'order_num': op.order_number, \
+                             'invoice_num': op.invoice_number, \
+                             'provider': op.provider, 'amount': op.amount, \
+                             'date': op.invoice_date.strftime('%F')}
                 self.box.addItem(sentence, QtCore.QVariant(op.id))
 
             combo_hbox = QtGui.QHBoxLayout()

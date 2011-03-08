@@ -97,8 +97,7 @@ class ANMTableWidget(QtGui.QTableWidget, ANMWidget):
             for item in row:
                 if m == row.__len__() - 1:
                     newitem = QtGui.QTableWidgetItem(\
-                                    QtGui.QIcon("images/go-next.png"), \
-                                    _(u""))
+                                    QtGui.QIcon("images/go-next.png"), '')
                 else:
                     newitem = QtGui.QTableWidgetItem(u"%s" % item)
                 self.setItem(n, m, newitem)
