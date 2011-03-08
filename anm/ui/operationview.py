@@ -2,9 +2,6 @@
 # encoding=utf-8
 # maintainer: alou
 
-import re
-import operator
-
 from PyQt4 import QtGui
 from PyQt4 import QtCore
 from PyQt4.QtCore import QVariant, Qt, QObject
@@ -13,7 +10,7 @@ from sqlalchemy import func, desc
 
 from datetime import date
 
-from common import ANMWidget
+from common import ANMWidget, ANMTableWidget
 from database import Operation, session
 from utils import raise_success, raise_error
 from deleteview import deleteViewWidget
@@ -27,13 +24,7 @@ class OperationWidget(ANMWidget):
         # set global account
         self.account = account
 
-        # add data
-        self.tabledata = [(operation.order_number, operation.invoice_number,\
-                      operation.invoice_date.strftime('%F'),\
-                      operation.provider, operation.amount, operation) \
-                      for operation in session.query(Operation).\
-                      filter_by(account=self.account).\
-                      order_by(desc(Operation.invoice_date)).all()]
+
 
         # calcul total
         self.total = session.query(func.sum(Operation.amount))\
@@ -47,38 +38,38 @@ class OperationWidget(ANMWidget):
         # set the table model
         header = [_(u'Order number'), _(u'Invoice number'), _(u'Invoice date'),
                   _(u'Provider'), _(u'Amount')]
-        tm = MyTableModel(self.tabledata, header, self)
-        self.table.setModel(tm)
+        self.table = OperationTableWidget(parent=self)
 
-        # set the font
-        font = QtGui.QFont("Courier New", 10)
-        self.table.setFont(font)
+        #~ # set the font
+        #~ font = QtGui.QFont("Courier New", 10)
+        #~ self.table.setFont(font)
+#~
+        #~ # hide vertical header
+        #~ vh = self.table.verticalHeader()
+        #~ vh.setVisible(False)
+#~
+        #~ # set horizontal header properties
+        #~ hh = self.table.horizontalHeader()
+        #~ hh.setStretchLastSection(True)
+#~
+        #~ # set column width to fit contents
+        #~ self.table.resizeColumnsToContents()
+#~
+        #~ # set row height
+        #~ nrows = len(self.tabledata)
+        #~ for row in xrange(nrows):
+            #~ self.table.setRowHeight(row, 20)
+#~
+        #~ # selects the line
+        #~ self.table.setSelectionBehavior(QtGui.QAbstractItemView.SelectRows)
 
-        # hide vertical header
-        vh = self.table.verticalHeader()
-        vh.setVisible(False)
-
-        # set horizontal header properties
-        hh = self.table.horizontalHeader()
-        hh.setStretchLastSection(True)
-
-        # set column width to fit contents
-        self.table.resizeColumnsToContents()
-
-        # set row height
-        nrows = len(self.tabledata)
-        for row in xrange(nrows):
-            self.table.setRowHeight(row, 20)
-
-        # selects the line
-        self.table.setSelectionBehavior(QtGui.QAbstractItemView.SelectRows)
-
-        tablebox = QtGui.QHBoxLayout()
+        #~ tablebox = QtGui.QHBoxLayout()
         title = QtGui.QHBoxLayout()
 
         title.addWidget(QtGui.QLabel(_("Account transactions %s (%s)") %\
                                      (self.account.name, self.account.number)))
-        tablebox.addWidget(self.table)
+        hbox = QtGui.QHBoxLayout()
+        hbox.addWidget(self.table)
 
         formbox = QtGui.QFormLayout()
         self.order_number = QtGui.QLineEdit()
@@ -114,7 +105,7 @@ class OperationWidget(ANMWidget):
         vbox.addLayout(title)
         vbox.addLayout(formbox1)
         vbox.addLayout(formbox)
-        vbox.addLayout(tablebox)
+        vbox.addLayout(hbox)
         vbox.addLayout(totalbox)
 
         self.setLayout(vbox)
@@ -156,7 +147,35 @@ class OperationWidget(ANMWidget):
             raise_error(_(u'Error field'), _(u'You must fill in all fields.'))
 
     def refresh(self):
-        self.change_main_context(OperationWidget, account=self.account)
+        self.table.refresh()
+
+
+class OperationTableWidget(ANMTableWidget):
+
+    def __init__(self, parent, *args, **kwargs):
+
+        ANMTableWidget.__init__(self, parent=parent, *args, **kwargs)
+
+
+        # add data
+        self.data = [(operation.order_number, operation.invoice_number,\
+                      operation.invoice_date.strftime('%F'),\
+                      operation.provider, operation.amount, operation) \
+                      for operation in session.query(Operation).\
+                      filter_by(account=self.account).\
+                      order_by(desc(Operation.invoice_date)).all()]
+
+
+        self.period = session.query(Period).first()
+
+        #self.data = []
+
+
+        self.header = [_(u'Order number'), _(u'Invoice number'), _(u'Invoice date'),
+                  _(u'Provider'), _(u'Amount')]
+
+        self.refresh()
+
 
 
 class MyTableModel(QtCore.QAbstractTableModel):
@@ -187,3 +206,4 @@ class MyTableModel(QtCore.QAbstractTableModel):
         if orientation == Qt.Horizontal and role == Qt.DisplayRole:
             return QVariant(self.headerdata[col])
         return QVariant()
+

@@ -2,9 +2,6 @@
 # encoding=utf-8
 # maintainer: Tief
 
-import re
-import operator
-
 from PyQt4 import QtGui
 from PyQt4 import QtCore
 from PyQt4.QtCore import *
@@ -44,11 +41,13 @@ class deleteViewWidget(QtGui.QDialog, ANMWidget):
         if self.data != []:
             for index in xrange(0, len(self.data)):
                 op = self.data[index]
-                self.box.addItem(u" %s  %s  %s  %s   %s" %\
-                                (op.order_number, op.invoice_number,\
-                                 op.invoice_date.strftime('%F'),\
-                                        op.provider, op.amount),\
-                                            QtCore.QVariant(op.id))
+                part1 = u"order number: %s, invoice number: %s, provider: %s," %\
+                    (op.order_number, op.invoice_number,\
+                     op.provider)
+                part2 = u"amount: %s, invoice date: %s" % (op.amount,\
+                    op.invoice_date.strftime('%F'))
+                sentence = part1 + part2
+                self.box.addItem(sentence, QtCore.QVariant(op.id))
             combo_hbox = QtGui.QHBoxLayout()
             combo_hbox.addWidget(self.box)
         else:
