@@ -10,6 +10,8 @@ from balanceupdateview import UpdateBalancesWidget
 from deleteview import deleteViewWidget
 from exports import export_database_as_file
 from export_xls import *
+from prints import build_accounts_report
+from utils import uopen_file
 
 
 class MenuBar(QtGui.QMenuBar, ANMWidget):
@@ -66,9 +68,7 @@ class MenuBar(QtGui.QMenuBar, ANMWidget):
         ## following is an example call to PDF builder.
         ## reuse that in the choice selection window
         p = current_period()
-        from prints import build_accounts_report
         pdf_report = build_accounts_report(period=p, filename='test.pdf')
-        from utils import uopen_file
         uopen_file(pdf_report)
 
     #Delete an operation.
@@ -81,7 +81,8 @@ class MenuBar(QtGui.QMenuBar, ANMWidget):
 
     def goto_export_excel(self):
         print "export an file excel"
-        write_xls()
+        xls_report = write_xls()
+        uopen_file(xls_report)
 
     #list_of_balances
     def goto_Accounts_balances(self):

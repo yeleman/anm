@@ -53,7 +53,7 @@ def write_xls():
     for colx, value in enumerate(hdngs):
         sheet.write(rowx1, colx, value, style0)
 
-    periods = session.query(Period).all()
+    periods = session.query(Period).order_by(Period.start_on).all()
     accounts = session.query(Account).all()
 
     for account in accounts:
@@ -68,17 +68,19 @@ def write_xls():
         sheet.write(rowx1, colx, account.name, style)
 
         col = 2
-        for period  in periods[:1]:
-            balance = account_balance(account, period)
-            data1 = [(budget.amount) for budget in session.query(Budget).\
-                        filter_by(account=account, period=period).all()]
+        for period  in periods:
+            try:
+                balance = account_balance(account, period)
+            except AccountNotConfigured:
+                balance = ''
+            data1 = session.query(Budget.amount).filter_by(account=account, period=period).scalar()
 
             if int(rowx1) % 2 == 0:
                 style = style1
             else:
                 style = style2
 
-            sheet.write(rowx1, col, budget.amount, style)
+            sheet.write(rowx1, col, data1, style)
             sheet.write(rowx1, col + 1, balance, style)
             col += 2
 
@@ -86,7 +88,7 @@ def write_xls():
     for nber in range(len(periods)):
         sheet.col(col).width = 0x0d00 * 2
         sheet.col(col + 1).width = 0x0d00 * 2
-        sheet.write_merge(4, 4, col, col + 1, period.name, style0)
+        sheet.write_merge(4, 4, col, col + 1, periods[nber].display_name(), style0)
         sheet.write(5, col, _(u"Budget"), style0)
         sheet.write(5, col + 1, _(u"Balance"), style0)
         col += 2
@@ -109,7 +111,7 @@ def write_xls():
                         order_by(desc(Operation.invoice_date)).all()]
 
             if data:
-                sheet.write(rowx + 2, 2, period.name)
+                sheet.write(rowx + 2, 2, period.display_name())
                 hdngs = [_(u"No mandate"), _(u"No invoice"),\
                          _(u"Invoice Date"), _(u"Provider"),\
                                              _(u"Amount")]
@@ -131,10 +133,11 @@ def write_xls():
                 rowx += 1
             else:
                 rowx += 2
-                sheet.write(rowx, 2, period.name)
+                sheet.write(rowx, 2, period.display_name())
                 rowx += 2
                 sheet.write_merge(rowx, rowx, 1, 2,\
                                     _(u"This account has no record"))
                 rowx += 1
 
     book.save(file_name)
+    return file_name
