@@ -18,7 +18,7 @@ class MainWindow(QtGui.QMainWindow):
 
         self.resize(800, 600)
         self.setWindowTitle(_(u"ANM Budgets Manager"))
-        #self.setWindowIcon(QtGui.QIcon('icons/anm.png'))
+        self.setWindowIcon(QtGui.QIcon('icons/anm.png'))
 
         self._account = None
 
@@ -34,7 +34,7 @@ class MainWindow(QtGui.QMainWindow):
         if not isinstance(value, (Account, None.__class__)):
             raise ValueError(_(u"account must be an Account or None."))
         self._account = value
-    
+
     def clear_account(self):
         self.account = None
 

@@ -57,6 +57,9 @@ class BalanceTableWidget(ANMTableWidget):
                         _(u"Account budget"), _(u"Account balance"), \
                         _(u"Go")]
 
+        self.setDisplayTotal(True, column_totals={2: None, 3: None}, \
+                             label=_(u"TOTALS"))
+
         self.refresh()
 
     def click_item(self, row, column, *args):
