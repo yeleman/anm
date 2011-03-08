@@ -124,3 +124,11 @@ def current_period():
 def check_periods(date_ref):
     ''' ensure existence of current, previous and next period for a date '''
     pass
+
+
+def data_budget(period):
+    data = [budget.period.id for budget in session.query(Budget).all()]
+    if period.id in data:
+        return True
+    else:
+        return False
