@@ -3,10 +3,10 @@ Name "Suivi des budgets ANM"
 ;SetCompress off 
 
 ; installer file name
-OutFile "installer.exe"
+OutFile "Install-ANM.exe"
 
 ; default destination dir
-InstallDir $PROGRAMFILES\ANM
+InstallDir "C:\ANM"
 
 ; request application privilege
 ; user should be ok. one can still right-click to install as admin
@@ -28,7 +28,7 @@ Section ""
   ; start menu entry
   CreateDirectory "$SMPROGRAMS\ANM"
   CreateShortCut "$SMPROGRAMS\ANM\Suivi budgets ANM.lnk" "$INSTDIR\anm.exe" "" "$INSTDIR\anm.exe" 0
-  createShortCut "$SMPROGRAMS\ANM\Désinstaller ANM.lnk" "$INSTDIR\uninstaller.exe"
+  createShortCut "$SMPROGRAMS\ANM\Uninstall ANM.lnk" "$INSTDIR\uninstaller.exe"
 
 
   ; uninstaller

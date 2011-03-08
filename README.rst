@@ -40,6 +40,8 @@ You need a working windows environment to build ANM windows packageL
     ``easy_install SQLAlchemy==0.6.6``
 
 Once setup, create windows executable:
+    ``copy ..\resources\microsoftdll\*.dll .``
+    ``copy ..\resources\microsoftdll\*.man* .``
     ``python.exe setup-win.py py2exe``
 
 Once windows binary is complete, create installer with:
