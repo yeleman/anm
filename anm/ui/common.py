@@ -35,7 +35,7 @@ class ANMWidget(QtGui.QWidget):
                                                modal=modal, *args, **kwargs)
 
 
-class ANMTableWidget(QtGui.QTableWidget):
+class ANMTableWidget(QtGui.QTableWidget, ANMWidget):
 
     def __init__(self, parent, *args, **kwargs):
 

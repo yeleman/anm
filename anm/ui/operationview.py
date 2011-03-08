@@ -11,10 +11,10 @@ from sqlalchemy import func, desc
 from datetime import date
 
 from common import ANMWidget, ANMTableWidget
-from database import Operation, session
+from database import Operation, session, Period
 from utils import raise_success, raise_error
 from deleteview import deleteViewWidget
-from data_helpers import *
+from data_helpers import account_balance, period_for, current_period
 
 class OperationWidget(ANMWidget):
 
@@ -24,46 +24,14 @@ class OperationWidget(ANMWidget):
         # set global account
         self.account = account
 
-
-
         # calcul total
         self.total = session.query(func.sum(Operation.amount))\
                    .filter_by(account=self.account).scalar()
         if self.total == None:
             self.total = 0
 
-        # create the view
-        self.table = QtGui.QTableView()
-
-        # set the table model
-        header = [_(u'Order number'), _(u'Invoice number'), _(u'Invoice date'),
-                  _(u'Provider'), _(u'Amount')]
         self.table = OperationTableWidget(parent=self)
 
-        #~ # set the font
-        #~ font = QtGui.QFont("Courier New", 10)
-        #~ self.table.setFont(font)
-#~
-        #~ # hide vertical header
-        #~ vh = self.table.verticalHeader()
-        #~ vh.setVisible(False)
-#~
-        #~ # set horizontal header properties
-        #~ hh = self.table.horizontalHeader()
-        #~ hh.setStretchLastSection(True)
-#~
-        #~ # set column width to fit contents
-        #~ self.table.resizeColumnsToContents()
-#~
-        #~ # set row height
-        #~ nrows = len(self.tabledata)
-        #~ for row in xrange(nrows):
-            #~ self.table.setRowHeight(row, 20)
-#~
-        #~ # selects the line
-        #~ self.table.setSelectionBehavior(QtGui.QAbstractItemView.SelectRows)
-
-        #~ tablebox = QtGui.QHBoxLayout()
         title = QtGui.QHBoxLayout()
 
         title.addWidget(QtGui.QLabel(_("Account transactions %s (%s)") %\
@@ -133,8 +101,9 @@ class OperationWidget(ANMWidget):
             session.add(operation)
             session.commit()
 
-            self.refresh()
+
             raise_success(_(u'Confirmation'), _(u'Registered opération'))
+            self.refresh()
 
         elif invoice_date > current_peri.end_on or\
              invoice_date < current_peri.start_on:
@@ -156,7 +125,6 @@ class OperationTableWidget(ANMTableWidget):
 
         ANMTableWidget.__init__(self, parent=parent, *args, **kwargs)
 
-
         # add data
         self.data = [(operation.order_number, operation.invoice_number,\
                       operation.invoice_date.strftime('%F'),\
@@ -168,42 +136,8 @@ class OperationTableWidget(ANMTableWidget):
 
         self.period = session.query(Period).first()
 
-        #self.data = []
-
-
         self.header = [_(u'Order number'), _(u'Invoice number'), _(u'Invoice date'),
                   _(u'Provider'), _(u'Amount')]
 
         self.refresh()
-
-
-
-class MyTableModel(QtCore.QAbstractTableModel):
-    def __init__(self, datain, headerdata, parent=None, *args):
-
-        QtCore.QAbstractTableModel.__init__(self, parent, *args)
-
-        self.arraydata = datain
-        self.headerdata = headerdata
-
-    def rowCount(self, parent):
-        return len(self.arraydata)
-
-    def columnCount(self, parent):
-        try:
-            return len(self.arraydata[0]) - 1
-        except IndexError:
-            return 0
-
-    def data(self, index, role):
-        if not index.isValid():
-            return QVariant()
-        elif role != Qt.DisplayRole:
-            return QVariant()
-        return QVariant(self.arraydata[index.row()][index.column()])
-
-    def headerData(self, col, orientation, role):
-        if orientation == Qt.Horizontal and role == Qt.DisplayRole:
-            return QVariant(self.headerdata[col])
-        return QVariant()
 
