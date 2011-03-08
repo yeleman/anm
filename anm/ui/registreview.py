@@ -6,11 +6,13 @@ from PyQt4 import QtGui
 from PyQt4 import QtCore
 
 from common import ANMWidget
-from database import Period, session
+from database import Period, session, Account
 from data_helpers import current_period
+from prints import build_accounts_report, build_operations_report
+from utils import uopen_file
 
 
-class RegistreWidget(ANMWidget):
+class RegistreWidget(QtGui.QDialog, ANMWidget):
 
     def __init__(self, parent=0, *args, **kwargs):
         QtGui.QWidget.__init__(self, parent, *args, **kwargs)
@@ -25,21 +27,29 @@ class RegistreWidget(ANMWidget):
         title_hbox.addWidget(title)
 
         #Combobox widget
-        self.box = QtGui.QComboBox()
-        self.box1 = QtGui.QComboBox()
+        self.box_account = QtGui.QComboBox()
+        self.box_period = QtGui.QComboBox()
+        self.box_type = QtGui.QComboBox()
+
         # Data
         current = current_period()
-        self.data = session.query(Period).filter_by(start_on = current.start_on).all()
-        self.data1 = ['solde', 'operation']
+        self.data_period = session.query(Period).all()
+        self.data_account = session.query(Account).all()
+        self.data_type = ['balance', 'operation']
 
-        for index in xrange(0, len(self.data)):
-            ped = self.data[index]
-            self.box.addItem('period: %s' % (ped.name) , QtCore.QVariant(ped.id))
-        for index in xrange(0, len(self.data1)):
-            print index
-            pe = self.data1[index]
-            print pe
-            self.box1.addItem('type: %s' % (pe) , QtCore.QVariant(index))
+        self.box_account.addItem(_(u"All Accounts"))
+        for index in xrange(0, len(self.data_account)):
+            account = self.data_account[index]
+            self.box_account.addItem(u'%s' % account.name)
+
+        for index in xrange(0, len(self.data_period)):
+            ped = self.data_period[index]
+            self.box_period.addItem(u'%s' % (ped.name))
+
+        for index in xrange(0, len(self.data_type)):
+            pe = self.data_type[index]
+            self.box_type.addItem(u'%s' % (pe))
+
         #Ok and cancel hbox
         button_hbox = QtGui.QHBoxLayout()
 
@@ -55,8 +65,9 @@ class RegistreWidget(ANMWidget):
 
         combo_hbox = QtGui.QHBoxLayout()
         combo_hbox1 = QtGui.QHBoxLayout()
-        combo_hbox.addWidget(self.box)
-        combo_hbox.addWidget(self.box1)
+        combo_hbox.addWidget(self.box_account)
+        combo_hbox.addWidget(self.box_period)
+        combo_hbox.addWidget(self.box_type)
 
         vbox = QtGui.QVBoxLayout()
         vbox.addLayout(title_hbox)
@@ -68,9 +79,18 @@ class RegistreWidget(ANMWidget):
         self.close()
 
     def capture_ok(self):
-        ped = self.data[self.box.currentIndex()]
-        pe = self.data1[self.box1.currentIndex()]
-        print 'ped %s' % ped
-        print 'pe %s' % pe
+        index = self.box_account.currentIndex()
+        if index > 0:
+            account = self.data_account[index - 1]
+        else:
+            account = None
+        period = self.data_period[self.box_period.currentIndex()]
+        type = self.data_type[self.box_type.currentIndex()]
 
-
+        if type == 'balance':
+            pdf_report = build_accounts_report(period=period, \
+                                               filename=u'balance.pdf')
+        elif type == 'operation':
+            pdf_report = build_operations_report(account=account, \
+                                        period=period, filename=u'operation.pdf')
+        uopen_file(pdf_report)

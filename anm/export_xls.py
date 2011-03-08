@@ -5,10 +5,10 @@
 import xlwt
 
 from datetime import datetime, date
-from sqlalchemy import func, desc
+from sqlalchemy import desc
 
-from database import Operation, Account, Period, session
-from data_helpers import *
+from database import Operation, Account, Period, session, Budget
+from data_helpers import account_balance, AccountNotConfigured
 
 font0 = xlwt.Font()
 font0.name = 'Times New Roman'
@@ -73,7 +73,8 @@ def write_xls():
                 balance = account_balance(account, period)
             except AccountNotConfigured:
                 balance = ''
-            data1 = session.query(Budget.amount).filter_by(account=account, period=period).scalar()
+            data1 = session.query(Budget.amount).filter_by(account=account,\
+                                                        period=period).scalar()
 
             if int(rowx1) % 2 == 0:
                 style = style1
@@ -88,7 +89,8 @@ def write_xls():
     for nber in range(len(periods)):
         sheet.col(col).width = 0x0d00 * 2
         sheet.col(col + 1).width = 0x0d00 * 2
-        sheet.write_merge(4, 4, col, col + 1, periods[nber].display_name(), style0)
+        sheet.write_merge(4, 4, col, col + 1, periods[nber].display_name(),\
+                          style0)
         sheet.write(5, col, _(u"Budget"), style0)
         sheet.write(5, col + 1, _(u"Balance"), style0)
         col += 2

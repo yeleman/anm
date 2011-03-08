@@ -4,17 +4,16 @@
 
 from PyQt4 import QtGui
 from PyQt4 import QtCore
-from PyQt4.QtCore import QVariant, Qt, QObject
 
-from sqlalchemy import func, desc
+from sqlalchemy import desc
 
 from datetime import date
 
 from common import ANMWidget, ANMTableWidget
 from database import Operation, session, Period
 from utils import raise_success, raise_error
-from deleteview import deleteViewWidget
 from data_helpers import account_balance, period_for, current_period
+
 
 class OperationWidget(ANMWidget):
 
@@ -23,12 +22,6 @@ class OperationWidget(ANMWidget):
 
         # set global account
         self.account = account
-
-        # calcul total
-        self.total = session.query(func.sum(Operation.amount))\
-                   .filter_by(account=self.account).scalar()
-        if self.total == None:
-            self.total = 0
 
         self.table = OperationTableWidget(parent=self)
 
@@ -48,9 +41,6 @@ class OperationWidget(ANMWidget):
         self.amount = QtGui.QLineEdit()
         self.amount.setValidator(QtGui.QIntValidator())
         butt = QtGui.QPushButton(_(u"Add"))
-        totalbox = QtGui.QHBoxLayout()
-        totalbox.addWidget(QtGui.QLabel(_(u'Total')))
-        totalbox.addWidget(QtGui.QLabel(str(self.total)))
 
         formbox1 = QtGui.QHBoxLayout()
         formbox1.addWidget(QtGui.QLabel(_(u'Order number')))
@@ -74,7 +64,6 @@ class OperationWidget(ANMWidget):
         vbox.addLayout(formbox1)
         vbox.addLayout(formbox)
         vbox.addLayout(hbox)
-        vbox.addLayout(totalbox)
 
         self.setLayout(vbox)
 
@@ -100,11 +89,8 @@ class OperationWidget(ANMWidget):
             operation.period = period
             session.add(operation)
             session.commit()
-
-
             raise_success(_(u'Confirmation'), _(u'Registered opération'))
             self.refresh()
-
         elif invoice_date > current_peri.end_on or\
              invoice_date < current_peri.start_on:
             raise_error(_(u'Error date'), \
@@ -116,7 +102,7 @@ class OperationWidget(ANMWidget):
             raise_error(_(u'Error field'), _(u'You must fill in all fields.'))
 
     def refresh(self):
-        self.table.refresh()
+        self.change_main_context(OperationWidget, account=self.account)
 
 
 class OperationTableWidget(ANMTableWidget):
@@ -133,11 +119,11 @@ class OperationTableWidget(ANMTableWidget):
                       filter_by(account=self.account).\
                       order_by(desc(Operation.invoice_date)).all()]
 
-
+        self.setDisplayTotal(True, column_totals={4: None}, \
+                             label=_(u"TOTALS"))
         self.period = session.query(Period).first()
 
-        self.header = [_(u'Order number'), _(u'Invoice number'), _(u'Invoice date'),
-                  _(u'Provider'), _(u'Amount')]
+        self.header = [_(u'Order number'), _(u'Invoice number'), \
+                       _(u'Invoice date'), _(u'Provider'), _(u'Amount')]
 
         self.refresh()
-
