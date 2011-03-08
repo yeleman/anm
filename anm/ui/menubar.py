@@ -57,8 +57,6 @@ class MenuBar(QtGui.QMenuBar, ANMWidget):
         help = self.addMenu(_(u"Help"))
         help.addAction(_(u"About"), self.goto_about)
 
-        self.setWindowIcon(QtGui.QIcon('images/yeleman_logo.png'))
-
     #Refresh the menu bar to enabled or disabled the delete menu
     def refresh(self):
         self.delete_.setEnabled(bool(self.parentWidget().account))
@@ -94,7 +92,7 @@ class MenuBar(QtGui.QMenuBar, ANMWidget):
 
     #About
     def goto_about(self):
-        mbox = QtGui.QMessageBox.about(self, _(u"About ANM"), \
+        mbox = QtGui.QMessageBox.about(self.parentWidget(), _(u"About ANM"), \
                           _(u"ANM Budget Management Software\n\n" \
                             u"© 2011 yɛlɛman s.à.r.l\n" \
                             u"Hippodrome, Avenue Al Quds, \n" \
