@@ -25,14 +25,15 @@ borders.bottom = 1
 
 style0 = xlwt.XFStyle()
 style0.font = font0
-style0.borders= borders
+style0.borders = borders
 
 style1 = xlwt.XFStyle()
 style1.pattern = pat2
-style1.borders= borders
+style1.borders = borders
 
 style2 = xlwt.XFStyle()
-style2.borders= borders
+style2.borders = borders
+
 
 def write_xls():
     ''' Export data '''
@@ -57,13 +58,13 @@ def write_xls():
 
     for account in accounts:
         rowx1 += 1
-        sheet.col(colx-1).width = 0x0d00*2
-        sheet.col(colx).width = 0x0d00*3
-        if int(rowx1)%2==0:
+        sheet.col(colx - 1).width = 0x0d00 * 2
+        sheet.col(colx).width = 0x0d00 * 3
+        if int(rowx1) % 2 == 0:
             style = style1
         else:
             style = style2
-        sheet.write(rowx1, colx - 1, account.number,style)
+        sheet.write(rowx1, colx - 1, account.number, style)
         sheet.write(rowx1, colx, account.name, style)
 
         col = 2
@@ -72,20 +73,20 @@ def write_xls():
             data1 = [(budget.amount) for budget in session.query(Budget).\
                         filter_by(account=account, period=period).all()]
 
-            if int(rowx1)%2==0:
+            if int(rowx1) % 2 == 0:
                 style = style1
             else:
                 style = style2
 
-            sheet.write(rowx1, col, budget.amount,style)
-            sheet.write(rowx1, col + 1, balance,style)
+            sheet.write(rowx1, col, budget.amount, style)
+            sheet.write(rowx1, col + 1, balance, style)
             col += 2
 
     col = 2
     for nber in range(len(periods)):
-        sheet.col(col).width = 0x0d00*2
-        sheet.col(col +1).width = 0x0d00*2
-        sheet.write_merge(4, 4, col, col+1, period.name, style0)
+        sheet.col(col).width = 0x0d00 * 2
+        sheet.col(col + 1).width = 0x0d00 * 2
+        sheet.write_merge(4, 4, col, col + 1, period.name, style0)
         sheet.write(5, col, _(u"Budget"), style0)
         sheet.write(5, col + 1, _(u"Balance"), style0)
         col += 2
@@ -96,8 +97,8 @@ def write_xls():
 
         sheet = book.add_sheet(sheet_name)
         rowx = 1
-        account_name= _(u"Account: %s ")% account.name
-        sheet.write_merge(rowx, 1, 1, 4, account_name)
+        account_name = _(u"Account: %s") % account.name
+        sheet.write_merge(rowx, 1, 1, 3, account_name)
         for period  in session.query(Period).all():
 
             data = [(operation.order_number, operation.invoice_number, \
@@ -109,21 +110,23 @@ def write_xls():
 
             if data:
                 sheet.write(rowx + 2, 2, period.name)
-                hdngs = [u"No mandat", u"No Facture", u"Date Facture",\
-                                            u"Fournisseur", u"Montant"]
+                hdngs = [_(u"No mandate"), _(u"No invoice"),\
+                         _(u"Invoice Date"), _(u"Provider"),\
+                                             _(u"Amount")]
 
                 rowx += 3
                 for colx, value in enumerate(hdngs):
                     sheet.write(rowx, colx, value, style0)
+                    sheet.col(colx).width = 0x0d00 * 2
 
                 for row in data:
                     rowx += 1
-                    if int(rowx)%2==0:
+                    if int(rowx) % 2 == 0:
                         style = style1
                     else:
                         style = style2
                     for colx, value in enumerate(row):
-                        sheet.write(rowx, colx, value,style)
+                        sheet.write(rowx, colx, value, style)
 
                 rowx += 1
             else:
