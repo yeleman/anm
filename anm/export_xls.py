@@ -71,8 +71,7 @@ def write_xls():
             balance = account_balance(account, period)
             data1 = [(budget.amount) for budget in session.query(Budget).\
                         filter_by(account=account, period=period).all()]
-            sheet.col(col).width = 0x0d00*2
-            sheet.col(col +1).width = 0x0d00*2
+
             if int(rowx1)%2==0:
                 style = style1
             else:
@@ -84,6 +83,8 @@ def write_xls():
 
     col = 2
     for nber in range(len(periods)):
+        sheet.col(col).width = 0x0d00*2
+        sheet.col(col +1).width = 0x0d00*2
         sheet.write_merge(4, 4, col, col+1, period.name, style0)
         sheet.write(5, col, _(u"Budget"), style0)
         sheet.write(5, col + 1, _(u"Balance"), style0)
