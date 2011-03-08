@@ -8,6 +8,7 @@ from common import ANMWidget
 from balanceview import BalanceViewWidget
 from balanceupdateview import UpdateBalancesWidget
 from deleteview import deleteViewWidget
+from registreview import RegistreWidget
 from exports import export_database_as_file
 from export_xls import *
 from prints import build_accounts_report
@@ -57,19 +58,13 @@ class MenuBar(QtGui.QMenuBar, ANMWidget):
         help = self.addMenu(_(u"Help"))
         help.addAction(_(u"About"), self.goto_about)
 
-        self.setWindowIcon(QtGui.QIcon('images/yeleman_logo.png'))
-
     #Refresh the menu bar to enabled or disabled the delete menu
     def refresh(self):
         self.delete_.setEnabled(bool(self.parentWidget().account))
 
     #Print
     def goto_print(self):
-        ## following is an example call to PDF builder.
-        ## reuse that in the choice selection window
-        p = current_period()
-        pdf_report = build_accounts_report(period=p, filename='test.pdf')
-        uopen_file(pdf_report)
+        self.open_dialog(RegistreWidget, modal=True)
 
     #Delete an operation.
     def goto_delete_operation(self):
@@ -94,7 +89,7 @@ class MenuBar(QtGui.QMenuBar, ANMWidget):
 
     #About
     def goto_about(self):
-        mbox = QtGui.QMessageBox.about(self, _(u"About ANM"), \
+        mbox = QtGui.QMessageBox.about(self.parentWidget(), _(u"About ANM"), \
                           _(u"ANM Budget Management Software\n\n" \
                             u"© 2011 yɛlɛman s.à.r.l\n" \
                             u"Hippodrome, Avenue Al Quds, \n" \

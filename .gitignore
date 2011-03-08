@@ -1,6 +1,9 @@
 *.pyc
+*.pdf
 *.db
 *.sqlite
 .*
 *~
 *.xls
+*.exe
+*.dll

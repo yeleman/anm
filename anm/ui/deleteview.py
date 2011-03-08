@@ -2,13 +2,10 @@
 # encoding=utf-8
 # maintainer: Tief
 
-import re
-import operator
-
 from PyQt4 import QtGui
 from PyQt4 import QtCore
-from PyQt4.QtCore import *
 from sqlalchemy import desc
+from gettext import gettext as _
 
 from utils import raise_error, raise_success
 from common import ANMWidget
@@ -21,11 +18,10 @@ class deleteViewWidget(QtGui.QDialog, ANMWidget):
     def __init__(self, parent, account, *args, **kwargs):
         QtGui.QDialog.__init__(self, parent, *args, **kwargs)
 
-
         #Fill Combobox.
         self.data = session.query(Operation).\
-                      filter_by(account=self.account, period=current_period()).\
-                      order_by(desc(Operation.invoice_date)).all()
+                    filter_by(account=self.account, period=current_period()).\
+                    order_by(desc(Operation.invoice_date)).all()
 
         if self.data != []:
 
@@ -37,24 +33,24 @@ class deleteViewWidget(QtGui.QDialog, ANMWidget):
             #Title widget
             title = QtGui.QLabel()
             title.setText(_(u"Select an operation to delete"))
-            title.setAlignment(Qt.AlignHCenter)
+            title.setAlignment(QtCore.Qt.AlignHCenter)
             title_hbox = QtGui.QHBoxLayout()
             title_hbox.addWidget(title)
 
             #Combobox widget
             self.box = QtGui.QComboBox()
 
-
             for index in xrange(0, len(self.data)):
                 op = self.data[index]
-                self.box.addItem(u" %s  %s  %s  %s   %s" %\
-                                (op.order_number, op.invoice_number,\
-                                 op.invoice_date.strftime('%F'),\
-                                        op.provider, op.amount),\
-                                            QtCore.QVariant(op.id))
+                part1 = _(u"Order number: %s, Invoice number: %s") %\
+                    (op.order_number, op.invoice_number)
+                part2 = _(u"Provider: %s,Amount: %s, Invoice date: %s") % \
+                     (op.provider, op.amount, op.invoice_date.strftime('%F'))
+                sentence = part1 + part2
+                self.box.addItem(sentence, QtCore.QVariant(op.id))
+
             combo_hbox = QtGui.QHBoxLayout()
             combo_hbox.addWidget(self.box)
-
 
             #delete and cancel hbox
             button_hbox = QtGui.QHBoxLayout()

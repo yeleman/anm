@@ -4,10 +4,9 @@
 
 from PyQt4 import QtGui
 from PyQt4 import QtCore
-from PyQt4.QtCore import Qt
 
-from database import *
-from data_helpers import *
+from database import Account, session, Period
+from data_helpers import current_period, AccountNotConfigured, account_summary
 from common import ANMWidget, ANMTableWidget
 from operationview import OperationWidget
 
