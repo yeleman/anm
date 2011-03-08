@@ -3,6 +3,8 @@
 # maintainer: rgaudin
 
 from PyQt4 import QtGui
+from PyQt4.QtCore import Qt
+
 
 class ANMWidget(QtGui.QWidget):
 
@@ -22,7 +24,7 @@ class ANMWidget(QtGui.QWidget):
 
     def setaccount(self, value):
         self.parentWidget().account = value
-    
+
     def clear_account(self):
         self.parentWidget().account = None
 
@@ -41,10 +43,13 @@ class ANMTableWidget(QtGui.QTableWidget):
 
         self._data = []
         self._header = []
+        self._display_total = False
+        self._column_totals = {}
+        self._total_label = _(u"TOTAL")
+
         self.parent = parent
 
         self.setEditTriggers(QtGui.QAbstractItemView.NoEditTriggers)
-
 
         self.cellClicked.connect(self.click_item)
 
@@ -78,7 +83,11 @@ class ANMTableWidget(QtGui.QTableWidget):
         if not self.data or not self.header:
             return
 
-        self.setRowCount(self.data.__len__())
+        # increase rowCount by one if we have to display total row
+        rc = self.data.__len__()
+        if self._display_total:
+            rc += 1
+        self.setRowCount(rc)
         self.setColumnCount(self.header.__len__())
         self.setHorizontalHeaderLabels(self.header)
 
@@ -96,7 +105,43 @@ class ANMTableWidget(QtGui.QTableWidget):
                 m += 1
             n += 1
 
+        # display total row at end of table
+        if self._display_total:
+            # spans columns up to first data one
+            # add label inside
+            label_item = QtGui.QTableWidgetItem(u"%s" % self._total_label)
+            label_item.setTextAlignment(Qt.AlignRight | Qt.AlignVCenter)
+            self.setItem(n, 0, label_item)
+            self.setSpan(n, 0, 1, self._column_totals.keys()[0])
+            # calculate total for each total column
+            # if desired
+            for index, total in self._column_totals.items():
+                if not total:
+                    total = sum([data[index] for data in self.data])
+                item = QtGui.QTableWidgetItem(u"%s" % total)
+                self.setItem(n, index, item)
+
         self.resizeColumnsToContents()
+
+    def setDisplayTotal(self, display=False, \
+                              column_totals={}, \
+                              label=None):
+        ''' adds an additional row at end of table
+
+        display: bool wheter of not to display the total row
+        column_totals: an hash indexed by column number
+                       providing data to display as total or None
+                       to request automatic calculation
+        label: text of first cell (spaned up to first index)
+        Example call:
+            self.setDisplayTotal(True, \
+                                 column_totals={2: None, 3: None}, \
+                                 label="TOTALS") '''
+
+        self._display_total = display
+        self._column_totals = column_totals
+        if label:
+            self._total_label = label
 
     def  click_item(self, row, column, *args):
         pass
