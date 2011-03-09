@@ -59,7 +59,7 @@ def write_xls():
 
     sheet = book.add_sheet(_(u"balance"))
     sheet.write_merge(0, 1, 1, 2,\
-                    _(u"The list of accounts per quarter per account"),\
+                    _(u"List of accounts per quarter"),\
                                                             style_title)
     date_ = _(u"Bamako the %s") % date.today()
     sheet.write(2, 0, unicode(date_))
@@ -135,7 +135,7 @@ def write_xls():
         sheet = book.add_sheet(sheet_name)
         rowx = 1
         sheet.write_merge(0, rowx, 1, 3, \
-                                _(u"List of transaction per quarter"),\
+                                _(u"List operation per quarter"),\
                                 style_title)
         rowx += 2
         account_name = _(u"Account: %s") % account.name

@@ -74,7 +74,7 @@ def build_operations_report(account, period, filename=None, format='pdf'):
                                % {'name': account.name,\
                                   'number': account.number}
             doc.add_element(Section(section_name))
-            doc.add_element(Paragraph(_(u'')))
+            doc.add_element(Paragraph(u''))
             table = Table(5)
             table.add_header_row([
                     Text(_(u"Order number")),

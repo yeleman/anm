@@ -69,7 +69,7 @@ msgstr ""
 
 #: /home/reg/src/anm/anm//export_xls.py:44
 msgid "balance"
-msgstr ""
+msgstr "solde"
 
 #: /home/reg/src/anm/anm//export_xls.py:45
 msgid "The list of accounts per quarter per account"
@@ -78,72 +78,72 @@ msgstr ""
 #: /home/reg/src/anm/anm//export_xls.py:47
 #, python-format
 msgid "Bamako the %s"
-msgstr ""
+msgstr "Bamako le %s"
 
 #: /home/reg/src/anm/anm//export_xls.py:50 /home/reg/src/anm/anm//prints.py:21
 msgid "Account Number"
-msgstr ""
+msgstr "Numéro de compte"
 
 #: /home/reg/src/anm/anm//export_xls.py:50
 msgid "No Account"
-msgstr ""
+msgstr "N° Compte"
 
 #: /home/reg/src/anm/anm//export_xls.py:88
 #: /home/reg/src/anm/anm/ui/balanceview.py:60
 #: /home/reg/src/anm/anm/ui/operationview.py:125
 msgid "TOTALS"
-msgstr ""
+msgstr "TOTALS"
 
 #: /home/reg/src/anm/anm//export_xls.py:110
 #: /home/reg/src/anm/anm//prints.py:23
 msgid "Budget"
-msgstr ""
+msgstr "Budget"
 
 #: /home/reg/src/anm/anm//export_xls.py:111
 #: /home/reg/src/anm/anm//prints.py:24
 msgid "Balance"
-msgstr ""
+msgstr "Solde"
 
 #: /home/reg/src/anm/anm//export_xls.py:120
 #, python-format
 msgid "Account: %s"
-msgstr ""
+msgstr "Compte: %s"
 
 #: /home/reg/src/anm/anm//export_xls.py:131
 msgid "No invoice"
-msgstr ""
+msgstr "N° Facture"
 
 #: /home/reg/src/anm/anm//export_xls.py:131
 msgid "No mandate"
-msgstr ""
+msgstr "N° Mandat"
 
 #: /home/reg/src/anm/anm//export_xls.py:132
 msgid "Invoice Date"
-msgstr ""
+msgstr "Date de la facture"
 
 #: /home/reg/src/anm/anm//export_xls.py:132
 #: /home/reg/src/anm/anm//prints.py:63
 #: /home/reg/src/anm/anm/ui/operationview.py:51
 #: /home/reg/src/anm/anm/ui/operationview.py:129
 msgid "Provider"
-msgstr ""
+msgstr "Fournisseur"
 
 #: /home/reg/src/anm/anm//export_xls.py:133
 #: /home/reg/src/anm/anm//prints.py:64
 #: /home/reg/src/anm/anm/ui/operationview.py:52
 #: /home/reg/src/anm/anm/ui/operationview.py:129
 msgid "Amount"
-msgstr ""
+msgstr "Montant"
 
 #. On fait le total du montant des operations par teimestre
 #: /home/reg/src/anm/anm//export_xls.py:149
 #: /home/reg/src/anm/anm/ui/common.py:48
 msgid "TOTAL"
-msgstr ""
+msgstr "TOTAL"
 
 #: /home/reg/src/anm/anm//export_xls.py:157
 msgid "This account has no record"
-msgstr ""
+msgstr "Ce compte n'a pas d'enregistrement"
 
 #: /home/reg/src/anm/anm//exports.py:23
 msgid "Database exported!"
@@ -158,7 +158,7 @@ msgstr ""
 
 #: /home/reg/src/anm/anm//exports.py:28
 msgid "Error in exporting Database!"
-msgstr ""
+msgstr "Erreur dans l'exportation de la base de données!"
 
 #: /home/reg/src/anm/anm//exports.py:29
 msgid ""
@@ -172,35 +172,35 @@ msgstr ""
 #: /home/reg/src/anm/anm//prints.py:16
 #, python-format
 msgid "Accounts balance for %s"
-msgstr ""
+msgstr "Solde des comptes pour %s"
 
 #: /home/reg/src/anm/anm//prints.py:22
 #: /home/reg/src/anm/anm/ui/balanceview.py:55
 msgid "Account Name"
-msgstr ""
+msgstr "Nom du compte"
 
 #: /home/reg/src/anm/anm//prints.py:55
 #, python-format
 msgid "List operations for %s"
-msgstr ""
+msgstr "Liste des opérations pour %s"
 
 #: /home/reg/src/anm/anm//prints.py:60
 #: /home/reg/src/anm/anm/ui/operationview.py:48
 #: /home/reg/src/anm/anm/ui/operationview.py:128
 msgid "Order number"
-msgstr ""
+msgstr "Numéro de mandat"
 
 #: /home/reg/src/anm/anm//prints.py:61
 #: /home/reg/src/anm/anm/ui/operationview.py:49
 #: /home/reg/src/anm/anm/ui/operationview.py:128
 msgid "Invoice number"
-msgstr ""
+msgstr "Numéro de facture"
 
 #: /home/reg/src/anm/anm//prints.py:62
 #: /home/reg/src/anm/anm/ui/operationview.py:50
 #: /home/reg/src/anm/anm/ui/operationview.py:129
 msgid "Invoice date"
-msgstr ""
+msgstr "Date de la facture"
 
 #: /home/reg/src/anm/anm//utils.py:35
 #, python-format
@@ -219,70 +219,70 @@ msgstr ""
 #. set the table model
 #: /home/reg/src/anm/anm/ui/balanceupdateview.py:32
 msgid "Account numbers"
-msgstr ""
+msgstr "Numéro de compte"
 
 #: /home/reg/src/anm/anm/ui/balanceupdateview.py:33
 msgid "New amount"
-msgstr ""
+msgstr "Nouveau montant"
 
 #: /home/reg/src/anm/anm/ui/balanceupdateview.py:60
 #: /home/reg/src/anm/anm/ui/menubar.py:55
 msgid "Update periodic budgets"
-msgstr ""
+msgstr "Mise à jour périodique des budgets"
 
 #: /home/reg/src/anm/anm/ui/balanceupdateview.py:64
 msgid "Save"
-msgstr ""
+msgstr "Enregistrer"
 
 #: /home/reg/src/anm/anm/ui/balanceupdateview.py:88
 #: /home/reg/src/anm/anm/ui/balanceupdateview.py:107
 msgid "Adding operation budget"
-msgstr ""
+msgstr "Ajout de budget de fonctionnement"
 
 #: /home/reg/src/anm/anm/ui/balanceupdateview.py:89
 msgid "was already recorded "
-msgstr ""
+msgstr "ont déjà été enregistrés"
 
 #: /home/reg/src/anm/anm/ui/balanceupdateview.py:110
 #, python-format
 msgid "The budget for the period %s has been well recorded "
-msgstr ""
+msgstr "Le budget pour la période %s a été bien enregistré "
 
 #: /home/reg/src/anm/anm/ui/balanceupdateview.py:115
 #, python-format
 msgid "The budget for the period %s it does not properly recorded "
-msgstr ""
+msgstr "Le budget pour la période %s n'est pas correctement enregistré"
 
 #: /home/reg/src/anm/anm/ui/balanceview.py:55
 msgid "Account number"
-msgstr ""
+msgstr " Numéro de compte"
 
 #: /home/reg/src/anm/anm/ui/balanceview.py:56
 msgid "Account balance"
-msgstr ""
+msgstr "Solde du compte"
 
 #: /home/reg/src/anm/anm/ui/balanceview.py:56
 msgid "Account budget"
-msgstr ""
+msgstr "Budget du compte"
 
 #: /home/reg/src/anm/anm/ui/balanceview.py:57
 msgid "Go"
-msgstr ""
+msgstr "Aller"
 
 #. Dele
 #: /home/reg/src/anm/anm/ui/deleteview.py:31
 #: /home/reg/src/anm/anm/ui/menubar.py:26
 msgid "Delete an operation"
-msgstr ""
+msgstr "Supprimer une opération"
 
 #: /home/reg/src/anm/anm/ui/deleteview.py:35
 msgid "Select an operation to delete"
-msgstr ""
+msgstr "Sélectionnez une opération à supprimer"
 
 #: /home/reg/src/anm/anm/ui/deleteview.py:45
 #, python-format
 msgid "Order number: %(order_num)s, Invoice number: %(invoice_num)s Provider: %(provider)s, Amount: %(amount)s, Invoice date: %(date)s"
-msgstr ""
+msgstr "Numéro de mandat:%(order_num)s, Numéro de facture: %(invoice_num)s Fournisseur: %(provider)s, Montant: %(amount)s, Date de la facture: %(date)s"
 
 #. Delete Button widget.
 #: /home/reg/src/anm/anm/ui/deleteview.py:61
@@ -293,7 +293,7 @@ msgstr ""
 #: /home/reg/src/anm/anm/ui/deleteview.py:66
 #: /home/reg/src/anm/anm/ui/registreview.py:62
 msgid "Cancel"
-msgstr ""
+msgstr "Annuler"
 
 #: /home/reg/src/anm/anm/ui/deleteview.py:78
 msgid "Delete error"
@@ -305,11 +305,11 @@ msgstr ""
 
 #: /home/reg/src/anm/anm/ui/deleteview.py:87
 msgid "Deleting"
-msgstr ""
+msgstr "Suppression"
 
 #: /home/reg/src/anm/anm/ui/deleteview.py:87
 msgid "Operation succefully removed"
-msgstr ""
+msgstr "Opération supprimé avec succès"
 
 #: /home/reg/src/anm/anm/ui/mainwindow.py:20
 msgid "ANM Budgets Manager"
@@ -322,56 +322,56 @@ msgstr ""
 #. Menu File
 #: /home/reg/src/anm/anm/ui/menubar.py:24
 msgid "&File"
-msgstr ""
+msgstr "&Fichier"
 
 #. Print
 #: /home/reg/src/anm/anm/ui/menubar.py:33
 msgid "Print"
-msgstr ""
+msgstr "Imprimer"
 
 #. Export
 #: /home/reg/src/anm/anm/ui/menubar.py:39
 msgid "Export data"
-msgstr ""
+msgstr "Export des données"
 
 #: /home/reg/src/anm/anm/ui/menubar.py:40
 msgid "DB"
-msgstr ""
+msgstr "DB"
 
 #: /home/reg/src/anm/anm/ui/menubar.py:41
 msgid "Export an file excel"
-msgstr ""
+msgstr "Exporter un fichier excel"
 
 #. Exit
 #: /home/reg/src/anm/anm/ui/menubar.py:44
 msgid "Exit"
-msgstr ""
+msgstr "Quitter"
 
 #: /home/reg/src/anm/anm/ui/menubar.py:46
 msgid "Exit application"
-msgstr ""
+msgstr "Quitter l'application"
 
 #. Menu aller à
 #: /home/reg/src/anm/anm/ui/menubar.py:52
 msgid "&Go to"
-msgstr ""
+msgstr "&Aller à"
 
 #: /home/reg/src/anm/anm/ui/menubar.py:53
 msgid "Accounts balances"
-msgstr ""
+msgstr "Soldes de comptes"
 
 #. Menu Aide
 #: /home/reg/src/anm/anm/ui/menubar.py:58
 msgid "Help"
-msgstr ""
+msgstr "Aide"
 
 #: /home/reg/src/anm/anm/ui/menubar.py:59
 msgid "About"
-msgstr ""
+msgstr "A propos"
 
 #: /home/reg/src/anm/anm/ui/menubar.py:92
 msgid "About ANM"
-msgstr ""
+msgstr "A propos de ANM"
 
 #: /home/reg/src/anm/anm/ui/menubar.py:93
 msgid ""
@@ -392,57 +392,57 @@ msgstr ""
 #: /home/reg/src/anm/anm/ui/operationview.py:30
 #, python-format
 msgid "Account transactions %(name)s (%(number)s)"
-msgstr ""
+msgstr "Mouvements de compte %(name)s (%(number)s)"
 
 #: /home/reg/src/anm/anm/ui/operationview.py:45
 msgid "Add"
-msgstr ""
+msgstr "Ajouter"
 
 #: /home/reg/src/anm/anm/ui/operationview.py:94
 msgid "Confirmation"
-msgstr ""
+msgstr "Confirmation"
 
 #: /home/reg/src/anm/anm/ui/operationview.py:94
 msgid "Registered opération"
-msgstr ""
+msgstr "Opération enregistrée"
 
 #: /home/reg/src/anm/anm/ui/operationview.py:98
 msgid "Error date"
-msgstr ""
+msgstr "Erreur de date"
 
 #: /home/reg/src/anm/anm/ui/operationview.py:99
 msgid "The date is not included in the current quarter."
-msgstr ""
+msgstr "La date n'est pas inclus dans le trimestre en cours."
 
 #: /home/reg/src/anm/anm/ui/operationview.py:101
 msgid "Error money"
-msgstr ""
+msgstr "Erreur de montant"
 
 #: /home/reg/src/anm/anm/ui/operationview.py:102
 msgid "There is not enough money for this operation."
-msgstr ""
+msgstr "Il n'y a pas assez d'argent pour cette opération."
 
 #: /home/reg/src/anm/anm/ui/operationview.py:104
 msgid "Error field"
-msgstr ""
+msgstr "Erreur de champ"
 
 #: /home/reg/src/anm/anm/ui/operationview.py:104
 msgid "You must fill in all fields."
-msgstr ""
+msgstr "Vous devez remplir tous les champs."
 
 #: /home/reg/src/anm/anm/ui/registreview.py:20
 msgid "Choice of type and period"
-msgstr ""
+msgstr "Choix du type et de la période"
 
 #: /home/reg/src/anm/anm/ui/registreview.py:24
 msgid "Choose a period and a type"
-msgstr ""
+msgstr "Choisissez une période et un type"
 
 #: /home/reg/src/anm/anm/ui/registreview.py:40
 msgid "All Accounts"
-msgstr ""
+msgstr "Tous les comptes"
 
 #. Ok Button widget.
 #: /home/reg/src/anm/anm/ui/registreview.py:57
 msgid "OK"
-msgstr ""
+msgstr "OK"
