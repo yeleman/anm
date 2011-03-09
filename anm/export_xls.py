@@ -13,13 +13,13 @@ from data_helpers import account_balance, AccountNotConfigured, data_budget
 font0 = xlwt.Font()
 font0.name = 'Times New Roman'
 font0.bold = True
-font0.height = 14*0x14
+font0.height = 14 * 0x14
 font0.underline = xlwt.Font.UNDERLINE_DOUBLE
 
 font1 = xlwt.Font()
 font1.name = 'Verdana'
 font1.bold = True
-font1.height = 10*0x14
+font1.height = 10 * 0x14
 
 borders = xlwt.Borders()
 borders.left = 1
@@ -58,8 +58,9 @@ def write_xls():
     file_name = "base.xls"
 
     sheet = book.add_sheet(_(u"balance"))
-    sheet.write_merge(0, 1, 1, 2, _(u"The list of accounts per quarter per account"),\
-                                        style_title)
+    sheet.write_merge(0, 1, 1, 2,\
+                    _(u"The list of accounts per quarter per account"),\
+                                                            style_title)
     date_ = _(u"Bamako the %s") % date.today()
     sheet.write(2, 0, unicode(date_))
 

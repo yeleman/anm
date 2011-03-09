@@ -11,8 +11,8 @@ from PyQt4 import QtGui
 from PyQt4 import QtCore
 from PyQt4.QtCore import QVariant, Qt
 
-from database import *
-from data_helpers import *
+from database import Budget, session, Account
+from data_helpers import current_period
 from utils import raise_error, raise_success
 from common import ANMWidget
 
@@ -82,10 +82,10 @@ class UpdateBalancesWidget(ANMWidget):
         ''' To save the new budget in the database '''
 
         # on récupère la période en fonction de la date d'aujourd'hui
+        title_ = _(u"Adding operation budget")
         try:
             period_ = current_period()
         except:
-            title_ = _(u"Adding operation budget")
             message_ = _(u"was already recorded ")
             raise_error(title_, message_)
 
@@ -103,17 +103,15 @@ class UpdateBalancesWidget(ANMWidget):
             except:
                 session.rollback()
                 flag = False
-
-        title_ = _(u"Adding operation budget")
         if flag == True:
             message_ = _(\
-            u"The budget for the period %s has been well recorded ")\
-             % period_
+            u"The budget for the period %s has been well recorded")\
+             % period_.display_name()
             raise_success(title_, message_)
         if flag == False:
             message_ = _(\
-            u"The budget for the period %s it does not properly recorded ")\
-             % period_
+            u"The budget for the period %s it does not properly recorded")\
+             % period_.display_name()
             raise_error(title_, message_)
 
 
