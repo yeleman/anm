@@ -13,9 +13,13 @@ from data_helpers import account_balance, AccountNotConfigured, data_budget
 font0 = xlwt.Font()
 font0.name = 'Times New Roman'
 font0.bold = True
-pat2 = xlwt.Pattern()
-pat2.pattern = xlwt.Pattern.SOLID_PATTERN
-pat2.pattern_fore_colour = 0x01F
+font0.height = 14*0x14
+font0.underline = xlwt.Font.UNDERLINE_DOUBLE
+
+font1 = xlwt.Font()
+font1.name = 'Verdana'
+font1.bold = True
+font1.height = 10*0x14
 
 borders = xlwt.Borders()
 borders.left = 1
@@ -23,8 +27,16 @@ borders.right = 1
 borders.top = 1
 borders.bottom = 1
 
+al = xlwt.Alignment()
+al.horz = xlwt.Alignment.HORZ_CENTER
+al.vert = xlwt.Alignment.VERT_CENTER
+
+pat2 = xlwt.Pattern()
+pat2.pattern = xlwt.Pattern.SOLID_PATTERN
+pat2.pattern_fore_colour = 0x01F
+
 style0 = xlwt.XFStyle()
-style0.font = font0
+style0.font = font1
 style0.borders = borders
 
 style1 = xlwt.XFStyle()
@@ -34,6 +46,10 @@ style1.borders = borders
 style2 = xlwt.XFStyle()
 style2.borders = borders
 
+style_title = xlwt.XFStyle()
+style_title.font = font0
+style_title.alignment = al
+
 
 def write_xls():
     ''' Export data '''
@@ -42,10 +58,10 @@ def write_xls():
     file_name = "base.xls"
 
     sheet = book.add_sheet(_(u"balance"))
-    sheet.write(1, 1, _(u"The list of accounts per quarter per account"),\
-                                        style0)
+    sheet.write_merge(0, 1, 1, 2, _(u"The list of accounts per quarter per account"),\
+                                        style_title)
     date_ = _(u"Bamako the %s") % date.today()
-    sheet.write(2, 2, unicode(date_))
+    sheet.write(2, 0, unicode(date_))
 
     hdngs = [_(u"Account Number"), _(u"No Account")]
 
@@ -117,8 +133,12 @@ def write_xls():
 
         sheet = book.add_sheet(sheet_name)
         rowx = 1
+        sheet.write_merge(0, rowx, 1, 3, \
+                                _(u"List of transaction per quarter"),\
+                                style_title)
+        rowx += 2
         account_name = _(u"Account: %s") % account.name
-        sheet.write_merge(rowx, 1, 1, 3, account_name)
+        sheet.write_merge(rowx, rowx, 1, 3, account_name, style_title)
         for period  in periods:
             operations = [(operation.order_number, operation.invoice_number,\
                             operation.invoice_date.strftime('%F'),\
@@ -127,11 +147,12 @@ def write_xls():
                             filter_by(account=account, period=period).\
                             order_by(desc(Operation.invoice_date)).all()]
             if operations:
-                sheet.write(rowx + 2, 2, period.display_name())
+                sheet.write_merge(rowx + 2, rowx + 2, 1, 2,\
+                                    period.display_name(), style_title)
                 hdngs = [_(u"No mandate"), _(u"No invoice"),\
                          _(u"Invoice Date"), _(u"Provider"),\
                                              _(u"Amount")]
-                rowx += 3
+                rowx += 4
                 for colx, value in enumerate(hdngs):
                     sheet.write(rowx, colx, value, style0)
                     sheet.col(colx).width = 0x0d00 * 2
@@ -150,8 +171,11 @@ def write_xls():
                 sheet.write(rowx + 1, colx, amount_opera, style0)
                 rowx += 1
             else:
+                sheet.col(2).width = 0x0d00 * 2
+                sheet.col(1).width = 0x0d00 * 2
                 rowx += 2
-                sheet.write(rowx, 2, period.display_name())
+                sheet.write_merge(rowx, rowx, 1, 2,\
+                                    period.display_name(), style_title)
                 rowx += 2
                 sheet.write_merge(rowx, rowx, 1, 2,\
                                     _(u"This account has no record"))
