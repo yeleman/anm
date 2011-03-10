@@ -21,18 +21,18 @@ from common import ANMWidget, ANMTableWidget
 class BalanceUpdateWidget(ANMWidget):
 
     def __init__(self, parent=0, *args, **kwargs):
-        QtGui.QWidget.__init__(self, parent=parent, *args, **kwargs)
 
-        self.table = NextBalanceUpdateTableWidget(parent=self)
-
-        hbox = QtGui.QHBoxLayout()
-        hbox.addWidget(self.table)
+        super(BalanceUpdateWidget, self).__init__(parent=parent, *args, **kwargs)
 
         # periods
-        period = current_period()
+        self.period1 = current_period()
+        self.period2 = self.period1.next()
+        self.table = NextBalanceUpdateTableWidget(parent=self, \
+                                                  period1=self.period1, \
+                                                  period2=self.period2)
 
         vbox = QtGui.QVBoxLayout()
-        vbox.addLayout(hbox)
+        vbox.addWidget(self.table)
 
         self.setLayout(vbox)
 
@@ -42,63 +42,53 @@ class BalanceUpdateWidget(ANMWidget):
 
 class NextBalanceUpdateTableWidget(ANMTableWidget):
 
-    def __init__(self, parent, *args, **kwargs):
+    def __init__(self, parent, period1, period2, *args, **kwargs):
 
         ANMTableWidget.__init__(self, parent=parent, *args, **kwargs)
 
-        self.period = current_period()
+        self.period1 = period1
+        self.period2 = period2
+
         try:
             self.data = [account_update_summary(account, \
-                                                self.period, \
-                                                self.period.next()) \
+                                                self.period1, \
+                                                self.period2) \
                     for account in session.query(Account).all()]
         except AccountNotConfigured as e:
             raise
 
         self.header = [_(u"Account number"), _(u"Account Name"), \
                        _(u"%(period)s budget") \
-                         % {'period': self.period.short_name()}, \
+                         % {'period': self.period1.short_name()}, \
                        _(u"%(period)s budget") \
-                         % {'period': self.period.next().short_name()}]
+                         % {'period': self.period2.short_name()}]
 
         self.setDisplayTotal(True, column_totals={2: None, 3: None}, \
                              label=_(u"TOTALS"))
 
         self.refresh()
 
-    def refresh(self):
-        if not self.data or not self.header:
-            return
+    def extend_rows(self):
 
-        # increase rowCount by one if we have to display total row
-        rc = self.data.__len__()
-        if self._display_total:
-            rc += 1
-        self.setRowCount(rc)
-        self.setColumnCount(self.header.__len__())
-        self.setHorizontalHeaderLabels(self.header)
+        # add a row with SAVE CHANGES button
+        nb_rows = self.rowCount()
+        self.setRowCount(nb_rows + 1)
+        self.setSpan(nb_rows, 0, 1, 3)
+        bicon = QtGui.QIcon.fromTheme('document-save', \
+                                       QtGui.QIcon('images/document-save.png'))
+        button = QtGui.QPushButton(bicon, _(u"Commit Changes"))
+        button.released.connect(self.save_new_data)
+        self.setCellWidget(nb_rows, 3, button)
 
-        n = 0
-        for row in self.data:
-            m = 0
-            for item in row:
-                if m == row.__len__() - 2:
-                    line_edit = QtGui.QLineEdit(u"%s" % item)
-                    line_edit.setValidator(QtGui.QIntValidator())
-                    line_edit.editingFinished.connect(self.changed_value)
-                    #newitem = QtGui.QTableWidgetItem(\
-                    #                QtGui.QIcon("images/go-next.png"), '')
-                    self.setCellWidget(n, m, line_edit)
-                else:
-                    newitem = QtGui.QTableWidgetItem(\
-                                                  self._format_for_table(item))
-                    self.setItem(n, m, newitem)
-                m += 1
-            n += 1
+    def _item_for_data(self, row, column, data, context=None):
+        if column == self.data[0].__len__() - 2:
+            line_edit = QtGui.QLineEdit(u"%s" % data)
+            line_edit.setValidator(QtGui.QIntValidator())
+            line_edit.editingFinished.connect(self.changed_value)
+            return line_edit
 
-        self._display_total_row()
-
-        self.resizeColumnsToContents()
+        return super(NextBalanceUpdateTableWidget, self)\
+                                    ._item_for_data(row, column, data, context)
 
     def changed_value(self):
         # change self.data to reflect new budgets
@@ -111,3 +101,16 @@ class NextBalanceUpdateTableWidget(ANMTableWidget):
     def _update_budget(self, row_num, budget):
         d = self.data[row_num]
         self.data[row_num] = (d[0], d[1], d[2], budget, d[4])
+
+    def save_new_data(self):
+        for row in self.data:
+            account = row[-1]
+            if not isinstance(account, Account):
+                continue
+
+            budget = session.query(Budget).filter_by(account=account, \
+                                                     period=self.period2)\
+                                          .first()
+            budget.amount = row[3]
+            session.add(budget)
+        session.commit()

@@ -8,11 +8,15 @@ from PyQt4 import QtGui
 from PyQt4.QtCore import Qt
 
 
+MAIN_WIDGET_SIZE = 800
+
 class ANMWidget(QtGui.QWidget):
 
     def __init__(self, parent=0, *args, **kwargs):
 
         QtGui.QWidget.__init__(self, parent=parent, *args, **kwargs)
+
+        self.setMaximumWidth(MAIN_WIDGET_SIZE)
 
     def refresh(self):
         pass
@@ -97,19 +101,31 @@ class ANMTableWidget(QtGui.QTableWidget, ANMWidget):
         for row in self.data:
             m = 0
             for item in row:
-                if m == row.__len__() - 1:
-                    newitem = QtGui.QTableWidgetItem(\
-                                    QtGui.QIcon("images/go-next.png"), '')
+                ui_item = self._item_for_data(n, m, item, row)
+                if isinstance(ui_item, QtGui.QTableWidgetItem):
+                    self.setItem(n, m, ui_item)
+                elif isinstance(ui_item, QtGui.QWidget):
+                    self.setCellWidget(n, m, ui_item)
                 else:
-                    newitem = QtGui.QTableWidgetItem(\
-                                                  self._format_for_table(item))
-                self.setItem(n, m, newitem)
+                    self.setItem(QtGui.QTableWidgetItem(u"%s" % ui_item))
                 m += 1
             n += 1
 
         self._display_total_row()
 
+        self.extend_rows()
+
         self.resizeColumnsToContents()
+
+    def extend_rows(self):
+        ''' called after cells have been created/refresh.
+
+            Use for adding/editing cells '''
+        pass
+
+    def _item_for_data(self, row, column, data, context=None):
+        ''' returns QTableWidgetItem or QWidget to add to a cell '''
+        return QtGui.QTableWidgetItem(self._format_for_table(data))
 
     def _display_total_row(self, row_num=None):
         ''' adds the total row at end of table '''
@@ -164,5 +180,5 @@ class ANMTableWidget(QtGui.QTableWidget, ANMWidget):
 
         return u"%s" % value
 
-    def  click_item(self, row, column, *args):
+    def click_item(self, row, column, *args):
         pass
