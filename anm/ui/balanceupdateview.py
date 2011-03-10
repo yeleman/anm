@@ -25,19 +25,23 @@ class BalanceUpdateWidget(ANMWidget):
 
         self.table = NextBalanceUpdateTableWidget(parent=self)
 
-        hbox = QtGui.QHBoxLayout()
-        hbox.addWidget(self.table)
+        self.valid_button = QtGui.QPushButton(_(u"Save changes"))
+        self.valid_button.released.connect(self.save_new_data)
 
         # periods
         period = current_period()
 
         vbox = QtGui.QVBoxLayout()
-        vbox.addLayout(hbox)
+        vbox.addWidget(self.table)
+        vbox.addWidget(self.valid_button)
 
         self.setLayout(vbox)
 
     def refresh(self):
         self.table.refresh()
+
+    def save_new_data(self):
+        pass
 
 
 class NextBalanceUpdateTableWidget(ANMTableWidget):
@@ -66,39 +70,15 @@ class NextBalanceUpdateTableWidget(ANMTableWidget):
 
         self.refresh()
 
-    def refresh(self):
-        if not self.data or not self.header:
-            return
+    def _item_for_data(self, row, column, data, context=None):
+        if column == self.data[0].__len__() - 2:
+            line_edit = QtGui.QLineEdit(u"%s" % data)
+            line_edit.setValidator(QtGui.QIntValidator())
+            line_edit.editingFinished.connect(self.changed_value)
+            return line_edit
 
-        # increase rowCount by one if we have to display total row
-        rc = self.data.__len__()
-        if self._display_total:
-            rc += 1
-        self.setRowCount(rc)
-        self.setColumnCount(self.header.__len__())
-        self.setHorizontalHeaderLabels(self.header)
-
-        n = 0
-        for row in self.data:
-            m = 0
-            for item in row:
-                if m == row.__len__() - 2:
-                    line_edit = QtGui.QLineEdit(u"%s" % item)
-                    line_edit.setValidator(QtGui.QIntValidator())
-                    line_edit.editingFinished.connect(self.changed_value)
-                    #newitem = QtGui.QTableWidgetItem(\
-                    #                QtGui.QIcon("images/go-next.png"), '')
-                    self.setCellWidget(n, m, line_edit)
-                else:
-                    newitem = QtGui.QTableWidgetItem(\
-                                                  self._format_for_table(item))
-                    self.setItem(n, m, newitem)
-                m += 1
-            n += 1
-
-        self._display_total_row()
-
-        self.resizeColumnsToContents()
+        return super(NextBalanceUpdateTableWidget, self)\
+                                    ._item_for_data(row, column, data, context)
 
     def changed_value(self):
         # change self.data to reflect new budgets
