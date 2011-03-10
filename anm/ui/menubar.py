@@ -75,7 +75,6 @@ class MenuBar(QtGui.QMenuBar, ANMWidget):
         export_database_as_file()
 
     def goto_export_excel(self):
-        print "export an file excel"
         export_database_as_excel()
 
     #list_of_balances

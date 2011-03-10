@@ -15,7 +15,7 @@ from operationview import OperationWidget
 class BalanceViewWidget(ANMWidget):
 
     def __init__(self, parent=0, *args, **kwargs):
-        
+
         super(BalanceViewWidget, self).__init__(parent=parent, *args, **kwargs)
 
         self.table = BalanceTableWidget(parent=self)
@@ -63,7 +63,7 @@ class BalanceTableWidget(ANMTableWidget):
     def _item_for_data(self, row, column, data, context=None):
         if column == self.data[0].__len__() - 1:
             return QtGui.QTableWidgetItem(QtGui.QIcon("images/go-next.png"), \
-                                          '')
+                                          _(u"Operations"))
         return super(BalanceTableWidget, self)\
                                     ._item_for_data(row, column, data, context)
 

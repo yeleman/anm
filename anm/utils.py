@@ -8,6 +8,8 @@ import subprocess
 
 from PyQt4 import QtGui, QtCore
 
+from ui.window import ANMWindow
+
 
 class PDFFileUnavailable(IOError):
     pass
@@ -47,11 +49,13 @@ def display_pdf(pdf_file):
 
 def raise_error(title, message):
     box = QtGui.QMessageBox(QtGui.QMessageBox.Critical, title, \
-                            message, QtGui.QMessageBox.Ok)
+                            message, QtGui.QMessageBox.Ok, \
+                            parent=ANMWindow.window)
     box.exec_()
 
 
 def raise_success(title, message):
     box = QtGui.QMessageBox(QtGui.QMessageBox.Information, title, \
-                            message, QtGui.QMessageBox.Ok)
+                            message, QtGui.QMessageBox.Ok, \
+                            parent=ANMWindow.window)
     box.exec_()
