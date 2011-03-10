@@ -7,6 +7,8 @@ import locale
 from PyQt4 import QtGui
 from PyQt4.QtCore import Qt
 
+from data_helpers import current_period
+
 MAIN_WIDGET_SIZE = 900
 
 
@@ -182,3 +184,65 @@ class ANMTableWidget(QtGui.QTableWidget, ANMWidget):
 
     def click_item(self, row, column, *args):
         pass
+
+
+class ANMPeriodHolder(object):
+
+    def __init__(self, period=current_period(), *args, **kwargs):
+
+        self.main_period = period
+        self.periods_bar = self.gen_bar_for(self.main_period)
+
+    def gen_bar_for(self, period):
+        return ANMPeriodTabBar(parent=self, main_period=period)
+
+    def change_period(self, period):
+        self.main_period = period
+
+    def getmain_period(self):
+        return self._main_period
+
+    def setmain_period(self, value):
+        self._main_period = value
+
+    main_period = property(getmain_period, setmain_period)
+
+
+class ANMPeriodTabBar(QtGui.QTabBar):
+
+    def __init__(self, parent, main_period=None, *args, **kwargs):
+
+        super(ANMPeriodTabBar, self).__init__(*args, **kwargs)
+
+        for i in range(0, 3):
+            self.addTab('%s' % i)
+
+        self.set_data_from(main_period)
+        self.build_tab_list()
+
+        self.currentChanged.connect(self.changed_period)
+
+    def set_data_from(self, period=current_period()):
+        self.main_period = period
+
+        self.periods = [self.main_period.previous(), \
+                        self.main_period, \
+                        self.main_period.next()]
+
+    def build_tab_list(self):
+        for index, period in enumerate(self.periods):
+            self.setTabText(index, period.display_name())
+            self.setTabToolTip(index, _(u"Period from %(start)s to %(end)s" \
+                               % {'start': period.start_on.strftime('%x'), \
+                                  'end': period.end_on.strftime('%x')}))
+        self.setTabTextColor(1, QtGui.QColor('darkBlue'))
+        self.setCurrentIndex(1)
+
+    def changed_period(self, index):
+        if index == -1 or index == 1:
+            return False
+        else:
+            np = self.periods[index]
+            self.set_data_from(np)
+            self.build_tab_list()
+            self.parentWidget().change_period(np)
