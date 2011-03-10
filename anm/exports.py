@@ -5,6 +5,7 @@
 
 import os
 import shutil
+from datetime import datetime
 
 from PyQt4 import QtGui, QtCore
 
@@ -15,7 +16,10 @@ from utils import raise_success, raise_error
 
 
 def export_database_as_file():
-    destination = QtGui.QFileDialog.getSaveFileName(caption=(u"Save DB as..."))
+    destination = QtGui.QFileDialog.getSaveFileName(QtGui.QWidget(), \
+                                    _(u"Save DB as..."), \
+                                    "%s.db" % datetime.now().strftime('%c'), \
+                                    "*.db")
     if not destination:
         return
 
@@ -36,7 +40,10 @@ def export_database_as_file():
 
 def export_database_as_excel():
 
-    destination = QtGui.QFileDialog.getSaveFileName(caption=(u"Save DB as..."))
+    destination = QtGui.QFileDialog.getSaveFileName(QtGui.QWidget(), \
+                                    _(u"Save Excel Export as..."), \
+                                    "%s.xls" % datetime.now().strftime('%c'), \
+                                    "*.xls")
     if not destination:
         return
 
