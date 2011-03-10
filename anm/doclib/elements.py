@@ -2,9 +2,11 @@
 # encoding=utf-8
 # maintainer: rgaudin
 
+
 class PageBreak(object):
     def __init__(self):
         pass
+
 
 class Text(object):
 
@@ -16,6 +18,7 @@ class Text(object):
         self.italic = italic
         self.bold = bold
         self.size = size
+
 
 class Paragraph(object):
     '''
@@ -43,14 +46,17 @@ class Paragraph(object):
         else:
             raise ValueError('Invalid arg')
 
+
 class HLine(object):
 
     def __init__(self):
         pass
 
+
 class Section(Text):
     def __init__(self, text):
         Text.__init__(self, text)
+
 
 class Document(object):
 
@@ -71,11 +77,14 @@ class Document(object):
     def add_element(self, element):
         self.contents.append(element)
 
+
 class TableDataError(Exception):
     pass
 
+
 class InvalidRowError(TableDataError):
     pass
+
 
 class InvalidCellError(TableDataError):
     pass
@@ -101,7 +110,7 @@ class Table(object):
         self.ncols = ncols
 
         ''' List of (bool, [col data]) tuples
-            where bool indicates whether it's a 
+            where bool indicates whether it's a
             header row and data is the column
             contents.  The contents must be
             Text objects.
@@ -109,7 +118,7 @@ class Table(object):
         self.rows = []
 
         self.column_widths = {}
-        self.column_alignments = {}       
+        self.column_alignments = {}
 
     def add_header_row(self, values):
         if len(values) != self.ncols:
