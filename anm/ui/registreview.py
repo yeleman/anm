@@ -6,6 +6,7 @@ from PyQt4 import QtGui
 from PyQt4 import QtCore
 
 from sqlalchemy import desc
+
 from common import ANMWidget
 from database import Period, session, Account
 from data_helpers import current_period

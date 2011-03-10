@@ -4,7 +4,9 @@
 
 from PyQt4 import QtGui
 from PyQt4 import QtCore
+
 from sqlalchemy import desc
+
 from gettext import gettext as _
 
 from utils import raise_error, raise_success

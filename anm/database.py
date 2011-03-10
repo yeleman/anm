@@ -5,6 +5,7 @@
 from datetime import date, datetime
 
 from gettext import gettext as _
+
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm import mapper, relationship

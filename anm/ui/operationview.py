@@ -25,11 +25,11 @@ class OperationWidget(ANMWidget):
         self.table = OperationTableWidget(parent=self)
 
         title = QtGui.QHBoxLayout()
-
         title.addWidget(QtGui.QLabel(_(u"Account transactions %(name)s " \
                                        u"(%(number)s)") \
                                      % {'name': self.account.name, \
                                         'number': self.account.number}))
+
         hbox = QtGui.QHBoxLayout()
         hbox.addWidget(self.table)
 
@@ -49,6 +49,7 @@ class OperationWidget(ANMWidget):
         formbox1.addWidget(QtGui.QLabel(_(u'Invoice date')))
         formbox1.addWidget(QtGui.QLabel(_(u'Provider')))
         formbox1.addWidget(QtGui.QLabel(_(u'Amount')))
+        formbox1.addSpacing(90)
 
         formbox = QtGui.QHBoxLayout()
         formbox.addWidget(self.order_number)
@@ -75,10 +76,12 @@ class OperationWidget(ANMWidget):
         period = period_for(invoice_date)
         current_peri = current_period()
         balance = account_balance(self.account, current_peri)
+
         try:
             amount = int(self.amount.text())
         except ValueError:
             amount = 0
+
         if self.order_number.text() and self.invoice_number.text() and \
             invoice_date and self.provider.text()and self.amount.text()\
             and invoice_date > current_peri.start_on and invoice_date < \

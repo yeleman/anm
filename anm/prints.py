@@ -4,11 +4,13 @@
 
 from gettext import gettext as _
 
+from sqlalchemy import func, desc
+
 from database import Account, Operation, session
 from data_helpers import account_summary
-from doclib import *
+from doclib import Document, Paragraph, Text, Table, Section
 from doclib.pdf import PDFGenerator
-from sqlalchemy import func, desc
+
 
 
 def build_accounts_report(period, filename=None, format='pdf'):
