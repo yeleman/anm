@@ -112,8 +112,10 @@ def write_xls():
             total_budget = session.query(func.sum(Budget.amount)).\
                             filter_by(period=periods[nber]).scalar()
             # la somme de tout soldes
-            total_balance = total_budget - total_op
-
+            try:
+                total_balance = total_budget - total_op
+            except:
+                total_balance = total_budget
             sheet.write(rowx1 + 1, col, total_budget, style0)
             sheet.write(rowx1 + 1, col + 1, total_balance, style0)
             col += 2
