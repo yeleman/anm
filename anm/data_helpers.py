@@ -163,3 +163,18 @@ def create_empty_budgets(period):
         budget = Budget(amount=0, period=period, account=account)
         session.add(budget)
     session.commit()
+def sum_budget_and_operation(period_):
+    '''total amounts of all operations, budgets and balance per period '''
+
+    total_op = session.query(func.sum(Operation.amount)).\
+                    filter_by(period=period_).scalar()
+    # La somme de tout les budgets
+    total_budget = session.query(func.sum(Budget.amount)).\
+                    filter_by(period=period_).scalar()
+    # la somme de tout soldes
+    if total_op == None:
+        total_op = 0
+    if total_budget == None:
+        total_budget = 0
+    total_balance = total_budget - total_op
+    return total_budget, total_balance
