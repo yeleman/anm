@@ -8,28 +8,24 @@ from PyQt4.QtCore import Qt
 
 from database import Account, session, Period
 from data_helpers import current_period, AccountNotConfigured, account_summary
-from common import ANMWidget, ANMTableWidget
+from common import ANMWidget, ANMTableWidget, ANMPeriodHolder
 from operationview import OperationWidget
 
 
-class BalanceViewWidget(ANMWidget):
+class BalanceViewWidget(ANMWidget, ANMPeriodHolder):
 
     def __init__(self, parent=0, *args, **kwargs):
 
         super(BalanceViewWidget, self).__init__(parent=parent, *args, **kwargs)
+        ANMPeriodHolder.__init__(self, *args, **kwargs)
 
-        self.table = BalanceTableWidget(parent=self)
+        self.table = BalanceTableWidget(parent=self, period=self.main_period)
 
         # periods
         period = current_period()
-        self.tabbar = QtGui.QTabBar()
-        self.tabbar.addTab(period.previous().display_name())
-        self.tabbar.addTab(period.display_name())
-        self.tabbar.addTab(period.next().display_name())
-        self.tabbar.setCurrentIndex(1)
 
         vbox = QtGui.QVBoxLayout()
-        vbox.addWidget(self.tabbar)
+        vbox.addWidget(self.periods_bar)
         vbox.addWidget(self.table)
 
         self.setLayout(vbox)
@@ -37,19 +33,15 @@ class BalanceViewWidget(ANMWidget):
     def refresh(self):
         self.table.refresh()
 
+    def change_period(self, period):
+        self.table.refresh_period(period)
+
 
 class BalanceTableWidget(ANMTableWidget):
 
-    def __init__(self, parent, *args, **kwargs):
+    def __init__(self, parent, period, *args, **kwargs):
 
         ANMTableWidget.__init__(self, parent=parent, *args, **kwargs)
-
-        self.period = session.query(Period).first()
-        try:
-            self.data = [account_summary(account, self.period)
-                    for account in session.query(Account).all()]
-        except AccountNotConfigured as e:
-            raise
 
         self.header = [_(u"Account No."), _(u"Name"), \
                         _(u"Budget"), _(u"Balance"), \
@@ -58,7 +50,18 @@ class BalanceTableWidget(ANMTableWidget):
         self.setDisplayTotal(True, column_totals={2: None, 3: None}, \
                              label=_(u"TOTALS"))
 
+        self.set_data_for(period)
+
         self.refresh()
+
+    def refresh_period(self, period):
+        self.main_period = period
+        self.set_data_for(period)
+        self.refresh()
+
+    def set_data_for(self, period=current_period()):
+        self.data = [account_summary(account, period)
+                for account in session.query(Account).all()]
 
     def _item_for_data(self, row, column, data, context=None):
         if column == self.data[0].__len__() - 1:
