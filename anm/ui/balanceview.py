@@ -18,6 +18,9 @@ class BalanceViewWidget(ANMWidget):
 
         super(BalanceViewWidget, self).__init__(parent=parent, *args, **kwargs)
 
+        title = QtGui.QHBoxLayout()
+        title.addWidget(QtGui.QLabel(_(u"List balances")), &,Qt.Alignment(Qt.AlignCenter))
+        #~ title.alignment(Qt.AlignCenter)
         self.table = BalanceTableWidget(parent=self)
 
         # periods
@@ -29,6 +32,7 @@ class BalanceViewWidget(ANMWidget):
         self.tabbar.setCurrentIndex(1)
 
         vbox = QtGui.QVBoxLayout()
+        vbox.addLayout(title)
         vbox.addWidget(self.tabbar)
         vbox.addWidget(self.table)
 

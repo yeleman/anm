@@ -24,7 +24,8 @@ class BalanceUpdateWidget(ANMWidget):
 
         super(BalanceUpdateWidget, self).__init__(parent=parent, \
                                                   *args, **kwargs)
-
+        title = QtGui.QHBoxLayout()
+        title.addWidget(QtGui.QLabel(_(u"Balance Update")))
         # periods
         self.period1 = current_period()
         self.period2 = self.period1.next()
@@ -33,6 +34,7 @@ class BalanceUpdateWidget(ANMWidget):
                                                   period2=self.period2)
 
         vbox = QtGui.QVBoxLayout()
+        vbox.addLayout(title)
         vbox.addWidget(self.table)
 
         self.setLayout(vbox)
