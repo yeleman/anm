@@ -16,9 +16,8 @@ from data_helpers import account_balance, period_for, current_period
 
 
 class OperationWidget(ANMWidget):
-
     def __init__(self, account, parent=0, *args, **kwargs):
-        QtGui.QWidget.__init__(self, parent, *args, **kwargs)
+        super(OperationWidget, self).__init__(parent=parent, *args, **kwargs)
 
         # set global account
         self.account = account
