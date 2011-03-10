@@ -9,7 +9,7 @@ from balanceview import BalanceViewWidget
 from balanceupdateview import BalanceUpdateWidget
 from deleteview import deleteViewWidget
 from registreview import RegistreWidget
-from exports import export_database_as_file
+from exports import export_database_as_file, export_database_as_excel
 from export_xls import *
 from prints import build_accounts_report
 from utils import uopen_file
@@ -76,8 +76,7 @@ class MenuBar(QtGui.QMenuBar, ANMWidget):
 
     def goto_export_excel(self):
         print "export an file excel"
-        xls_report = write_xls()
-        uopen_file(xls_report)
+        export_database_as_excel()
 
     #list_of_balances
     def goto_Accounts_balances(self):

@@ -10,6 +10,7 @@ from PyQt4 import QtGui, QtCore
 
 import database
 from database import *
+from export_xls import write_xls
 from utils import raise_success, raise_error
 
 
@@ -34,4 +35,21 @@ def export_database_as_file():
 
 
 def export_database_as_excel():
-    pass
+
+    destination = QtGui.QFileDialog.getSaveFileName(caption=(u"Save DB as..."))
+    if not destination:
+        return
+
+    try:
+        shutil.copyfile(write_xls(), destination)
+        raise_success(_(u"Database exported!"), \
+                      _(u"The data have been successfully exported.\n" \
+                        u"Keep that file private as it contains your data.\n" \
+                        u"Export your data regularly."))
+    except IOError:
+        raise_error(_(u"Error in exporting Database!"), \
+                    _(u"The database backup could not be exported.\n" \
+                      u"Please verify that you selected a destination " \
+                      u"folder which you have write permissions to.\n" \
+                      u"Then retry.\n\n" \
+                      u"Request assistance if the problem persist."))
