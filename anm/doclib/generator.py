@@ -4,11 +4,13 @@ import tempfile
 
 from elements import Paragraph, HLine, Section, PageBreak, Table, Text
 
+
 class NotRenderedError(Exception):
     pass
 
+
 class Generator(object):
-    def __init__(self, document, filename = None):
+    def __init__(self, document, filename=None):
         self.user_file = filename is not None
         if filename is not None:
             self._handle = open(filename, 'w')
@@ -16,7 +18,7 @@ class Generator(object):
         else:
             self._handle = tempfile.NamedTemporaryFile(delete=False)
             self._filename = self._handle.name
-        
+
         self.document = document
         self.title = document.title
         self.subtitle = document.subtitle
@@ -45,9 +47,9 @@ class Generator(object):
                 render_func = obj[type(c)]
             except KeyError:
                 raise NotImplementedError("Cannot handle type: %s" % \
-                    str(type(c)),) 
+                    str(type(c)),)
             render_func(c)
-            
+
     def get_filename(self):
         if not self._rendered:
             raise NotRenderedError("Document not yet rendered")
@@ -66,10 +68,8 @@ class Generator(object):
         self._handle.close()
         os.unlink(self._handle.name)
 
-
-    ''' Rest of these must be implemented
-        by generator inheritor classes
-    '''
+    # Rest of these must be implemented
+    # by generator inheritor classes
 
     def _start_document(self):
         raise NotImplementedError("Not implemented")
@@ -94,6 +94,6 @@ class Generator(object):
 
     def _render_table(self, table):
         raise NotImplementedError("Not implemented")
-    
+
     def _render_text(self, text):
         raise NotImplementedError("Not implemented")
