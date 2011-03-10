@@ -6,7 +6,7 @@ from PyQt4 import QtGui, QtCore
 
 from common import ANMWidget
 from balanceview import BalanceViewWidget
-from balanceupdateview import UpdateBalancesWidget
+from balanceupdateview import BalanceUpdateWidget
 from deleteview import deleteViewWidget
 from registreview import RegistreWidget
 from exports import export_database_as_file
@@ -85,7 +85,7 @@ class MenuBar(QtGui.QMenuBar, ANMWidget):
 
     #mise à jour de budget
     def goto_updated_budget(self):
-        self.change_main_context(UpdateBalancesWidget)
+        self.change_main_context(BalanceUpdateWidget)
 
     #About
     def goto_about(self):

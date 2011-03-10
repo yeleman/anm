@@ -58,6 +58,14 @@ def account_summary(account, period):
     return (account.number, account.name, budget, balance, account)
 
 
+def account_update_summary(account, period1, period2):
+    ''' tuple of useful data for an account on two periods '''
+    budget1 = account_budget(account, period1)
+    budget2 = account_budget(account, period2)
+
+    return (account.number, account.name, budget1, budget2, account)
+
+
 def period_for(date_):
     ''' period object a date is part of '''
     quarter = quarter_for(date_)
@@ -73,6 +81,9 @@ def period_for(date_):
                              % {'quar': quarter, 'year': date_.year}, \
                         start_on=start, end_on=end)
         session.add(period)
+        # add null budgets for all
+        if not period_has_budgets(period):
+            create_empty_budgets(period)
         session.commit()
     return period
 
@@ -132,3 +143,23 @@ def data_budget(period):
         return True
     else:
         return False
+
+
+def period_has_budgets(period):
+    ''' True if all budgets are configured for period '''
+    nb_accounts = session.query(Account).count()
+    nb_budgets = session.query(Budget).filter_by(period=period).count()
+    return nb_budgets == nb_accounts
+
+
+def create_empty_budgets(period):
+    ''' creates 0 amounted budgets for all accounts and that period '''
+    accounts = session.query(Account).all()
+    for account in accounts:
+        budget = session.query(Budget).filter_by(period=period, \
+                                                 account=account).scalar()
+        if budget:
+            continue
+        budget = Budget(amount=0, period=period, account=account)
+        session.add(budget)
+    session.commit()

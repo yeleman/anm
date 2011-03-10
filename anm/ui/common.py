@@ -2,6 +2,8 @@
 # encoding=utf-8
 # maintainer: rgaudin
 
+import locale
+
 from PyQt4 import QtGui
 from PyQt4.QtCore import Qt
 
@@ -99,28 +101,38 @@ class ANMTableWidget(QtGui.QTableWidget, ANMWidget):
                     newitem = QtGui.QTableWidgetItem(\
                                     QtGui.QIcon("images/go-next.png"), '')
                 else:
-                    newitem = QtGui.QTableWidgetItem(u"%s" % item)
+                    newitem = QtGui.QTableWidgetItem(\
+                                                  self._format_for_table(item))
                 self.setItem(n, m, newitem)
                 m += 1
             n += 1
 
+        self._display_total_row()
+
+        self.resizeColumnsToContents()
+
+    def _display_total_row(self, row_num=None):
+        ''' adds the total row at end of table '''
+
         # display total row at end of table
         if self._display_total:
+
+            if not row_num:
+                row_num = self.data.__len__()
+
             # spans columns up to first data one
             # add label inside
             label_item = QtGui.QTableWidgetItem(u"%s" % self._total_label)
             label_item.setTextAlignment(Qt.AlignRight | Qt.AlignVCenter)
-            self.setItem(n, 0, label_item)
-            self.setSpan(n, 0, 1, self._column_totals.keys()[0])
+            self.setItem(row_num, 0, label_item)
+            self.setSpan(row_num, 0, 1, self._column_totals.keys()[0])
             # calculate total for each total column
             # if desired
             for index, total in self._column_totals.items():
                 if not total:
                     total = sum([data[index] for data in self.data])
-                item = QtGui.QTableWidgetItem(u"%s" % total)
-                self.setItem(n, index, item)
-
-        self.resizeColumnsToContents()
+                item = QtGui.QTableWidgetItem(self._format_for_table(total))
+                self.setItem(row_num, index, item)
 
     def setDisplayTotal(self, display=False, \
                               column_totals={}, \
@@ -141,6 +153,16 @@ class ANMTableWidget(QtGui.QTableWidget, ANMWidget):
         self._column_totals = column_totals
         if label:
             self._total_label = label
+
+    def _format_for_table(self, value):
+        ''' formats input value for string in table widget '''
+        if isinstance(value, basestring):
+            return value
+
+        if isinstance(value, (int, float, long)):
+            return locale.format("%d", value, grouping=True)
+
+        return u"%s" % value
 
     def  click_item(self, row, column, *args):
         pass

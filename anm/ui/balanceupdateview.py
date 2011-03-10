@@ -12,131 +12,102 @@ from PyQt4 import QtCore
 from PyQt4.QtCore import QVariant, Qt
 
 from database import Budget, session, Account
-from data_helpers import current_period
+from data_helpers import current_period, AccountNotConfigured, \
+                         account_summary, account_update_summary
 from utils import raise_error, raise_success
-from common import ANMWidget
+from common import ANMWidget, ANMTableWidget
 
 
-class UpdateBalancesWidget(ANMWidget):
+class BalanceUpdateWidget(ANMWidget):
+
+    def __init__(self, parent=0, *args, **kwargs):
+        QtGui.QWidget.__init__(self, parent=parent, *args, **kwargs)
+
+        self.table = NextBalanceUpdateTableWidget(parent=self)
+
+        hbox = QtGui.QHBoxLayout()
+        hbox.addWidget(self.table)
+
+        # periods
+        period = current_period()
+
+        vbox = QtGui.QVBoxLayout()
+        vbox.addLayout(hbox)
+
+        self.setLayout(vbox)
+
+    def refresh(self):
+        self.table.refresh()
+
+
+class NextBalanceUpdateTableWidget(ANMTableWidget):
 
     def __init__(self, parent, *args, **kwargs):
 
-        QtGui.QWidget.__init__(self, *args, **kwargs)
+        ANMTableWidget.__init__(self, parent=parent, *args, **kwargs)
 
-        self.data = [(bud.account.number, bud.account.name, 0)\
-                            for bud in session.query(Budget).all()]
-
-        # create the view
-        self.table = QtGui.QTableView()
-        # set the table model
-        header = [_(u"Account numbers"), _(u"Account names"),\
-                                        _(u'New amount')]
-        tm = MyTableModel(self.data, header, self)
-        self.table.setModel(tm)
-
-        # set the font
-        font = QtGui.QFont("Courier New", 10)
-        self.table.setFont(font)
-
-        # hide vertical header
-        vh = self.table.verticalHeader()
-
-        # set horizontal header properties
-        hh = self.table.horizontalHeader()
-        hh.setStretchLastSection(True)
-
-        # set column width to fit contents
-        self.table.resizeColumnsToContents()
-
-        # set row height
-        nrows = len(self.data)
-        for row in xrange(nrows):
-            self.table.setRowHeight(row, 20)
-
-        # selects the line
-        self.table.setSelectionBehavior(QtGui.QAbstractItemView.SelectRows)
-
-        titlebox = QtGui.QHBoxLayout()
-        titlebox.addWidget(QtGui.QLabel(_(u"Update periodic budgets")))
-
-        buttonbox = QtGui.QHBoxLayout()
-
-        button = QtGui.QPushButton(_("Save"))
-        buttonbox.addWidget(QtGui.QLabel(""))
-        buttonbox.addWidget(QtGui.QLabel(""))
-        buttonbox.addWidget(button)
-
-        self.connect(button, QtCore.SIGNAL('clicked()'), self.saveupdate)
-        tablebox = QtGui.QHBoxLayout()
-        tablebox.addWidget(self.table)
-
-        QtGui.QVBoxLayout()
-
-        vbox = QtGui.QVBoxLayout()
-        vbox.addLayout(titlebox)
-        vbox.addLayout(tablebox)
-        vbox.addLayout(buttonbox)
-        self.setLayout(vbox)
-
-    def saveupdate(self):
-        ''' To save the new budget in the database '''
-
-        # on récupère la période en fonction de la date d'aujourd'hui
-        title_ = _(u"Adding operation budget")
+        self.period = current_period()
         try:
-            period_ = current_period()
-        except:
-            message_ = _(u"was already recorded ")
-            raise_error(title_, message_)
+            self.data = [account_update_summary(account, \
+                                                self.period, \
+                                                self.period.next()) \
+                    for account in session.query(Account).all()]
+        except AccountNotConfigured as e:
+            raise
 
-        flag = True
+        self.header = [_(u"Account number"), _(u"Account Name"), \
+                       _(u"%(period)s budget") \
+                         % {'period': self.period.short_name()}, \
+                       _(u"%(period)s budget") \
+                         % {'period': self.period.next().short_name()}]
+
+        self.setDisplayTotal(True, column_totals={2: None, 3: None}, \
+                             label=_(u"TOTALS"))
+
+        self.refresh()
+
+    def refresh(self):
+        if not self.data or not self.header:
+            return
+
+        # increase rowCount by one if we have to display total row
+        rc = self.data.__len__()
+        if self._display_total:
+            rc += 1
+        self.setRowCount(rc)
+        self.setColumnCount(self.header.__len__())
+        self.setHorizontalHeaderLabels(self.header)
+
+        n = 0
         for row in self.data:
-            number, account_name, new_amount = row[0], row[1], row[2]
-            account_ = Account(number, account_name)
-            budget = Budget(new_amount)
-            budget.period = period_
-            budget.account = account_
-            session.add_all((period_, account_, budget))
-            #save
-            try:
-                session.commit()
-            except:
-                session.rollback()
-                flag = False
-        if flag == True:
-            message_ = _(\
-            u"The budget for the period %s has been well recorded")\
-             % period_.display_name()
-            raise_success(title_, message_)
-        if flag == False:
-            message_ = _(\
-            u"The budget for the period %s it does not properly recorded")\
-             % period_.display_name()
-            raise_error(title_, message_)
+            m = 0
+            for item in row:
+                if m == row.__len__() - 2:
+                    line_edit = QtGui.QLineEdit(u"%s" % item)
+                    line_edit.setValidator(QtGui.QIntValidator())
+                    line_edit.editingFinished.connect(self.changed_value)
+                    #newitem = QtGui.QTableWidgetItem(\
+                    #                QtGui.QIcon("images/go-next.png"), '')
+                    self.setCellWidget(n, m, line_edit)
+                else:
+                    newitem = QtGui.QTableWidgetItem(\
+                                                  self._format_for_table(item))
+                    self.setItem(n, m, newitem)
+                m += 1
+            n += 1
 
+        self._display_total_row()
 
-class MyTableModel(QtCore.QAbstractTableModel):
-    def __init__(self, datain, headerdata, parent=None, *args):
+        self.resizeColumnsToContents()
 
-        QtCore.QAbstractTableModel.__init__(self, parent, *args)
+    def changed_value(self):
+        # change self.data to reflect new budgets
+        for row_num in xrange(0, self.data.__len__()):
+            self._update_budget(row_num, \
+                                int(self.cellWidget(row_num, 3).text()))
+        # refresh table
+        self.refresh()
 
-        self.arraydata = datain
-        self.headerdata = headerdata
-
-    def rowCount(self, parent):
-        return len(self.arraydata)
-
-    def columnCount(self, parent):
-        return len(self.arraydata[0])
-
-    def data(self, index, role):
-        if not index.isValid():
-            return QVariant()
-        elif role != Qt.DisplayRole:
-            return QVariant()
-        return QVariant(self.arraydata[index.row()][index.column()])
-
-    def headerData(self, col, orientation, role):
-        if orientation == Qt.Horizontal and role == Qt.DisplayRole:
-            return QVariant(self.headerdata[col])
-        return QVariant()
+    def _update_budget(self, row_num, budget):
+        d = self.data[row_num]
+        self.data[row_num] = (d[0], d[1], d[2], budget, d[4])
