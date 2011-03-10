@@ -58,7 +58,9 @@ def build_operations_report(account, period, filename=None, format='pdf'):
     if account == None:
         accounts = session.query(Account).all()
     else:
-        accounts = session.query(Account).filter_by(number=account.number).all()
+        accounts = session.query(Account)\
+                          .filter_by(number=account.number)\
+                          .all()
 
     for account in accounts:
         operations = [(operation.order_number, operation.invoice_number,\
