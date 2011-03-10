@@ -22,8 +22,8 @@ class BalanceUpdateWidget(ANMWidget):
 
     def __init__(self, parent=0, *args, **kwargs):
 
-        super(BalanceUpdateWidget, self).__init__(parent=parent, *args,\
-                                                                **kwargs)
+        super(BalanceUpdateWidget, self).__init__(parent=parent, \
+                                                  *args, **kwargs)
 
         # periods
         self.period1 = current_period()
@@ -104,14 +104,26 @@ class NextBalanceUpdateTableWidget(ANMTableWidget):
         self.data[row_num] = (d[0], d[1], d[2], budget, d[4])
 
     def save_new_data(self):
-        for row in self.data:
-            account = row[-1]
-            if not isinstance(account, Account):
-                continue
+        def actually_save():
+            for row in self.data:
+                account = row[-1]
+                if not isinstance(account, Account):
+                    continue
 
-            budget = session.query(Budget).filter_by(account=account, \
-                                                     period=self.period2)\
-                                          .first()
-            budget.amount = row[3]
-            session.add(budget)
-        session.commit()
+                budget = session.query(Budget).filter_by(account=account, \
+                                                         period=self.period2)\
+                                              .first()
+                budget.amount = row[3]
+                session.add(budget)
+            session.commit()
+        try:
+            actually_save()
+            raise_success(_(u"Budgets Updated!"), \
+                          _(u"The budgets for %(period)s have been " \
+                            u"successfully updated.") \
+                            % {'period': self.period2})
+        except Exception as e:
+            raise_success(_(u"Error updating budgets!"), \
+                          _(u"There has been an error while trying to " \
+                            u"save the new budgets:\n%(erros)s") \
+                            % {'error': e})

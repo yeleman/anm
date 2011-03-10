@@ -1,5 +1,6 @@
 *.pyc
 *.pdf
+*.orig
 *.db
 *.sqlite
 .*
