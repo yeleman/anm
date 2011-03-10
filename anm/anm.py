@@ -9,6 +9,7 @@ from PyQt4 import QtGui
 
 import fixture_data
 from ui import MainWindow
+from ui.window import ANMWindow
 
 
 def main():
@@ -19,6 +20,7 @@ def main():
 
     app = QtGui.QApplication(sys.argv)
     window = MainWindow()
+    setattr(ANMWindow, 'window', window)
     window.show()
     #window.showMaximized()
     sys.exit(app.exec_())

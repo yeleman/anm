@@ -7,8 +7,8 @@ import locale
 from PyQt4 import QtGui
 from PyQt4.QtCore import Qt
 
+MAIN_WIDGET_SIZE = 900
 
-MAIN_WIDGET_SIZE = 800
 
 class ANMWidget(QtGui.QWidget):
 
