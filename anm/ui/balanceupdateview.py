@@ -28,7 +28,7 @@ class BalanceUpdateWidget(ANMWidget):
         self.period2 = self.period1.next()
         self.table = NextBalanceUpdateTableWidget(parent=self, \
                                                   period1=self.period1, \
-                                                  period2=self.period2)s
+                                                  period2=self.period2)
 
         vbox = QtGui.QVBoxLayout()
         vbox.addWidget(self.table)
