@@ -15,7 +15,7 @@ from operationview import OperationWidget
 class BalanceViewWidget(ANMWidget):
 
     def __init__(self, parent=0, *args, **kwargs):
-        
+
         super(BalanceViewWidget, self).__init__(parent=parent, *args, **kwargs)
 
         self.table = BalanceTableWidget(parent=self)

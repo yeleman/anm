@@ -22,7 +22,8 @@ class BalanceUpdateWidget(ANMWidget):
 
     def __init__(self, parent=0, *args, **kwargs):
 
-        super(BalanceUpdateWidget, self).__init__(parent=parent, *args, **kwargs)
+        super(BalanceUpdateWidget, self).__init__(parent=parent, *args,\
+                                                                **kwargs)
 
         # periods
         self.period1 = current_period()
