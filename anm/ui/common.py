@@ -113,7 +113,15 @@ class ANMTableWidget(QtGui.QTableWidget, ANMWidget):
 
         self._display_total_row()
 
+        self.extend_rows()
+
         self.resizeColumnsToContents()
+
+    def extend_rows(self):
+        ''' called after cells have been created/refresh.
+
+            Use for adding/editing cells '''
+        pass
 
     def _item_for_data(self, row, column, data, context=None):
         ''' returns QTableWidgetItem or QWidget to add to a cell '''
@@ -172,5 +180,5 @@ class ANMTableWidget(QtGui.QTableWidget, ANMWidget):
 
         return u"%s" % value
 
-    def  click_item(self, row, column, *args):
+    def click_item(self, row, column, *args):
         pass
