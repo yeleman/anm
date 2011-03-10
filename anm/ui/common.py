@@ -8,11 +8,15 @@ from PyQt4 import QtGui
 from PyQt4.QtCore import Qt
 
 
+MAIN_WIDGET_SIZE = 800
+
 class ANMWidget(QtGui.QWidget):
 
     def __init__(self, parent=0, *args, **kwargs):
 
         QtGui.QWidget.__init__(self, parent=parent, *args, **kwargs)
+
+        self.setMaximumWidth(MAIN_WIDGET_SIZE)
 
     def refresh(self):
         pass
@@ -35,10 +39,6 @@ class ANMWidget(QtGui.QWidget):
     def open_dialog(self, dialog, modal=False, *args, **kwargs):
         return self.parentWidget().open_dialog(dialog, \
                                                modal=modal, *args, **kwargs)
-
-    @property
-    def left_pos(self):
-        return 9
 
 
 class ANMTableWidget(QtGui.QTableWidget, ANMWidget):

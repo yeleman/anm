@@ -15,13 +15,10 @@ from operationview import OperationWidget
 class BalanceViewWidget(ANMWidget):
 
     def __init__(self, parent=0, *args, **kwargs):
-        QtGui.QWidget.__init__(self, parent=parent, *args, **kwargs)
+        
+        super(BalanceViewWidget, self).__init__(parent=parent, *args, **kwargs)
 
         self.table = BalanceTableWidget(parent=self)
-        self.table.setMaximumWidth(900)
-
-        hbox = QtGui.QHBoxLayout()
-        hbox.addWidget(self.table)
 
         # periods
         period = current_period()
@@ -33,7 +30,7 @@ class BalanceViewWidget(ANMWidget):
 
         vbox = QtGui.QVBoxLayout()
         vbox.addWidget(self.tabbar)
-        vbox.addLayout(hbox)
+        vbox.addWidget(self.table)
 
         self.setLayout(vbox)
 
@@ -62,9 +59,6 @@ class BalanceTableWidget(ANMTableWidget):
                              label=_(u"TOTALS"))
 
         self.refresh()
-
-    def resizeEvent(self, event):
-        self.move(self.left_pos, self.y())
 
     def _item_for_data(self, row, column, data, context=None):
         if column == self.data[0].__len__() - 1:
