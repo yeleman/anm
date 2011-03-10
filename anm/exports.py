@@ -46,9 +46,8 @@ def export_database_as_excel():
                                     "*.xls")
     if not destination:
         return
-
     try:
-        shutil.copyfile(write_xls(), destination)
+        write_xls(destination)
         raise_success(_(u"Database exported!"), \
                       _(u"The data have been successfully exported.\n" \
                         u"Keep that file private as it contains your data.\n" \

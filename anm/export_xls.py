@@ -51,16 +51,14 @@ style_title.font = font0
 style_title.alignment = al
 
 
-def write_xls():
+def write_xls(file_name):
     ''' Export data '''
 
     book = xlwt.Workbook(encoding='ascii')
-    file_name = "base.xls"
 
     sheet = book.add_sheet(_(u"balance"))
     sheet.write_merge(0, 1, 1, 2,\
-                    _(u"List of accounts per quarter"),\
-                                                            style_title)
+                    _(u"List of accounts per quarter"), style_title)
     date_ = _(u"Bamako the %s") % date.today()
     sheet.write(2, 0, unicode(date_))
 
@@ -101,7 +99,7 @@ def write_xls():
             except AccountNotConfigured:
                 pass
 
-    col -= 2
+    col = 2
     sheet.write(rowx1 + 1, col - 1, _(u"TOTALS"), style0)
     for nber in range(len(periods)):
         if data_budget(periods[nber]) == True:
@@ -185,6 +183,5 @@ def write_xls():
                 sheet.write_merge(rowx, rowx, 1, 2,\
                                     _(u"This account has no record"))
                 rowx += 1
-
     book.save(file_name)
     return file_name
