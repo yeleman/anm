@@ -4,14 +4,16 @@
 
 from PyQt4 import QtGui
 from PyQt4 import QtCore
+
 from sqlalchemy import desc
+
 from gettext import gettext as _
 
 from utils import raise_error, raise_success
 from common import ANMWidget
 from database import Operation, session
 from data_helpers import current_period
-
+from operationview import OperationWidget
 
 class deleteViewWidget(QtGui.QDialog, ANMWidget):
 
@@ -42,7 +44,7 @@ class deleteViewWidget(QtGui.QDialog, ANMWidget):
 
             for index in xrange(0, len(self.data)):
                 op = self.data[index]
-                sentence1 = _(u"Order number: %(order_num)s, Invoice number:" \
+                sentence = _(u"Order number: %(order_num)s, Invoice number:" \
                           u" %(invoice_num)s Provider: %(provider)s, " \
                           u"Amount: %(amount)s, Invoice date: %(date)s") \
                           % {'order_num': op.order_number, \
@@ -84,5 +86,7 @@ class deleteViewWidget(QtGui.QDialog, ANMWidget):
         op = self.data[self.box.currentIndex()]
         session.delete(op)
         session.commit()
+        self.change_main_context(OperationWidget, account=self.account)
         raise_success(_(u"Deleting"), _(u"Operation succefully removed"))
         self.box.removeItem(self.box.currentIndex())
+

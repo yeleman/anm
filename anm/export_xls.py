@@ -8,7 +8,8 @@ from datetime import datetime, date
 from sqlalchemy import desc, func
 
 from database import Operation, Account, Period, session, Budget
-from data_helpers import account_balance, AccountNotConfigured, data_budget
+from data_helpers import (account_balance, AccountNotConfigured,
+                         sum_budget_and_operation, data_budget)
 
 font0 = xlwt.Font()
 font0.name = 'Times New Roman'
@@ -62,7 +63,7 @@ def write_xls(file_name):
     date_ = _(u"Bamako the %s") % date.today()
     sheet.write(2, 0, unicode(date_))
 
-    hdngs = [_(u"Account Number"), _(u"No Account")]
+    hdngs = [_(u"Account N°"), _(u"Account Name")]
 
     rowx1 = 5
     for colx, value in enumerate(hdngs):
@@ -104,18 +105,8 @@ def write_xls(file_name):
     for nber in range(len(periods)):
         if data_budget(periods[nber]) == True:
             # La somme de tout les operations
-            total_op = session.query(func.sum(Operation.amount)).\
-                            filter_by(period=periods[nber]).scalar()
-            # La somme de tout les budgets
-            total_budget = session.query(func.sum(Budget.amount)).\
-                            filter_by(period=periods[nber]).scalar()
-            # la somme de tout soldes
-            if total_op == None:
-                total_op = 0
-            if total_budget == None:
-                total_budget = 0
-            total_balance = total_budget - total_op
-
+            total_budget, total_balance =\
+                                sum_budget_and_operation(periods[nber])
             sheet.write(rowx1 + 1, col, total_budget, style0)
             sheet.write(rowx1 + 1, col + 1, total_balance, style0)
             col += 2
@@ -174,8 +165,9 @@ def write_xls(file_name):
                 sheet.write(rowx + 1, colx, amount_opera, style0)
                 rowx += 1
             else:
-                sheet.col(2).width = 0x0d00 * 2
                 sheet.col(1).width = 0x0d00 * 2
+                sheet.col(2).width = 0x0d00 * 2
+                sheet.col(3).width = 0x0d00 * 2
                 rowx += 2
                 sheet.write_merge(rowx, rowx, 1, 2,\
                                     period.display_name(), style_title)

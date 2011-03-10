@@ -5,6 +5,7 @@
 from datetime import date, datetime
 
 from gettext import gettext as _
+
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm import mapper, relationship
@@ -66,13 +67,14 @@ class Period(object):
         self.end_on = end_on
 
     def __repr__(self):
-        return "<Period('%s', '%s')>" % (self.start_on, self.end_on)
+        return _("<Period('%s', '%s')>") % (self.start_on, self.end_on)
 
     def __unicode__(self):
         return self.name
 
     def display_name(self):
         suffixes = {1: _(u"st"), 2: _(u"nd"), 3: _("rd"), 4: _("th")}
+        # translators: full format of period name
         return _(u"%(quar)d%(suf)s Quarter %(year)s") \
                % {'quar': self.quarter, 'suf': suffixes[self.quarter], \
                   'year': self.year}
@@ -112,10 +114,10 @@ class Account(object):
         self.name = name
 
     def __repr__(self):
-        return "<Account('%s')>" % (self.number)
+        return _("<Account('%(number)s')>") % {'number': self.number}
 
     def __unicode__(self):
-        return _(u"%s") % self.name
+        return _(u"%(name)s") % {'name': self.name}
 
 
 class Budget(object):
@@ -125,7 +127,8 @@ class Budget(object):
         self.period = period
 
     def __repr__(self):
-        return "<Budget('%s','%s')>" % (self.period, self.amount)
+        return _("<Budget('%(period)s','%(amount)s')>") %\
+                {'period': self.period, 'amount': self.amount}
 
     def __unicode__(self):
         return _(u"%(account)s %(period)s: %(amount)s") \
@@ -146,7 +149,7 @@ class Operation(object):
         self.account = account
 
     def __repr__(self):
-        return "<Operation('%s','%s')>" % (self.account, self.amount)
+        return _("<Operation('%s','%s')>") % (self.account, self.amount)
 
     def __unicode__(self):
         return _(u"%(inv_num)s %(inv_date)s: %(amount)s") \
@@ -163,7 +166,7 @@ class Revision(object):
         self.num = num
 
     def __repr__(self):
-        return "<Revision('%d')>" % self.num
+        return _("<Revision('%(num)d')>") % {'num': self.num}
 
     def __unicode__(self):
         return u"%s" % self.__repr__()
