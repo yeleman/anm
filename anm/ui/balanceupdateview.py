@@ -60,7 +60,7 @@ class NextBalanceUpdateTableWidget(ANMTableWidget):
         except AccountNotConfigured as e:
             raise
 
-        self.header = [_(u"Account number"), _(u"Account Name"), \
+        self.header = [_(u"Account N°"), _(u"Account Name"), \
                        _(u"%(period)s budget") \
                          % {'period': self.period1.short_name()}, \
                        _(u"%(period)s budget") \
