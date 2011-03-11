@@ -45,10 +45,14 @@ class RegistreWidget(QtGui.QDialog, ANMWidget):
             self.box_account.addItem(_(u'%(number)s %(name)s') %\
                         {'number': account.number, 'name': account.name})
 
+        sel_index = 0
         for index in xrange(0, len(self.data_period)):
             ped = self.data_period[index]
+            if ped == current:
+                sel_index = index
             self.box_period.addItem(_(u'%(display_name)s') %\
                                 {'display_name': ped.display_name()})
+        self.box_period.setCurrentIndex(sel_index)
 
         #Ok and cancel hbox
         button_hbox = QtGui.QHBoxLayout()
