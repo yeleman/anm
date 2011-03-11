@@ -55,7 +55,7 @@ class BalanceTableWidget(ANMTableWidget):
 
         self.set_data_for(period)
 
-        self.refresh()
+        self.refresh(True)
 
     def refresh_period(self, period):
         self.main_period = period
@@ -79,4 +79,5 @@ class BalanceTableWidget(ANMTableWidget):
             return
 
         self.parent.change_main_context(OperationWidget, \
-                                        account=self.data[row][last_column])
+                                        account=self.data[row][last_column], \
+                                        period=self.parentWidget().main_period)

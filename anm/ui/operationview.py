@@ -9,20 +9,23 @@ from sqlalchemy import desc
 
 from datetime import date
 
-from common import ANMWidget, ANMTableWidget, ANMPeriodTabBar, ANMPageTitle
+from common import ANMWidget, ANMTableWidget, ANMPeriodHolder, ANMPageTitle
 from database import Operation, session, Period
 from utils import raise_success, raise_error
 from data_helpers import account_balance, period_for, current_period
 
 
-class OperationWidget(ANMWidget):
-    def __init__(self, account, parent=0, *args, **kwargs):
+class OperationWidget(ANMWidget, ANMPeriodHolder):
+    def __init__(self, account, period=current_period(), \
+                 parent=0, *args, **kwargs):
         super(OperationWidget, self).__init__(parent=parent, *args, **kwargs)
+        ANMPeriodHolder.__init__(self, period, *args, **kwargs)
 
         # set global account
         self.account = account
+        self.main_period = period
 
-        self.table = OperationTableWidget(parent=self)
+        self.table = OperationTableWidget(parent=self, period=self.main_period)
 
         self.title = ANMPageTitle(_(u"Transactions List for Account " \
                                     u"%(number)s: %(name)s.") \
@@ -41,6 +44,7 @@ class OperationWidget(ANMWidget):
         self.amount = QtGui.QLineEdit()
         self.amount.setValidator(QtGui.QIntValidator())
         butt = QtGui.QPushButton(_(u"Add"))
+        butt.clicked.connect(self.add_operation)
 
         formbox1 = QtGui.QHBoxLayout()
         formbox1.addWidget(QtGui.QLabel(_(u'Order number')))
@@ -58,14 +62,9 @@ class OperationWidget(ANMWidget):
         formbox.addWidget(self.amount)
         formbox.addWidget(butt)
 
-        self.connect(butt, QtCore.SIGNAL('clicked()'), self.add_operation)
-
-        self.tabbar = ANMPeriodTabBar(parent=self, \
-                                      main_period=current_period())
-
         vbox = QtGui.QVBoxLayout()
         vbox.addWidget(self.title)
-        vbox.addWidget(self.tabbar)
+        vbox.addWidget(self.periods_bar)
         vbox.addLayout(formbox1)
         vbox.addLayout(formbox)
         vbox.addLayout(hbox)
@@ -77,8 +76,10 @@ class OperationWidget(ANMWidget):
         year, month, day = self.invoice_date.text().split('-')
         invoice_date = date(int(year), int(month), int(day))
         period = period_for(invoice_date)
-        current_peri = current_period()
+        current_peri = self.main_period
+        print "PERIOD: %s" % current_peri
         balance = account_balance(self.account, current_peri)
+        print "BALANCE: %s" % balance
 
         try:
             amount = int(self.amount.text())
@@ -102,35 +103,46 @@ class OperationWidget(ANMWidget):
              invoice_date < current_peri.start_on:
             raise_error(_(u'Error date'), \
             _(u'The date is not included in the current quarter.'))
-        elif amount > balance:
+        elif amount >= balance:
             raise_error(_(u'Error money'),\
              _(u"There is not enough money for this operation."))
         else:
             raise_error(_(u'Error field'), _(u'You must fill in all fields.'))
 
     def refresh(self):
-        self.change_main_context(OperationWidget, account=self.account)
+        #self.change_main_context(OperationWidget, account=self.account)
+        self.table.refresh_period(self.main_period)
+
+    def change_period(self, period):
+        self.table.refresh_period(period)
 
 
 class OperationTableWidget(ANMTableWidget):
 
-    def __init__(self, parent, *args, **kwargs):
+    def __init__(self, parent, period, *args, **kwargs):
 
         ANMTableWidget.__init__(self, parent=parent, *args, **kwargs)
 
-        # add data
-        self.data = [(operation.order_number, operation.invoice_number,\
-                      operation.invoice_date.strftime('%F'),\
-                      operation.provider, operation.amount, operation) \
-                      for operation in session.query(Operation).\
-                      filter_by(account=self.account).\
-                      order_by(desc(Operation.invoice_date)).all()]
-
         self.setDisplayTotal(True, column_totals={4: None}, \
                              label=_(u"TOTALS"))
-        self.period = session.query(Period).first()
 
         self.header = [_(u'Order number'), _(u'Invoice number'), \
                        _(u'Invoice date'), _(u'Provider'), _(u'Amount')]
 
-        self.refresh()
+        self.set_data_for(period)
+
+        self.refresh(True)
+
+    def refresh_period(self, period):
+        self._reset()
+        self.main_period = period
+        self.set_data_for(period)
+        self.refresh(True)
+
+    def set_data_for(self, period=current_period()):
+        self.data = [(operation.order_number, operation.invoice_number,\
+                      operation.invoice_date.strftime('%F'),\
+                      operation.provider, operation.amount, operation) \
+                      for operation in session.query(Operation).\
+                      filter_by(account=self.account, period=period).\
+                      order_by(desc(Operation.invoice_date)).all()]

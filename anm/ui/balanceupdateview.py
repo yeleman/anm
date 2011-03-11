@@ -69,7 +69,7 @@ class NextBalanceUpdateTableWidget(ANMTableWidget):
         self.setDisplayTotal(True, column_totals={2: None, 3: None}, \
                              label=_(u"TOTALS"))
 
-        self.refresh()
+        self.refresh(True)
 
     def extend_rows(self):
 

@@ -20,7 +20,6 @@ def account_balance(account, period):
     ''' balance amount for a period '''
     expenses = account_expenses(account, period)
     budget = account_budget(account, period)
-
     balance = budget - expenses
     return balance
 
@@ -163,6 +162,8 @@ def create_empty_budgets(period):
         budget = Budget(amount=0, period=period, account=account)
         session.add(budget)
     session.commit()
+
+
 def sum_budget_and_operation(period_):
     '''total amounts of all operations, budgets and balance per period '''
 

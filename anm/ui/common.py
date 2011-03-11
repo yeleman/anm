@@ -93,7 +93,12 @@ class ANMTableWidget(QtGui.QTableWidget, ANMWidget):
 
     header = property(getheader, setheader)
 
-    def refresh(self):
+    def _reset(self):
+        for index in range(self.rowCount(), -1, -1):
+            print index
+            self.removeRow(index)
+
+    def refresh(self, resize=False):
         if not self.data or not self.header:
             return
 
@@ -123,7 +128,9 @@ class ANMTableWidget(QtGui.QTableWidget, ANMWidget):
 
         self.extend_rows()
 
-        self.resizeColumnsToContents()
+        # only resize columns at initial refresh
+        if resize:
+            self.resizeColumnsToContents()
 
     def extend_rows(self):
         ''' called after cells have been created/refresh.
@@ -251,4 +258,5 @@ class ANMPeriodTabBar(QtGui.QTabBar):
             np = self.periods[index]
             self.set_data_from(np)
             self.build_tab_list()
+            self.parentWidget().main_period = np
             self.parentWidget().change_period(np)
