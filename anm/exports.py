@@ -18,7 +18,8 @@ from utils import raise_success, raise_error
 def export_database_as_file():
     destination = QtGui.QFileDialog.getSaveFileName(QtGui.QWidget(), \
                                     _(u"Save DB as..."), \
-                                    "%s.db" % datetime.now().strftime('%c'), \
+                                    "%s.db" % datetime.now()\
+                                                .strftime('%d-%m-%Y %Hh%M'), \
                                     "*.db")
     if not destination:
         return
@@ -42,7 +43,8 @@ def export_database_as_excel():
 
     destination = QtGui.QFileDialog.getSaveFileName(QtGui.QWidget(), \
                                     _(u"Save Excel Export as..."), \
-                                    "%s.xls" % datetime.now().strftime('%c'), \
+                                    "%s.xls" % datetime.now()\
+                                                .strftime('%d-%m-%Y %Hh%M'), \
                                     "*.xls")
     if not destination:
         return
