@@ -5,6 +5,7 @@
 import os
 import sys
 import subprocess
+from datetime import date
 
 from PyQt4 import QtGui, QtCore
 
@@ -59,3 +60,13 @@ def raise_success(title, message):
                             message, QtGui.QMessageBox.Ok, \
                             parent=ANMWindow.window)
     box.exec_()
+
+
+def date2qdate(adate):
+    ''' returns a date object from a QtCore.QDate '''
+    return QtCore.QDate(adate.year, adate.month, adate.day)
+
+
+def qdate2date(adate):
+    ''' returns a QtCore.QDate from a date object '''
+    return date(adate.year(), adate.month(), adate.day())
