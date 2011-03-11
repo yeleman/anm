@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: anm 0.1\n"
 "Report-Msgid-Bugs-To: bugs@yeleman.com\n"
-"POT-Creation-Date: 2011-03-10 16:59+0000\n"
+"POT-Creation-Date: 2011-03-11 09:21+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,194 +16,192 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: /home/yelema3/projets/anm/anm//data_helpers.py:80
+#: /home/reg/src/anm/anm//data_helpers.py:79
 #, python-format
 msgid "Q%(quar)d %(year)d"
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm//database.py:70
+#: /home/reg/src/anm/anm//database.py:70
 #, python-format
-msgid "<Period('%s', '%s')>"
+msgid "<Period('%(start)s', '%(end)s')>"
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm//database.py:76
+#: /home/reg/src/anm/anm//database.py:77
 msgid "nd"
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm//database.py:76
+#: /home/reg/src/anm/anm//database.py:77
 msgid "rd"
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm//database.py:76
+#: /home/reg/src/anm/anm//database.py:77
 msgid "st"
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm//database.py:76
+#: /home/reg/src/anm/anm//database.py:77
 msgid "th"
 msgstr ""
 
 #. translators: full format of period name
-#: /home/yelema3/projets/anm/anm//database.py:78
+#: /home/reg/src/anm/anm//database.py:79
 #, python-format
 msgid "%(quar)d%(suf)s Quarter %(year)s"
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm//database.py:93
+#: /home/reg/src/anm/anm//database.py:94
 #, python-format
 msgid "Q%(quarter)d %(year)d"
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm//database.py:97
+#: /home/reg/src/anm/anm//database.py:98
 #, python-format
 msgid "Q%(quarter)d/%(year)d"
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm//database.py:117
+#: /home/reg/src/anm/anm//database.py:118
 #, python-format
 msgid "<Account('%(number)s')>"
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm//database.py:120
+#: /home/reg/src/anm/anm//database.py:121
 #, python-format
 msgid "%(name)s"
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm//database.py:130
+#: /home/reg/src/anm/anm//database.py:131
 #, python-format
 msgid "<Budget('%(period)s','%(amount)s')>"
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm//database.py:134
+#: /home/reg/src/anm/anm//database.py:135
 #, python-format
 msgid "%(account)s %(period)s: %(amount)s"
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm//database.py:152
+#: /home/reg/src/anm/anm//database.py:153
 #, python-format
-msgid "<Operation('%s','%s')>"
+msgid "<Operation('%(account)s','%(amount)s')>"
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm//database.py:155
+#: /home/reg/src/anm/anm//database.py:157
 #, python-format
 msgid "%(inv_num)s %(inv_date)s: %(amount)s"
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm//database.py:169
+#: /home/reg/src/anm/anm//database.py:171
 #, python-format
 msgid "<Revision('%(num)d')>"
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm//export_xls.py:59
+#: /home/reg/src/anm/anm//export_xls.py:60
 msgid "balance"
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm//export_xls.py:61
+#: /home/reg/src/anm/anm//export_xls.py:62
 msgid "List of accounts per quarter"
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm//export_xls.py:62
+#: /home/reg/src/anm/anm//export_xls.py:63
 #, python-format
 msgid "Bamako the %s"
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm//export_xls.py:65
-#: /home/yelema3/projets/anm/anm//prints.py:24
-msgid "Account Number"
+#: /home/reg/src/anm/anm//export_xls.py:66 /home/reg/src/anm/anm//prints.py:27
+#: /home/reg/src/anm/anm/ui/balanceupdateview.py:63
+msgid "Account Name"
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm//export_xls.py:65
-msgid "No Account"
+#: /home/reg/src/anm/anm//export_xls.py:66
+#: /home/reg/src/anm/anm/ui/balanceupdateview.py:63
+msgid "Account N°"
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm//export_xls.py:103
-#: /home/yelema3/projets/anm/anm/ui/balanceupdateview.py:68
-#: /home/yelema3/projets/anm/anm/ui/balanceview.py:59
-#: /home/yelema3/projets/anm/anm/ui/operationview.py:127
+#: /home/reg/src/anm/anm//export_xls.py:104
+#: /home/reg/src/anm/anm/ui/balanceupdateview.py:70
+#: /home/reg/src/anm/anm/ui/balanceview.py:54
+#: /home/reg/src/anm/anm/ui/operationview.py:138
 msgid "TOTALS"
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm//export_xls.py:129
-#: /home/yelema3/projets/anm/anm//prints.py:26
-#: /home/yelema3/projets/anm/anm/ui/balanceview.py:55
+#: /home/reg/src/anm/anm//export_xls.py:120
+#: /home/reg/src/anm/anm//prints.py:28
+#: /home/reg/src/anm/anm/ui/balanceview.py:50
 msgid "Budget"
 msgstr ""
 
 #. Cancel Button widget.
-#: /home/yelema3/projets/anm/anm//export_xls.py:130
-#: /home/yelema3/projets/anm/anm//prints.py:27
-#: /home/yelema3/projets/anm/anm/ui/balanceview.py:55
-#: /home/yelema3/projets/anm/anm/ui/registreview.py:62
+#: /home/reg/src/anm/anm//export_xls.py:121
+#: /home/reg/src/anm/anm//prints.py:29
+#: /home/reg/src/anm/anm/ui/balanceview.py:50
+#: /home/reg/src/anm/anm/ui/registreview.py:62
 msgid "Balance"
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm//export_xls.py:140
+#: /home/reg/src/anm/anm//export_xls.py:131
 msgid "List operation per quarter"
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm//export_xls.py:143
+#: /home/reg/src/anm/anm//export_xls.py:134
 #, python-format
 msgid "Account: %s"
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm//export_xls.py:155
+#: /home/reg/src/anm/anm//export_xls.py:146
 msgid "No invoice"
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm//export_xls.py:155
+#: /home/reg/src/anm/anm//export_xls.py:146
 msgid "No mandate"
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm//export_xls.py:156
+#: /home/reg/src/anm/anm//export_xls.py:147
 msgid "Invoice Date"
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm//export_xls.py:156
-#: /home/yelema3/projets/anm/anm//prints.py:93
-#: /home/yelema3/projets/anm/anm/ui/operationview.py:50
-#: /home/yelema3/projets/anm/anm/ui/operationview.py:131
+#: /home/reg/src/anm/anm//export_xls.py:147
+#: /home/reg/src/anm/anm//prints.py:102
+#: /home/reg/src/anm/anm/ui/operationview.py:55
+#: /home/reg/src/anm/anm/ui/operationview.py:141
 msgid "Provider"
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm//export_xls.py:157
-#: /home/yelema3/projets/anm/anm//prints.py:94
-#: /home/yelema3/projets/anm/anm/ui/operationview.py:51
-#: /home/yelema3/projets/anm/anm/ui/operationview.py:131
+#: /home/reg/src/anm/anm//export_xls.py:148
+#: /home/reg/src/anm/anm//prints.py:103
+#: /home/reg/src/anm/anm/ui/operationview.py:56
+#: /home/reg/src/anm/anm/ui/operationview.py:141
 msgid "Amount"
 msgstr ""
 
 #. On fait le total du montant des operations par teimestre
-#: /home/yelema3/projets/anm/anm//export_xls.py:173
-#: /home/yelema3/projets/anm/anm/ui/common.py:54
+#: /home/reg/src/anm/anm//export_xls.py:164
+#: /home/reg/src/anm/anm/ui/common.py:64
 msgid "TOTAL"
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm//export_xls.py:184
+#: /home/reg/src/anm/anm//export_xls.py:176
 msgid "This account has no record"
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm//exports.py:20
+#: /home/reg/src/anm/anm//exports.py:20
 msgid "Save DB as..."
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm//exports.py:28
-#: /home/yelema3/projets/anm/anm//exports.py:51
+#: /home/reg/src/anm/anm//exports.py:28 /home/reg/src/anm/anm//exports.py:51
 msgid "Database exported!"
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm//exports.py:29
+#: /home/reg/src/anm/anm//exports.py:29
 msgid ""
 "The Database has been successfuly exported.\n"
 "Keep that file private as it contains your data.\n"
 "Export your data regularly."
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm//exports.py:33
-#: /home/yelema3/projets/anm/anm//exports.py:56
+#: /home/reg/src/anm/anm//exports.py:33 /home/reg/src/anm/anm//exports.py:56
 msgid "Error in exporting Database!"
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm//exports.py:34
-#: /home/yelema3/projets/anm/anm//exports.py:57
+#: /home/reg/src/anm/anm//exports.py:34 /home/reg/src/anm/anm//exports.py:57
 msgid ""
 "The database backup could not be exported.\n"
 "Please verify that you selected a destination folder which you have write permissions to.\n"
@@ -212,227 +210,235 @@ msgid ""
 "Request assistance if the problem persist."
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm//exports.py:44
+#: /home/reg/src/anm/anm//exports.py:44
 msgid "Save Excel Export as..."
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm//exports.py:52
+#: /home/reg/src/anm/anm//exports.py:52
 msgid ""
 "The data have been successfully exported.\n"
 "Keep that file private as it contains your data.\n"
 "Export your data regularly."
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm//prints.py:19
+#: /home/reg/src/anm/anm//prints.py:21
 #, python-format
 msgid "Accounts balance for %s"
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm//prints.py:25
-#: /home/yelema3/projets/anm/anm/ui/balanceupdateview.py:61
-msgid "Account Name"
+#: /home/reg/src/anm/anm//prints.py:26
+msgid "Account Number"
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm//prints.py:65
+#: /home/reg/src/anm/anm//prints.py:72
 #, python-format
 msgid "The list of operations for the period %s."
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm//prints.py:83
+#: /home/reg/src/anm/anm//prints.py:89
 #, python-format
 msgid "%(name)s (%(number)s)"
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm//prints.py:90
-#: /home/yelema3/projets/anm/anm/ui/operationview.py:47
-#: /home/yelema3/projets/anm/anm/ui/operationview.py:130
+#: /home/reg/src/anm/anm//prints.py:99
+#: /home/reg/src/anm/anm/ui/operationview.py:52
+#: /home/reg/src/anm/anm/ui/operationview.py:140
 msgid "Order number"
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm//prints.py:91
-#: /home/yelema3/projets/anm/anm/ui/operationview.py:48
-#: /home/yelema3/projets/anm/anm/ui/operationview.py:130
+#: /home/reg/src/anm/anm//prints.py:100
+#: /home/reg/src/anm/anm/ui/operationview.py:53
+#: /home/reg/src/anm/anm/ui/operationview.py:140
 msgid "Invoice number"
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm//prints.py:92
-#: /home/yelema3/projets/anm/anm/ui/operationview.py:49
-#: /home/yelema3/projets/anm/anm/ui/operationview.py:131
+#: /home/reg/src/anm/anm//prints.py:101
+#: /home/reg/src/anm/anm/ui/operationview.py:54
+#: /home/reg/src/anm/anm/ui/operationview.py:141
 msgid "Invoice date"
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm//prints.py:127
+#: /home/reg/src/anm/anm//prints.py:140
 msgid "It has no operations for this period."
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm//utils.py:37
+#: /home/reg/src/anm/anm//utils.py:38
 #, python-format
 msgid "File %s is not available."
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm//utils.py:46
+#: /home/reg/src/anm/anm//utils.py:47
 #, python-format
 msgid "PDF file %s is not available."
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm/ui/balanceupdateview.py:61
-msgid "Account number"
+#: /home/reg/src/anm/anm/ui/balanceupdateview.py:27
+msgid "Update Budgets for next Quarter."
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm/ui/balanceupdateview.py:62
-#: /home/yelema3/projets/anm/anm/ui/balanceupdateview.py:64
+#: /home/reg/src/anm/anm/ui/balanceupdateview.py:64
+#: /home/reg/src/anm/anm/ui/balanceupdateview.py:66
 #, python-format
 msgid "%(period)s budget"
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm/ui/balanceupdateview.py:80
+#: /home/reg/src/anm/anm/ui/balanceupdateview.py:82
 msgid "Commit Changes"
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm/ui/balanceupdateview.py:121
+#: /home/reg/src/anm/anm/ui/balanceupdateview.py:123
 msgid "Budgets Updated!"
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm/ui/balanceupdateview.py:122
+#: /home/reg/src/anm/anm/ui/balanceupdateview.py:124
 #, python-format
 msgid "The budgets for %(period)s have been successfully updated."
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm/ui/balanceupdateview.py:126
+#: /home/reg/src/anm/anm/ui/balanceupdateview.py:128
 msgid "Error updating budgets!"
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm/ui/balanceupdateview.py:127
+#: /home/reg/src/anm/anm/ui/balanceupdateview.py:129
 #, python-format
 msgid ""
 "There has been an error while trying to save the new budgets:\n"
 "%(erros)s"
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm/ui/balanceview.py:54
+#: /home/reg/src/anm/anm/ui/balanceview.py:22
+msgid "Account's Summary."
+msgstr ""
+
+#: /home/reg/src/anm/anm/ui/balanceview.py:49
 msgid "Account No."
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm/ui/balanceview.py:54
+#: /home/reg/src/anm/anm/ui/balanceview.py:49
 msgid "Name"
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm/ui/balanceview.py:56
+#: /home/reg/src/anm/anm/ui/balanceview.py:51
 msgid "Go"
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm/ui/balanceview.py:66
+#: /home/reg/src/anm/anm/ui/balanceview.py:72
 msgid "Operations"
 msgstr ""
 
+#: /home/reg/src/anm/anm/ui/common.py:249
+#, python-format
+msgid "Period from %(start)s to %(end)s"
+msgstr ""
+
 #. Dele
-#: /home/yelema3/projets/anm/anm/ui/deleteview.py:33
-#: /home/yelema3/projets/anm/anm/ui/menubar.py:26
+#: /home/reg/src/anm/anm/ui/deleteview.py:33
+#: /home/reg/src/anm/anm/ui/menubar.py:26
 msgid "Delete an operation"
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm/ui/deleteview.py:37
+#: /home/reg/src/anm/anm/ui/deleteview.py:37
 msgid "Select an operation to delete"
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm/ui/deleteview.py:47
+#: /home/reg/src/anm/anm/ui/deleteview.py:47
 #, python-format
 msgid "Order number: %(order_num)s, Invoice number: %(invoice_num)s Provider: %(provider)s, Amount: %(amount)s, Invoice date: %(date)s"
 msgstr ""
 
 #. Delete Button widget.
-#: /home/yelema3/projets/anm/anm/ui/deleteview.py:63
+#: /home/reg/src/anm/anm/ui/deleteview.py:63
 msgid "Delete operation"
 msgstr ""
 
 #. Cancel Button widget.
-#: /home/yelema3/projets/anm/anm/ui/deleteview.py:68
+#: /home/reg/src/anm/anm/ui/deleteview.py:68
 msgid "Cancel"
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm/ui/deleteview.py:80
+#: /home/reg/src/anm/anm/ui/deleteview.py:80
 msgid "Delete error"
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm/ui/deleteview.py:80
+#: /home/reg/src/anm/anm/ui/deleteview.py:80
 msgid "Not operation to delete !"
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm/ui/deleteview.py:90
+#: /home/reg/src/anm/anm/ui/deleteview.py:90
 msgid "Deleting"
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm/ui/deleteview.py:90
+#: /home/reg/src/anm/anm/ui/deleteview.py:90
 msgid "Operation succefully removed"
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm/ui/mainwindow.py:20
+#: /home/reg/src/anm/anm/ui/mainwindow.py:20
 msgid "ANM Budgets Manager"
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm/ui/mainwindow.py:35
+#: /home/reg/src/anm/anm/ui/mainwindow.py:35
 msgid "account must be an Account or None."
 msgstr ""
 
 #. Menu File
-#: /home/yelema3/projets/anm/anm/ui/menubar.py:24
+#: /home/reg/src/anm/anm/ui/menubar.py:24
 msgid "&File"
 msgstr ""
 
 #. Print
-#: /home/yelema3/projets/anm/anm/ui/menubar.py:33
+#: /home/reg/src/anm/anm/ui/menubar.py:33
 msgid "Print"
 msgstr ""
 
 #. Export
-#: /home/yelema3/projets/anm/anm/ui/menubar.py:39
+#: /home/reg/src/anm/anm/ui/menubar.py:39
 msgid "Export data"
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm/ui/menubar.py:40
+#: /home/reg/src/anm/anm/ui/menubar.py:40
 msgid "DB"
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm/ui/menubar.py:41
+#: /home/reg/src/anm/anm/ui/menubar.py:41
 msgid "Export an file excel"
 msgstr ""
 
 #. Exit
-#: /home/yelema3/projets/anm/anm/ui/menubar.py:44
+#: /home/reg/src/anm/anm/ui/menubar.py:44
 msgid "Exit"
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm/ui/menubar.py:46
+#: /home/reg/src/anm/anm/ui/menubar.py:46
 msgid "Exit application"
 msgstr ""
 
 #. Menu aller à
-#: /home/yelema3/projets/anm/anm/ui/menubar.py:52
+#: /home/reg/src/anm/anm/ui/menubar.py:52
 msgid "&Go to"
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm/ui/menubar.py:53
+#: /home/reg/src/anm/anm/ui/menubar.py:53
 msgid "Accounts balances"
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm/ui/menubar.py:55
+#: /home/reg/src/anm/anm/ui/menubar.py:55
 msgid "Update periodic budgets"
 msgstr ""
 
 #. Menu Aide
-#: /home/yelema3/projets/anm/anm/ui/menubar.py:58
+#: /home/reg/src/anm/anm/ui/menubar.py:58
 msgid "Help"
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm/ui/menubar.py:59
+#: /home/reg/src/anm/anm/ui/menubar.py:59
 msgid "About"
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm/ui/menubar.py:90
+#: /home/reg/src/anm/anm/ui/menubar.py:90
 msgid "About ANM"
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm/ui/menubar.py:91
+#: /home/reg/src/anm/anm/ui/menubar.py:91
 msgid ""
 "ANM Budget Management Software\n"
 "\n"
@@ -448,78 +454,78 @@ msgid ""
 "Renaud Gaudin, Tiefolo Doumbia"
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm/ui/operationview.py:28
+#: /home/reg/src/anm/anm/ui/operationview.py:30
 #, python-format
-msgid "Account transactions %(name)s (%(number)s)"
+msgid "Transactions List for Account %(number)s: %(name)s."
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm/ui/operationview.py:44
+#: /home/reg/src/anm/anm/ui/operationview.py:48
 msgid "Add"
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm/ui/operationview.py:96
+#: /home/reg/src/anm/anm/ui/operationview.py:100
 msgid "Confirmation"
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm/ui/operationview.py:96
+#: /home/reg/src/anm/anm/ui/operationview.py:100
 msgid "Registered opération"
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm/ui/operationview.py:100
+#: /home/reg/src/anm/anm/ui/operationview.py:104
 msgid "Error date"
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm/ui/operationview.py:101
+#: /home/reg/src/anm/anm/ui/operationview.py:105
 msgid "The date is not included in the current quarter."
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm/ui/operationview.py:103
+#: /home/reg/src/anm/anm/ui/operationview.py:107
 msgid "Error money"
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm/ui/operationview.py:104
+#: /home/reg/src/anm/anm/ui/operationview.py:108
 msgid "There is not enough money for this operation."
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm/ui/operationview.py:106
+#: /home/reg/src/anm/anm/ui/operationview.py:110
 msgid "Error field"
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm/ui/operationview.py:106
+#: /home/reg/src/anm/anm/ui/operationview.py:110
 msgid "You must fill in all fields."
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm/ui/registreview.py:22
+#: /home/reg/src/anm/anm/ui/registreview.py:22
 msgid "Choice of type and period"
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm/ui/registreview.py:26
+#: /home/reg/src/anm/anm/ui/registreview.py:26
 msgid "Choose a account and a period"
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm/ui/registreview.py:42
+#: /home/reg/src/anm/anm/ui/registreview.py:42
 msgid "All Accounts"
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm/ui/registreview.py:45
+#: /home/reg/src/anm/anm/ui/registreview.py:45
 #, python-format
 msgid "%(number)s %(name)s"
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm/ui/registreview.py:50
+#: /home/reg/src/anm/anm/ui/registreview.py:50
 #, python-format
 msgid "%(display_name)s"
 msgstr ""
 
 #. Ok Button widget.
-#: /home/yelema3/projets/anm/anm/ui/registreview.py:57
+#: /home/reg/src/anm/anm/ui/registreview.py:57
 msgid "Operation"
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm/ui/registreview.py:80
+#: /home/reg/src/anm/anm/ui/registreview.py:80
 msgid "balance.pdf"
 msgstr ""
 
-#: /home/yelema3/projets/anm/anm/ui/registreview.py:92
+#: /home/reg/src/anm/anm/ui/registreview.py:92
 msgid "operation.pdf"
 msgstr ""

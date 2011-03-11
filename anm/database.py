@@ -67,7 +67,8 @@ class Period(object):
         self.end_on = end_on
 
     def __repr__(self):
-        return _("<Period('%s', '%s')>") % (self.start_on, self.end_on)
+        return _("<Period('%(start)s', '%(end)s')>") \
+                 % {'start': self.start_on, 'end': self.end_on}
 
     def __unicode__(self):
         return self.name
@@ -149,7 +150,8 @@ class Operation(object):
         self.account = account
 
     def __repr__(self):
-        return _("<Operation('%s','%s')>") % (self.account, self.amount)
+        return _("<Operation('%(account)s','%(amount)s')>") \
+                 % {'account': self.account, 'amount': self.amount}
 
     def __unicode__(self):
         return _(u"%(inv_num)s %(inv_date)s: %(amount)s") \
