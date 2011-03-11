@@ -16,6 +16,7 @@ class ANMPageTitle(QtGui.QLabel):
 
     def __init__(self, *args, **kwargs):
         super(ANMPageTitle, self).__init__(*args, **kwargs)
+        self.setFont(QtGui.QFont("Times New Roman", 18))
 
 
 class ANMWidget(QtGui.QWidget):
