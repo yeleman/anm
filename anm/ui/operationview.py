@@ -9,7 +9,7 @@ from sqlalchemy import desc
 
 from datetime import date
 
-from common import ANMWidget, ANMTableWidget, ANMPeriodTabBar
+from common import ANMWidget, ANMTableWidget, ANMPeriodTabBar, ANMPageTitle
 from database import Operation, session, Period
 from utils import raise_success, raise_error
 from data_helpers import account_balance, period_for, current_period
@@ -24,11 +24,10 @@ class OperationWidget(ANMWidget):
 
         self.table = OperationTableWidget(parent=self)
 
-        title = QtGui.QHBoxLayout()
-        title.addWidget(QtGui.QLabel(_(u"Account transactions %(name)s " \
-                                       u"(%(number)s)") \
-                                     % {'name': self.account.name, \
-                                        'number': self.account.number}))
+        self.title = ANMPageTitle(_(u"Transactions List for Account " \
+                                    u"%(number)s: %(name)s.") \
+                                    % {'name': self.account.name, \
+                                       'number': self.account.number})
 
         hbox = QtGui.QHBoxLayout()
         hbox.addWidget(self.table)
@@ -65,7 +64,7 @@ class OperationWidget(ANMWidget):
                                       main_period=current_period())
 
         vbox = QtGui.QVBoxLayout()
-        vbox.addLayout(title)
+        vbox.addWidget(self.title)
         vbox.addWidget(self.tabbar)
         vbox.addLayout(formbox1)
         vbox.addLayout(formbox)

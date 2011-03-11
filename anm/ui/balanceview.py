@@ -8,7 +8,7 @@ from PyQt4.QtCore import Qt
 
 from database import Account, session, Period
 from data_helpers import current_period, AccountNotConfigured, account_summary
-from common import ANMWidget, ANMTableWidget, ANMPeriodHolder
+from common import ANMWidget, ANMTableWidget, ANMPeriodHolder, ANMPageTitle
 from operationview import OperationWidget
 
 
@@ -18,8 +18,8 @@ class BalanceViewWidget(ANMWidget, ANMPeriodHolder):
 
         super(BalanceViewWidget, self).__init__(parent=parent, *args, **kwargs)
         ANMPeriodHolder.__init__(self, *args, **kwargs)
-        title = QtGui.QHBoxLayout()
-        title.addWidget(QtGui.QLabel(_(u"List balances")))
+
+        self.title = ANMPageTitle(_(u"Account's Summary."))
 
         self.table = BalanceTableWidget(parent=self, period=self.main_period)
 
@@ -27,7 +27,7 @@ class BalanceViewWidget(ANMWidget, ANMPeriodHolder):
         period = current_period()
 
         vbox = QtGui.QVBoxLayout()
-        vbox.addLayout(title)
+        vbox.addWidget(self.title)
         vbox.addWidget(self.periods_bar)
         vbox.addWidget(self.table)
 

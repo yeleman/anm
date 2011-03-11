@@ -15,7 +15,7 @@ from database import Budget, session, Account
 from data_helpers import current_period, AccountNotConfigured, \
                          account_summary, account_update_summary
 from utils import raise_error, raise_success
-from common import ANMWidget, ANMTableWidget
+from common import ANMWidget, ANMTableWidget, ANMPageTitle
 
 
 class BalanceUpdateWidget(ANMWidget):
@@ -24,8 +24,8 @@ class BalanceUpdateWidget(ANMWidget):
 
         super(BalanceUpdateWidget, self).__init__(parent=parent, \
                                                   *args, **kwargs)
-        title = QtGui.QHBoxLayout()
-        title.addWidget(QtGui.QLabel(_(u"Balance Update")))
+        self.title = ANMPageTitle(_(u"Update Budgets for next Quarter."))
+
         # periods
         self.period1 = current_period()
         self.period2 = self.period1.next()
@@ -34,7 +34,7 @@ class BalanceUpdateWidget(ANMWidget):
                                                   period2=self.period2)
 
         vbox = QtGui.QVBoxLayout()
-        vbox.addLayout(title)
+        vbox.addWidget(self.title)
         vbox.addWidget(self.table)
 
         self.setLayout(vbox)

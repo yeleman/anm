@@ -12,6 +12,12 @@ from data_helpers import current_period
 MAIN_WIDGET_SIZE = 900
 
 
+class ANMPageTitle(QtGui.QLabel):
+
+    def __init__(self, *args, **kwargs):
+        super(ANMPageTitle, self).__init__(*args, **kwargs)
+
+
 class ANMWidget(QtGui.QWidget):
 
     def __init__(self, parent=0, *args, **kwargs):
