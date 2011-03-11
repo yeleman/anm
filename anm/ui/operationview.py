@@ -11,7 +11,7 @@ from datetime import date
 
 from common import ANMWidget, ANMTableWidget, ANMPeriodHolder, ANMPageTitle
 from database import Operation, session, Period
-from utils import raise_success, raise_error
+from utils import raise_success, raise_error, date2qdate, qdate2date
 from data_helpers import account_balance, period_for, current_period
 
 
@@ -40,6 +40,8 @@ class OperationWidget(ANMWidget, ANMPeriodHolder):
         self.invoice_number = QtGui.QLineEdit()
         self.invoice_date = QtGui.QDateTimeEdit(QtCore.QDate.currentDate())
         self.invoice_date.setDisplayFormat("yyyy-MM-dd")
+        # change date if appropriate        
+        self.adjust_date_field()
         self.provider = QtGui.QLineEdit()
         self.amount = QtGui.QLineEdit()
         self.amount.setValidator(QtGui.QIntValidator())
@@ -77,9 +79,7 @@ class OperationWidget(ANMWidget, ANMPeriodHolder):
         invoice_date = date(int(year), int(month), int(day))
         period = period_for(invoice_date)
         current_peri = self.main_period
-        print "PERIOD: %s" % current_peri
         balance = account_balance(self.account, current_peri)
-        print "BALANCE: %s" % balance
 
         try:
             amount = int(self.amount.text())
@@ -114,7 +114,18 @@ class OperationWidget(ANMWidget, ANMPeriodHolder):
         self.table.refresh_period(self.main_period)
 
     def change_period(self, period):
+        self.adjust_date_field()
         self.table.refresh_period(period)
+
+    def adjust_date_field(self):
+        if period_for(qdate2date(self.invoice_date.date())) == self.main_period:
+            # keep what's on
+            return
+        if period_for(date.today()) == self.main_period:
+            new_date = date.today()
+        else:
+            new_date = self.main_period.start_on
+        self.invoice_date.setDate(new_date)
 
 
 class OperationTableWidget(ANMTableWidget):
