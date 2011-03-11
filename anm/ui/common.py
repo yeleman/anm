@@ -97,7 +97,6 @@ class ANMTableWidget(QtGui.QTableWidget, ANMWidget):
 
     def _reset(self):
         for index in range(self.rowCount(), -1, -1):
-            print index
             self.removeRow(index)
 
     def refresh(self, resize=False):
