@@ -74,7 +74,6 @@ def write_xls(file_name):
 
     for account in accounts:
         rowx1 += 1
-        sheet.col(colx - 1).width = 0x0d00 * 2
         sheet.col(colx).width = 0x0d00 * 3
         if int(rowx1) % 2 == 0:
             style = style1
@@ -141,15 +140,17 @@ def write_xls(file_name):
                             filter_by(account=account, period=period).\
                             order_by(desc(Operation.invoice_date)).all()]
             if operations:
-                sheet.write_merge(rowx + 2, rowx + 2, 1, 2,\
+                sheet.write(rowx + 2, 2,\
                                     period.display_name(), style_title)
                 hdngs = [_(u"No mandate"), _(u"No invoice"),\
                          _(u"Invoice Date"), _(u"Provider"),\
                                              _(u"Amount")]
                 rowx += 4
+                sheet.col(2).width = 0x0d00 * 2
+                sheet.col(3).width = 0x0d00 * 2
+                sheet.col(4).width = 0x0d00 * 2
                 for colx, value in enumerate(hdngs):
                     sheet.write(rowx, colx, value, style0)
-                    sheet.col(colx).width = 0x0d00 * 2
                 amount_opera = 0
                 for row in operations:
                     rowx += 1
@@ -169,10 +170,10 @@ def write_xls(file_name):
                 sheet.col(2).width = 0x0d00 * 2
                 sheet.col(3).width = 0x0d00 * 2
                 rowx += 2
-                sheet.write_merge(rowx, rowx, 1, 2,\
+                sheet.write(rowx, 2,\
                                     period.display_name(), style_title)
                 rowx += 2
-                sheet.write_merge(rowx, rowx, 1, 2,\
+                sheet.write_merge(rowx, rowx, 2, 3,\
                                     _(u"This account has no record"))
                 rowx += 1
     book.save(file_name)

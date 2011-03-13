@@ -77,7 +77,9 @@ class BalanceTableWidget(ANMTableWidget):
         last_column = self.header.__len__() - 1
         if column != last_column:
             return
-
-        self.parent.change_main_context(OperationWidget, \
+        try:
+            self.parent.change_main_context(OperationWidget, \
                                         account=self.data[row][last_column], \
                                         period=self.parentWidget().main_period)
+        except IndexError:
+            pass
