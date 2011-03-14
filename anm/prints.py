@@ -45,8 +45,8 @@ def build_accounts_report(period, filename=None, format='pdf'):
     list_balance= []
     for account in accounts:
         table.add_row([
-            Text(account[0]),
-            Text(account[1]),
+            Text(unicode(account[0])),
+            Text(unicode(account[1])),
             Text(locale.format(u"%d", account[2], grouping=True)),
             Text(locale.format(u"%d", account[3], grouping=True))])
         list_budget.append(account[2])
