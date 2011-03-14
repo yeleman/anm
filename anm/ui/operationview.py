@@ -40,7 +40,7 @@ class OperationWidget(ANMWidget, ANMPeriodHolder):
         self.invoice_number = QtGui.QLineEdit()
         self.invoice_date = QtGui.QDateTimeEdit(QtCore.QDate.currentDate())
         self.invoice_date.setDisplayFormat("yyyy-MM-dd")
-        # change date if appropriate        
+        # change date if appropriate
         self.adjust_date_field()
         self.provider = QtGui.QLineEdit()
         self.amount = QtGui.QLineEdit()
@@ -88,7 +88,7 @@ class OperationWidget(ANMWidget, ANMPeriodHolder):
 
         if self.order_number.text() and self.invoice_number.text() and \
             invoice_date and self.provider.text()and self.amount.text()\
-            and invoice_date > current_peri.start_on and invoice_date < \
+            and invoice_date >= current_peri.start_on and invoice_date <= \
             current_peri.end_on and amount < balance:
             operation = Operation(unicode(self.order_number.text()),
                         unicode(self.invoice_number.text()), invoice_date, \
@@ -152,7 +152,7 @@ class OperationTableWidget(ANMTableWidget):
 
     def set_data_for(self, period=current_period()):
         self.data = [(operation.order_number, operation.invoice_number,\
-                      operation.invoice_date.strftime('%F'),\
+                      operation.invoice_date.strftime('%d-%m-%Y'),\
                       operation.provider, operation.amount, operation) \
                       for operation in session.query(Operation).\
                       filter_by(account=self.account, period=period).\
