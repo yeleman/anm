@@ -45,18 +45,18 @@ def build_accounts_report(period, filename=None, format='pdf'):
     list_balance= []
     for account in accounts:
         table.add_row([
-            Text(account[0]),
-            Text(account[1]),
-            Text(locale.format("%d", account[2], grouping=True)),
-            Text(locale.format("%d", account[3], grouping=True))])
+            Text(unicode(account[0])),
+            Text(unicode(account[1])),
+            Text(locale.format(u"%d", account[2], grouping=True)),
+            Text(locale.format(u"%d", account[3], grouping=True))])
         list_budget.append(account[2])
         list_balance.append(account[3])
 
-    table.add_row([Text(''),
-                   Text('TOTALS', bold=True),
-                   Text(locale.format("%d", sum(list_budget),
+    table.add_row([Text(u''),
+                   Text(u'TOTALS', bold=True),
+                   Text(locale.format(u"%d", sum(list_budget),
                                       grouping=True), bold=True),
-                   Text(locale.format("%d", sum(list_balance),
+                   Text(locale.format(u"%d", sum(list_balance),
                                       grouping=True), bold=True)])
 
     doc.add_element(table)
@@ -79,14 +79,14 @@ def build_operations_report(account, period, filename=None, format='pdf'):
     flag = False
     for account in accounts:
         operations = [(operation.order_number, operation.invoice_number,\
-                      operation.invoice_date.strftime('%F'),\
+                      operation.invoice_date.strftime(u'%d-%m-%Y'),\
                       operation.provider, operation.amount, operation) \
                       for operation in session.query(Operation).\
                       filter_by(account=account, period=period).\
                       order_by(desc(Operation.invoice_date)).all()]
 
         if operations:
-            section_name = (_('%(name)s (%(number)s)'))\
+            section_name = (_(u'%(name)s (%(number)s)'))\
                                % {'name': account.name,\
                                   'number': account.number}
             doc.add_element(Section(section_name))
@@ -122,14 +122,14 @@ def build_operations_report(account, period, filename=None, format='pdf'):
                     Text(operation[1]),
                     Text(operation[2]),
                     Text(operation[3]),
-                    Text(locale.format("%d", operation[4], grouping=True))])
+                    Text(locale.format(u"%d", operation[4], grouping=True))])
                 list_amount.append(operation[4])
 
-            table.add_row([Text(''),
-                           Text(''),
-                           Text(''),
-                           Text('TOTAL', bold=True ),
-                           Text(locale.format("%d", sum(list_amount),\
+            table.add_row([Text(u''),
+                           Text(u''),
+                           Text(u''),
+                           Text(u'TOTAL', bold=True ),
+                           Text(locale.format(u"%d", sum(list_amount),\
                                               grouping=True), bold=True)])
 
             doc.add_element(table)

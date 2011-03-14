@@ -113,6 +113,7 @@ class OperationWidget(ANMWidget, ANMPeriodHolder):
         #self.change_main_context(OperationWidget, account=self.account)
         self.table.refresh_period(self.main_period)
 
+
     def change_period(self, period):
         self.adjust_date_field()
         self.table.refresh_period(period)
@@ -152,7 +153,7 @@ class OperationTableWidget(ANMTableWidget):
 
     def set_data_for(self, period=current_period()):
         self.data = [(operation.order_number, operation.invoice_number,\
-                      operation.invoice_date.strftime('%d-%m-%Y'),\
+                      operation.invoice_date.strftime(u'%d-%m-%Y'),\
                       operation.provider, operation.amount, operation) \
                       for operation in session.query(Operation).\
                       filter_by(account=self.account, period=period).\
