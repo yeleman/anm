@@ -5,7 +5,7 @@
 import xlwt
 
 from datetime import datetime, date
-from sqlalchemy import desc, func
+from sqlalchemy import desc
 
 from database import Operation, Account, Period, session, Budget
 from data_helpers import (account_balance, AccountNotConfigured,

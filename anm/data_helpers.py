@@ -28,10 +28,10 @@ def account_expenses(account, period):
     ''' total amount expendited during that period '''
     total = session.query(func.sum(Operation.amount))\
                    .filter_by(account=account)\
-                   .filter(func.strftime('%s', Operation.invoice_date) \
-                           > period.start_on.strftime('%s'))\
-                   .filter(func.strftime('%s', Operation.invoice_date) \
-                           < period.end_on.strftime('%s'))\
+                   .filter(func.strftime('%d-%m-%Y', Operation.invoice_date) \
+                           > period.start_on.strftime('%d-%m-%Y'))\
+                   .filter(func.strftime('%d-%m-%Y', Operation.invoice_date) \
+                           < period.end_on.strftime('%d-%m-%Y'))\
                    .scalar()
     if total:
         return total
