@@ -47,6 +47,8 @@ RMDir /r $SMPROGRAMS\ANM
 delete $INSTDIR\*.exe
 delete $INSTDIR\*.dll
 delete $INSTDIR\*.exe
+delete $INSTDIR\*.lib
+delete $INSTDIR\*.zip
 RMDir /r $INSTDIR\images
 RMDir /r $INSTDIR\locale
  
