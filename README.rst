@@ -57,5 +57,9 @@ Once setup, create windows executable:
 
     ``python.exe setup-win.py py2exe``
 
+If you want a single executable (everything inside ; faster):
+
+    ``set PY2EXEMODE=single ; python.exe setup-win.py py2exe``
+
 Once windows binary is complete, create installer with:
     ``makensis.exe installer.nsi``
