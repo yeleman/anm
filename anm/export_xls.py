@@ -173,7 +173,7 @@ def write_xls(file_name):
                                     period.display_name(), style_title)
                 rowx += 2
                 sheet.write_merge(rowx, rowx, 2, 3,\
-                                    _(u"This account has no record"))
+                                    _(u"this period did not record"))
                 rowx += 1
     book.save(file_name)
     return file_name

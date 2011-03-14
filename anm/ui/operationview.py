@@ -2,6 +2,8 @@
 # encoding=utf-8
 # maintainer: alou
 
+import locale
+
 from PyQt4 import QtGui
 from PyQt4 import QtCore
 
@@ -24,6 +26,7 @@ class OperationWidget(ANMWidget, ANMPeriodHolder):
         # set global account
         self.account = account
         self.main_period = period
+        self.balance_ = account_balance(self.account, self.main_period)
 
         self.table = OperationTableWidget(parent=self, period=self.main_period)
 
@@ -31,7 +34,9 @@ class OperationWidget(ANMWidget, ANMPeriodHolder):
                                     u"%(number)s: %(name)s.") \
                                     % {'name': self.account.name, \
                                        'number': self.account.number})
-
+        self.balance = ANMPageTitle(_(u"Balance : " u"%(balance_)s FCFA") \
+                                    % {'balance_': locale.format(u"%d", \
+                                            self.balance_, grouping=True)})
         hbox = QtGui.QHBoxLayout()
         hbox.addWidget(self.table)
 
@@ -66,6 +71,7 @@ class OperationWidget(ANMWidget, ANMPeriodHolder):
 
         vbox = QtGui.QVBoxLayout()
         vbox.addWidget(self.title)
+        vbox.addWidget(self.balance)
         vbox.addWidget(self.periods_bar)
         vbox.addLayout(formbox1)
         vbox.addLayout(formbox)
@@ -113,13 +119,13 @@ class OperationWidget(ANMWidget, ANMPeriodHolder):
         #self.change_main_context(OperationWidget, account=self.account)
         self.table.refresh_period(self.main_period)
 
-
     def change_period(self, period):
         self.adjust_date_field()
         self.table.refresh_period(period)
 
     def adjust_date_field(self):
-        if period_for(qdate2date(self.invoice_date.date())) == self.main_period:
+        if period_for(qdate2date(self.invoice_date.date())) ==\
+                                                        self.main_period:
             # keep what's on
             return
         if period_for(date.today()) == self.main_period:
