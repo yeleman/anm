@@ -140,7 +140,7 @@ def write_xls(file_name):
                             filter_by(account=account, period=period).\
                             order_by(desc(Operation.invoice_date)).all()]
             if operations:
-                sheet.write(rowx + 2, 2,\
+                sheet.write_merge(rowx + 2, rowx + 2, 2, 3,\
                                     period.display_name(), style_title)
                 hdngs = [_(u"No mandate"), _(u"No invoice"),\
                          _(u"Invoice Date"), _(u"Provider"),\
@@ -166,11 +166,10 @@ def write_xls(file_name):
                 sheet.write(rowx + 1, colx, amount_opera, style0)
                 rowx += 1
             else:
-                sheet.col(1).width = 0x0d00 * 2
                 sheet.col(2).width = 0x0d00 * 2
-                sheet.col(3).width = 0x0d00 * 2
+                sheet.col(3).width = 0x0d00 * 3
                 rowx += 2
-                sheet.write(rowx, 2,\
+                sheet.write_merge(rowx, rowx, 2, 3,\
                                     period.display_name(), style_title)
                 rowx += 2
                 sheet.write_merge(rowx, rowx, 2, 3,\
