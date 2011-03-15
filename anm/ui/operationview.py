@@ -120,7 +120,6 @@ class OperationWidget(ANMWidget, ANMPeriodHolder):
             raise_error(_(u'Error field'), _(u'You must fill in all fields.'))
 
     def refresh(self):
-        #~ self.change_main_context(OperationWidget, account=self.account)
         self.table.refresh_period(self.main_period)
 
     def change_period(self, period):

@@ -164,14 +164,14 @@ def create_empty_budgets(period):
     session.commit()
 
 
-def sum_budget_and_operation(period_):
+def sum_budget_and_operation(period):
     '''total amounts of all operations, budgets and balance per period '''
 
     total_op = session.query(func.sum(Operation.amount)).\
-                    filter_by(period=period_).scalar()
+                    filter_by(period=period).scalar()
     # La somme de tout les budgets
     total_budget = session.query(func.sum(Budget.amount)).\
-                    filter_by(period=period_).scalar()
+                    filter_by(period=period).scalar()
     # la somme de tout soldes
     if total_op == None:
         total_op = 0
@@ -181,10 +181,10 @@ def sum_budget_and_operation(period_):
     return total_budget, total_balance
 
 
-def Checking_existence_Budget(period_):
+def checking_existence_budget(period):
     ''' Checking existence Budget '''
     total_budget = session.query(func.sum(Budget.amount)).\
-                    filter_by(period=period_).scalar()
+                    filter_by(period=period).scalar()
     if total_budget == 0:
         return False
     if total_budget != 0:
@@ -195,6 +195,7 @@ def all_active_periods(periods):
     ''' returns the list of periods that have budgets '''
     list_ = []
     for period in periods:
-        if Checking_existence_Budget(period):
-            list_.append(i)
+        if checking_existence_budget(period):
+            list_.append(period)
+
     return list_

@@ -35,7 +35,6 @@ class RegistreWidget(QtGui.QDialog, ANMWidget):
 
         # Data
         current = current_period()
-
         self.all_active_periods = all_active_periods(session.query(Period).\
                            order_by(desc(Period.start_on)).all())
 
