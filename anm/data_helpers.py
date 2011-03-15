@@ -179,3 +179,13 @@ def sum_budget_and_operation(period_):
         total_budget = 0
     total_balance = total_budget - total_op
     return total_budget, total_balance
+
+
+def Checking_existence_Budget(period_):
+    ''' Checking existence Budget '''
+    total_budget = session.query(func.sum(Budget.amount)).\
+                    filter_by(period=period_).scalar()
+    if total_budget == 0:
+        return False
+    if total_budget != 0:
+        return True
