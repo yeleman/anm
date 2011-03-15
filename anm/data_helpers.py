@@ -189,3 +189,12 @@ def Checking_existence_Budget(period_):
         return False
     if total_budget != 0:
         return True
+
+
+def all_active_periods(periods):
+    ''' returns the list of periods that have budgets '''
+    list_ = []
+    for period in periods:
+        if Checking_existence_Budget(period):
+            list_.append(i)
+    return list_

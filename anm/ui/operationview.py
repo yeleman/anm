@@ -26,7 +26,7 @@ class OperationWidget(ANMWidget, ANMPeriodHolder):
         # set global account
         self.account = account
         self.main_period = period
-        self.balance_ = account_balance(self.account, self.main_period)
+        self.balance_ = account_balance(self.account, period)
 
         self.table = OperationTableWidget(parent=self, period=self.main_period)
 
@@ -34,6 +34,7 @@ class OperationWidget(ANMWidget, ANMPeriodHolder):
                                     u"%(number)s: %(name)s.") \
                                     % {'name': self.account.name, \
                                        'number': self.account.number})
+
         self.balance = ANMPageTitle(_(u"Balance: " u"%(balance_)s FCFA") \
                                     % {'balance_': locale.format(u"%d", \
                                             self.balance_, grouping=True)})
@@ -80,12 +81,10 @@ class OperationWidget(ANMWidget, ANMPeriodHolder):
         self.setLayout(vbox)
 
     def add_operation(self):
-        """add operation"""
+        ''' add operation '''
         year, month, day = self.invoice_date.text().split('-')
         invoice_date = date(int(year), int(month), int(day))
         period = period_for(invoice_date)
-        current_peri = self.main_period
-        balance = account_balance(self.account, current_peri)
 
         try:
             amount = int(self.amount.text())
@@ -94,8 +93,8 @@ class OperationWidget(ANMWidget, ANMPeriodHolder):
 
         if self.order_number.text() and self.invoice_number.text() and \
             invoice_date and self.provider.text()and self.amount.text()\
-            and invoice_date >= current_peri.start_on and invoice_date <= \
-            current_peri.end_on and amount < balance:
+            and invoice_date >= self.main_period.start_on and invoice_date <= \
+            self.main_period.end_on and amount < self.balance_:
             operation = Operation(unicode(self.order_number.text()),
                         unicode(self.invoice_number.text()), invoice_date, \
                         unicode(self.provider.text()), amount)
@@ -104,9 +103,14 @@ class OperationWidget(ANMWidget, ANMPeriodHolder):
             session.add(operation)
             session.commit()
             raise_success(_(u'Confirmation'), _(u'Registered opération'))
+            self.order_number.clear()
+            self.invoice_number.clear()
+            self.provider.clear()
+            self.amount.clear()
+            self.adjust_balance(period)
             self.refresh()
-        elif invoice_date > current_peri.end_on or\
-             invoice_date < current_peri.start_on:
+        elif invoice_date > self.main_period.end_on or\
+             invoice_date < self.main_period.start_on:
             raise_error(_(u'Error date'), \
             _(u'The date is not included in the current quarter.'))
         elif amount >= balance:
@@ -116,12 +120,20 @@ class OperationWidget(ANMWidget, ANMPeriodHolder):
             raise_error(_(u'Error field'), _(u'You must fill in all fields.'))
 
     def refresh(self):
-        self.change_main_context(OperationWidget, account=self.account)
-        #self.table.refresh_period(self.main_period)
+        #~ self.change_main_context(OperationWidget, account=self.account)
+        self.table.refresh_period(self.main_period)
 
     def change_period(self, period):
         self.adjust_date_field()
+        self.adjust_balance(period)
         self.table.refresh_period(period)
+
+    def adjust_balance(self, period):
+        ''' adjusts the balance by period '''
+        self.balance_ = account_balance(self.account, period)
+        self.balance.setText(_(u"Balance: " u"%(balance_)s FCFA") \
+                                    % {'balance_': locale.format(u"%d", \
+                                            self.balance_, grouping=True)})
 
     def adjust_date_field(self):
         if period_for(qdate2date(self.invoice_date.date())) ==\
