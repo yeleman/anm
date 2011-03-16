@@ -18,7 +18,7 @@ class MainWindow(QtGui.QMainWindow):
 
         self.resize(900, 650)
         self.setWindowTitle(_(u"ANM Budgets Manager"))
-        self.setWindowIcon(QtGui.QIcon('images/yeleman_logo.png'))
+        self.setWindowIcon(QtGui.QIcon('images/icon32.png'))
 
         self._account = None
 
