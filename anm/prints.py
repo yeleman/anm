@@ -2,10 +2,9 @@
 # encoding=utf-8
 # maintainer: rgaudin
 
-import locale
-
 from sqlalchemy import func, desc
 
+from utils import formatted_number
 from database import Account, Operation, session
 from data_helpers import account_summary
 from doclib import Document, Paragraph, Text, Table, Section
@@ -15,8 +14,8 @@ from doclib.pdf import PDFGenerator
 def build_accounts_report(period, filename=None, format='pdf'):
     ''' PDF: List of balances '''
 
-    doc = Document(title=_(u"Accounts balance for %s") % period, \
-                   landscape=True)
+    doc = Document(title=_(u"Accounts balance for %s") \
+                         % period.display_name(), landscape=True)
 
     table = Table(4)
     table.add_header_row([
@@ -44,17 +43,15 @@ def build_accounts_report(period, filename=None, format='pdf'):
         table.add_row([
             Text(unicode(account[0])),
             Text(unicode(account[1])),
-            Text(locale.format(u"%d", account[2], grouping=True)),
-            Text(locale.format(u"%d", account[3], grouping=True))])
+            Text(formatted_number(account[2])),
+            Text(formatted_number(account[3]))])
         list_budget.append(account[2])
         list_balance.append(account[3])
 
     table.add_row([Text(u''),
                    Text(u'TOTALS', bold=True),
-                   Text(locale.format(u"%d", sum(list_budget),
-                                      grouping=True), bold=True),
-                   Text(locale.format(u"%d", sum(list_balance),
-                                      grouping=True), bold=True)])
+                   Text(formatted_number(sum(list_budget)), bold=True),
+                   Text(formatted_number(sum(list_balance)), bold=True)])
 
     doc.add_element(table)
 
@@ -67,7 +64,8 @@ def build_accounts_report(period, filename=None, format='pdf'):
 def build_operations_report(account, period, filename=None, format='pdf'):
     ''' PDF: List of operations '''
     doc = Document(title=_(u"The list of operations for the period %s.") \
-                    % period, landscape=False, stick_sections=True)
+                         % period.display_name(), \
+                           landscape=False, stick_sections=True)
 
     if account == None:
         accounts = session.query(Account).all()
@@ -120,15 +118,15 @@ def build_operations_report(account, period, filename=None, format='pdf'):
                     Text(operation[1]),
                     Text(operation[2]),
                     Text(operation[3]),
-                    Text(locale.format(u"%d", operation[4], grouping=True))])
+                    Text(formatted_number(operation[4]))])
                 list_amount.append(operation[4])
 
             table.add_row([Text(u''),
                            Text(u''),
                            Text(u''),
                            Text(u'TOTAL', bold=True),
-                           Text(locale.format(u"%d", sum(list_amount), \
-                                              grouping=True), bold=True)])
+                           Text(formatted_number(sum(list_amount)), \
+                                bold=True)])
 
             doc.add_element(table)
             flag = True

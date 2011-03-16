@@ -2,8 +2,6 @@
 # encoding=utf-8
 # maintainer: alou
 
-import locale
-
 from PyQt4 import QtGui
 from PyQt4 import QtCore
 
@@ -13,7 +11,8 @@ from datetime import date
 
 from common import ANMWidget, ANMTableWidget, ANMPeriodHolder, ANMPageTitle
 from database import Operation, session, Period
-from utils import raise_success, raise_error, date2qdate, qdate2date
+from utils import raise_success, raise_error, \
+                  date2qdate, qdate2date, formatted_number
 from data_helpers import account_balance, period_for, current_period
 
 
@@ -36,8 +35,8 @@ class OperationWidget(ANMWidget, ANMPeriodHolder):
                                        'number': self.account.number})
 
         self.balance = ANMPageTitle(_(u"Balance: " u"%(balance_)s FCFA") \
-                                    % {'balance_': locale.format(u"%d", \
-                                            self.balance_, grouping=True)})
+                                    % {'balance_': \
+                                              formatted_number(self.balance_)})
         hbox = QtGui.QHBoxLayout()
         hbox.addWidget(self.table)
 
@@ -131,8 +130,8 @@ class OperationWidget(ANMWidget, ANMPeriodHolder):
         ''' adjusts the balance by period '''
         self.balance_ = account_balance(self.account, period)
         self.balance.setText(_(u"Balance: " u"%(balance_)s FCFA") \
-                                    % {'balance_': locale.format(u"%d", \
-                                            self.balance_, grouping=True)})
+                                    % {'balance_': \
+                                              formatted_number(self.balance_)})
 
     def adjust_date_field(self):
         if period_for(qdate2date(self.invoice_date.date())) ==\

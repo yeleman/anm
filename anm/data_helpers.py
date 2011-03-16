@@ -2,6 +2,7 @@
 # encoding=utf-8
 # maintainer: rgaudin
 
+import gettext
 from datetime import date, datetime
 
 import sqlalchemy
@@ -9,6 +10,10 @@ from sqlalchemy import desc, func
 from sqlalchemy.orm import exc
 
 from database import *
+
+
+def _(*args, **kwargs):
+    return gettext.gettext(*args, **kwargs)
 
 
 class AccountNotConfigured(Exception):
