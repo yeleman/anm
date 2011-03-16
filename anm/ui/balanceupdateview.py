@@ -69,6 +69,8 @@ class NextBalanceUpdateTableWidget(ANMTableWidget):
         self.setDisplayTotal(True, column_totals={2: None, 3: None}, \
                              label=_(u"TOTALS"))
 
+        self.setSelectionMode(QtGui.QAbstractItemView.NoSelection)
+
         self.refresh(True)
 
     def extend_rows(self):
@@ -79,9 +81,9 @@ class NextBalanceUpdateTableWidget(ANMTableWidget):
         self.setSpan(nb_rows, 0, 1, 3)
         bicon = QtGui.QIcon.fromTheme('document-save', \
                                        QtGui.QIcon('images/document-save.png'))
-        button = QtGui.QPushButton(bicon, _(u"Commit Changes"))
-        button.released.connect(self.save_new_data)
-        self.setCellWidget(nb_rows, 3, button)
+        self.button = QtGui.QPushButton(bicon, _(u"Commit Changes"))
+        self.button.released.connect(self.save_new_data)
+        self.setCellWidget(nb_rows, 3, self.button)
 
     def _item_for_data(self, row, column, data, context=None):
         if column == self.data[0].__len__() - 2:
@@ -93,13 +95,17 @@ class NextBalanceUpdateTableWidget(ANMTableWidget):
         return super(NextBalanceUpdateTableWidget, self)\
                                     ._item_for_data(row, column, data, context)
 
-    def changed_value(self):
+    def changed_value(self, refresh=False):
         # change self.data to reflect new budgets
         for row_num in xrange(0, self.data.__len__()):
             self._update_budget(row_num, \
                                 int(self.cellWidget(row_num, 3).text()))
-        # refresh table
-        self.refresh()
+        # we don't refresh table unless asked
+        # so that we can forward click events
+        if refresh:
+            self.refresh()
+        # focus on save button
+        self.button.setFocus(Qt.MouseFocusReason)
 
     def _update_budget(self, row_num, budget):
         d = self.data[row_num]
@@ -120,10 +126,11 @@ class NextBalanceUpdateTableWidget(ANMTableWidget):
             session.commit()
         try:
             actually_save()
+            self.refresh()
             raise_success(_(u"Budgets Updated!"), \
                           _(u"The budgets for %(period)s have been " \
                             u"successfully updated.") \
-                            % {'period': self.period2})
+                            % {'period': self.period2.short_name()})
         except Exception as e:
             raise_success(_(u"Error updating budgets!"), \
                           _(u"There has been an error while trying to " \
