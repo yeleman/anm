@@ -7,7 +7,6 @@ from datetime import date, datetime
 import sqlalchemy
 from sqlalchemy import desc, func
 from sqlalchemy.orm import exc
-from gettext import gettext as _
 
 from database import *
 

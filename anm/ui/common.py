@@ -2,11 +2,10 @@
 # encoding=utf-8
 # maintainer: rgaudin
 
-import locale
-
 from PyQt4 import QtGui
 from PyQt4.QtCore import Qt
 
+from utils import formatted_number
 from data_helpers import current_period
 
 MAIN_WIDGET_SIZE = 900
@@ -192,7 +191,7 @@ class ANMTableWidget(QtGui.QTableWidget, ANMWidget):
             return value
 
         if isinstance(value, (int, float, long)):
-            return locale.format("%d", value, grouping=True)
+            return formatted_number(value)
 
         return u"%s" % value
 

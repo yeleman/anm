@@ -20,6 +20,9 @@ class MenuBar(QtGui.QMenuBar, ANMWidget):
     def __init__(self, parent=None, *args, **kwargs):
         QtGui.QMenuBar.__init__(self, parent, *args, **kwargs)
 
+        # change icon so that it appears in About box
+        self.setWindowIcon(QtGui.QIcon('images/yeleman_logo.png'))
+
         #Menu File
         file_ = self.addMenu(_(u"&File"))
         # Dele
@@ -87,7 +90,7 @@ class MenuBar(QtGui.QMenuBar, ANMWidget):
 
     #About
     def goto_about(self):
-        mbox = QtGui.QMessageBox.about(self.parentWidget(), _(u"About ANM"), \
+        mbox = QtGui.QMessageBox.about(self, _(u"About ANM"), \
                           _(u"ANM Budget Management Software\n\n" \
                             u"© 2011 yɛlɛman s.à.r.l\n" \
                             u"Hippodrome, Avenue Al Quds, \n" \

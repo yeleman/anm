@@ -7,9 +7,7 @@ from PyQt4 import QtCore
 
 from sqlalchemy import desc
 
-from gettext import gettext as _
-
-from utils import raise_error, raise_success
+from utils import raise_error, raise_success, formatted_number
 from common import ANMWidget
 from database import Operation, session
 from data_helpers import current_period
@@ -50,15 +48,14 @@ class deleteViewWidget(QtGui.QDialog, ANMWidget):
             self.box = QtGui.QComboBox()
             for index in xrange(0, len(self.data)):
                 op = self.data[index]
-                sentence = \
-                    _(u"L'operation which has for n° mandate %(order_num)s,"\
-                        u" n° invoice %(invoice_num)s, "\
-                        u"date invoices %(date)s, Provider %(provider)s"\
-                        u" and of amount %(amount)s") \
-                        % {'order_num': op.order_number, \
-                             'invoice_num': op.invoice_number, \
-                             'provider': op.provider, 'amount': op.amount, \
-                             'date': op.invoice_date.strftime('%x')}
+                sentence = _(u"%(date)s - %(amount)s to " \
+                             u"%(provider)s/%(invoice_num)s " \
+                             u"(Order #%(order_num)s)") \
+                             % {'order_num': op.order_number, \
+                                'invoice_num': op.invoice_number, \
+                                'provider': op.provider, \
+                                'amount': formatted_number(op.amount), \
+                                'date': op.invoice_date.strftime('%x')}
                 self.box.addItem(sentence, QtCore.QVariant(op.id))
 
             combo_hbox = QtGui.QHBoxLayout()

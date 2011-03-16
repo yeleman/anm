@@ -4,6 +4,7 @@
 
 import os
 import sys
+import locale
 import subprocess
 from datetime import date
 
@@ -60,6 +61,14 @@ def raise_success(title, message):
                             message, QtGui.QMessageBox.Ok, \
                             parent=ANMWindow.window)
     box.exec_()
+
+
+def formatted_number(number):
+    try:
+        return locale.format("%d", number, grouping=True)
+    except:
+        raise
+        return "%s" % number
 
 
 def date2qdate(adate):

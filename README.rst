@@ -26,6 +26,9 @@ Requirements
 **gettext**
     ``sudo aptitude install gettext``
 
+**xlwt**
+    ``pip install xlwt==0.7.2``
+
 Windows
 ~~~~~~~
 

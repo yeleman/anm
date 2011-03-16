@@ -4,8 +4,6 @@
 
 import locale
 
-from gettext import gettext as _
-
 from sqlalchemy import func, desc
 
 from database import Account, Operation, session
