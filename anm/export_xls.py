@@ -90,7 +90,7 @@ def write_xls(file_name):
                 Budget_amount = session.query(Budget.amount).\
                                     filter_by(account=account,\
                                         period=period).scalar()
-                if checking_existence_budget(period) == True:
+                if checking_existence_budget(period):
                     if int(rowx1) % 2 == 0:
                         style = style1
                     else:
@@ -107,16 +107,16 @@ def write_xls(file_name):
         # La somme de tout les operations
         total_budget, total_balance =\
                             sum_budget_and_operation(periods[nber])
+        sheet.col(col).width = 0x0d00 * 2
+        sheet.col(col + 1).width = 0x0d00 * 2
         #We check if the total budget is not equal to zero and if so we write
-        if checking_existence_budget(periods[nber]) == True:
+        if checking_existence_budget(periods[nber]):
             sheet.write(rowx1 + 1, col, total_budget, style0)
             sheet.write(rowx1 + 1, col + 1, total_balance, style0)
             col += 2
     col = 2
     for nber in range(len(periods)):
-        if checking_existence_budget(periods[nber]) == True:
-            sheet.col(col).width = 0x0d00 * 2
-            sheet.col(col + 1).width = 0x0d00 * 2
+        if checking_existence_budget(periods[nber]):
             sheet.write_merge(4, 4, col, col + 1,\
                                 periods[nber].display_name(), style0)
             sheet.write(5, col, _(u"Budget"), style0)
@@ -135,6 +135,10 @@ def write_xls(file_name):
         rowx += 2
         account_name = _(u"Account: %s") % account.name
         sheet.write_merge(rowx, rowx, 1, 3, account_name, style_title)
+
+        sheet.col(2).width = 0x0d00 * 2
+        sheet.col(3).width = 0x0d00 * 3
+        sheet.col(4).width = 0x0d00 * 2
         for period  in periods:
             operations = [(operation.order_number, operation.invoice_number,\
                             operation.invoice_date.strftime('%x'),\
@@ -149,9 +153,7 @@ def write_xls(file_name):
                          _(u"Invoice Date"), _(u"Provider"),\
                                              _(u"Amount")]
                 rowx += 4
-                sheet.col(2).width = 0x0d00 * 2
-                sheet.col(3).width = 0x0d00 * 2
-                sheet.col(4).width = 0x0d00 * 2
+
                 for colx, value in enumerate(hdngs):
                     sheet.write(rowx, colx, value, style0)
                 amount_opera = 0

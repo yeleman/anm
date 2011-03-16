@@ -39,9 +39,9 @@ class MenuBar(QtGui.QMenuBar, ANMWidget):
                                             self.goto_print)
         file_.addAction(print_)
         # Export
-        export = file_.addMenu(_(u"Export data"))
-        export.addAction(_(u"DB"), self.goto_export_db)
-        export.addAction(_(u"Export an file excel"),\
+        export = file_.addMenu(_(u"&Export data"))
+        export.addAction(_(u"Backup Database"), self.goto_export_db)
+        export.addAction(_(u"In an Excel file"),\
                                         self.goto_export_excel)
         # Exit
         exit = QtGui.QAction(_(u"Exit"), self)
