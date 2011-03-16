@@ -55,7 +55,7 @@ class deleteViewWidget(QtGui.QDialog, ANMWidget):
                     _(u"L'operation which has for n° mandate %(order_num)s,"\
                         u" n° invoice %(invoice_num)s, "\
                         u"date invoices %(date)s, Provider %(provider)s"\
-                        u"and of amount %(amount)s") \
+                        u" and of amount %(amount)s") \
                         % {'order_num': op.order_number, \
                              'invoice_num': op.invoice_number, \
                              'provider': op.provider, 'amount': op.amount, \

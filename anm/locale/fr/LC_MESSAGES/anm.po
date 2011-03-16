@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: anm 0.1\n"
 "Report-Msgid-Bugs-To: bugs@yeleman.com\n"
-"POT-Creation-Date: 2011-03-15 18:19+0000\n"
-"PO-Revision-Date: 2011-03-15 18:15-0000\n"
+"POT-Creation-Date: 2011-03-16 13:04+0000\n"
+"PO-Revision-Date: 2011-03-16 13:04-0000\n"
 "Last-Translator: Alou <aloud7@gmail.com>\n"
 "Language-Team: French\n"
 "MIME-Version: 1.0\n"
@@ -357,7 +357,7 @@ msgstr "Sélectionnez une opération à supprimer"
 
 #: /home/yelema3/projets/anm/anm/ui/deleteview.py:55
 #, python-format
-msgid "L'operation which has for n° mandate %(order_num)s, n° invoice %(invoice_num)s, date invoices %(date)s, Provider %(provider)sand of amount %(amount)s"
+msgid "L'operation which has for n° mandate %(order_num)s, n° invoice %(invoice_num)s, date invoices %(date)s, Provider %(provider)s and of amount %(amount)s"
 msgstr "L'operation qui a pour  n° de mandat %(order_num)s, n° facture %(invoice_num)s, date facture %(date)s, fournisseur %(provider)s et du montant %(amount)s"
 
 #. Delete Button widget.
@@ -569,54 +569,54 @@ msgstr "balance.pdf"
 msgid "operation.pdf"
 msgstr "operation.pdf"
 
-#~ msgid "No Account"
-#~ msgstr "N° Compte"
+#~ msgid "balance"
+#~ msgstr "solde"
 
-#~ msgid "Account number"
-#~ msgstr " Numéro de compte"
+#~ msgid "this period did not record"
+#~ msgstr "Cette période n'a pas d'enregistrement"
 
-#~ msgid "Account transactions %(name)s (%(number)s)"
-#~ msgstr "Mouvements de compte %(name)s (%(number)s)"
+#~ msgid "Order number: %(order_num)s, Invoice number: %(invoice_num)s Provider: %(provider)s, Amount: %(amount)s, Invoice date: %(date)s"
+#~ msgstr "Numéro de mandat:%(order_num)s, Numéro de facture: %(invoice_num)s Fournisseur: %(provider)s, Montant: %(amount)s, Date de la facture: %(date)s"
 
-#~ msgid "Account balance"
-#~ msgstr "Solde du compte"
+#~ msgid "Delete error"
+#~ msgstr "Erreur de suppression"
 
-#~ msgid "Account budget"
-#~ msgstr "Budget du compte"
+#~ msgid "Not operation to delete !"
+#~ msgstr "Aucune opération à supprimer!"
 
-#~ msgid "%s"
-#~ msgstr "%s"
-
-#~ msgid "New amount"
-#~ msgstr "Nouveau montant"
-
-#~ msgid "Save"
-#~ msgstr "Enregistrer"
-
-#~ msgid "Adding operation budget"
-#~ msgstr "Ajout de budget de fonctionnement"
-
-#~ msgid "was already recorded "
-#~ msgstr "ont déjà été enregistrés"
+#~ msgid "Operation"
+#~ msgstr "Opération"
 
 #, fuzzy
 #~ msgid "The budget for the period %s it does not properly recorded"
 #~ msgstr "Le budget pour la période %s n'est pas correctement enregistré"
 
-#~ msgid "Operation"
-#~ msgstr "Opération"
+#~ msgid "was already recorded "
+#~ msgstr "ont déjà été enregistrés"
 
-#~ msgid "Not operation to delete !"
-#~ msgstr "Aucune opération à supprimer!"
+#~ msgid "Adding operation budget"
+#~ msgstr "Ajout de budget de fonctionnement"
 
-#~ msgid "Delete error"
-#~ msgstr "Erreur de suppression"
+#~ msgid "Save"
+#~ msgstr "Enregistrer"
 
-#~ msgid "Order number: %(order_num)s, Invoice number: %(invoice_num)s Provider: %(provider)s, Amount: %(amount)s, Invoice date: %(date)s"
-#~ msgstr "Numéro de mandat:%(order_num)s, Numéro de facture: %(invoice_num)s Fournisseur: %(provider)s, Montant: %(amount)s, Date de la facture: %(date)s"
+#~ msgid "New amount"
+#~ msgstr "Nouveau montant"
 
-#~ msgid "this period did not record"
-#~ msgstr "Cette période n'a pas d'enregistrement"
+#~ msgid "%s"
+#~ msgstr "%s"
 
-#~ msgid "balance"
-#~ msgstr "solde"
+#~ msgid "Account budget"
+#~ msgstr "Budget du compte"
+
+#~ msgid "Account balance"
+#~ msgstr "Solde du compte"
+
+#~ msgid "Account transactions %(name)s (%(number)s)"
+#~ msgstr "Mouvements de compte %(name)s (%(number)s)"
+
+#~ msgid "Account number"
+#~ msgstr " Numéro de compte"
+
+#~ msgid "No Account"
+#~ msgstr "N° Compte"
