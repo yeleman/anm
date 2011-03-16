@@ -14,7 +14,7 @@ from doclib.pdf import PDFGenerator
 def build_accounts_report(period, filename=None, format='pdf'):
     ''' PDF: List of balances '''
     if not filename:
-        filename = get_temp_filename()
+        filename = get_temp_filename('pdf')
 
     doc = Document(title=_(u"Accounts balance for %s") \
                          % period.display_name(), landscape=True)
@@ -65,6 +65,8 @@ def build_accounts_report(period, filename=None, format='pdf'):
 
 def build_operations_report(account, period, filename=None, format='pdf'):
     ''' PDF: List of operations '''
+    if not filename:
+        filename = get_temp_filename('pdf')
     doc = Document(title=_(u"The list of operations for the period %s.") \
                          % period.display_name(), \
                            landscape=False, stick_sections=True)
