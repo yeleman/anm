@@ -93,5 +93,5 @@ class RegistreWidget(QtGui.QDialog, ANMWidget):
             account = None
         period = self.all_active_periods[self.box_period.currentIndex()]
         pdf_report = build_operations_report(account=account, \
-                                period=period, filename=_(u'operation.pdf'))
+                                period=period)
         uopen_file(pdf_report)
