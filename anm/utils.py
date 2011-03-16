@@ -72,9 +72,13 @@ def formatted_number(number):
         return "%s" % number
 
 
-def get_temp_filename():
+def get_temp_filename(extension=None):
     f = tempfile.NamedTemporaryFile(delete=False)
-    return f.name
+    if extension:
+        fname = '%s.%s' % (f.name, extension)
+    else:
+        fname = f.name
+    return fname
 
 def date2qdate(adate):
     ''' returns a date object from a QtCore.QDate '''
