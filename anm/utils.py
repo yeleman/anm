@@ -65,9 +65,9 @@ def raise_success(title, message):
 
 def formatted_number(number):
     try:
-        return locale.format("%d", number, grouping=True)
+        return locale.format("%d", number, grouping=True) \
+                     .decode(locale.getlocale()[1])
     except:
-        raise
         return "%s" % number
 
 
