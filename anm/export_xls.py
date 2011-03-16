@@ -90,7 +90,7 @@ def write_xls(file_name):
                 Budget_amount = session.query(Budget.amount).\
                                     filter_by(account=account,\
                                         period=period).scalar()
-                if checking_existence_budget(period) == True:
+                if checking_existence_budget(period):
                     if int(rowx1) % 2 == 0:
                         style = style1
                     else:
@@ -108,13 +108,13 @@ def write_xls(file_name):
         total_budget, total_balance =\
                             sum_budget_and_operation(periods[nber])
         #We check if the total budget is not equal to zero and if so we write
-        if checking_existence_budget(periods[nber]) == True:
+        if checking_existence_budget(periods[nber]):
             sheet.write(rowx1 + 1, col, total_budget, style0)
             sheet.write(rowx1 + 1, col + 1, total_balance, style0)
             col += 2
     col = 2
     for nber in range(len(periods)):
-        if checking_existence_budget(periods[nber]) == True:
+        if checking_existence_budget(periods[nber]):
             sheet.col(col).width = 0x0d00 * 2
             sheet.col(col + 1).width = 0x0d00 * 2
             sheet.write_merge(4, 4, col, col + 1,\

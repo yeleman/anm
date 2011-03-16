@@ -79,7 +79,7 @@ def build_operations_report(account, period, filename=None, format='pdf'):
     flag = False
     for account in accounts:
         operations = [(operation.order_number, operation.invoice_number,\
-                      operation.invoice_date.strftime(u'%d-%m-%Y'),\
+                      operation.invoice_date.strftime(u'%x'),\
                       operation.provider, operation.amount, operation) \
                       for operation in session.query(Operation).\
                       filter_by(account=account, period=period).\

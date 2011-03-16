@@ -26,9 +26,10 @@ class deleteViewWidget(QtGui.QDialog, ANMWidget):
                     filter_by(account=self.account, period=current_period()).\
                     order_by(desc(Operation.invoice_date)).all()
 
+        title = QtGui.QLabel()
+        self.setWindowTitle(_(u"Delete an operation"))
         if self.data == []:
-            title = QtGui.QLabel()
-            title.setText(_(u"there is no operation"))
+            title.setText(_(u"There is no operation removed for this account"))
             ok_butt = QtGui.QPushButton(_(u"OK"))
             ok_butt.clicked.connect(self.close)
 
@@ -39,9 +40,7 @@ class deleteViewWidget(QtGui.QDialog, ANMWidget):
         else:
             # set global account
             self.account = account
-            self.setWindowTitle(_(u"Delete an operation"))
             #Title widget
-            title = QtGui.QLabel()
             title.setText(_(u"Select an operation to delete"))
             title.setAlignment(QtCore.Qt.AlignHCenter)
             title_hbox = QtGui.QHBoxLayout()
