@@ -4,7 +4,7 @@
 
 from sqlalchemy import func, desc
 
-from utils import formatted_number
+from utils import formatted_number, get_temp_filename
 from database import Account, Operation, session
 from data_helpers import account_summary
 from doclib import Document, Paragraph, Text, Table, Section
@@ -13,6 +13,8 @@ from doclib.pdf import PDFGenerator
 
 def build_accounts_report(period, filename=None, format='pdf'):
     ''' PDF: List of balances '''
+    if not filename:
+        filename = get_temp_filename()
 
     doc = Document(title=_(u"Accounts balance for %s") \
                          % period.display_name(), landscape=True)

@@ -5,6 +5,7 @@
 import os
 import sys
 import locale
+import tempfile
 import subprocess
 from datetime import date
 
@@ -70,6 +71,10 @@ def formatted_number(number):
     except:
         return "%s" % number
 
+
+def get_temp_filename():
+    f = tempfile.NamedTemporaryFile(delete=False)
+    return f.name
 
 def date2qdate(adate):
     ''' returns a date object from a QtCore.QDate '''

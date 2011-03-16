@@ -81,8 +81,7 @@ class RegistreWidget(QtGui.QDialog, ANMWidget):
 
     def balance_pdf(self):
         period = self.all_active_periods[self.box_period.currentIndex()]
-        pdf_report = build_accounts_report(period=period, \
-                                               filename=_(u'balance.pdf'))
+        pdf_report = build_accounts_report(period=period)
         uopen_file(pdf_report)
 
     def Operation_pdf(self):
