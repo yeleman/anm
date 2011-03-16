@@ -14,8 +14,8 @@ from doclib.pdf import PDFGenerator
 def build_accounts_report(period, filename=None, format='pdf'):
     ''' PDF: List of balances '''
 
-    doc = Document(title=_(u"Accounts balance for %s") % period, \
-                   landscape=True)
+    doc = Document(title=_(u"Accounts balance for %s") \
+                         % period.display_name(), landscape=True)
 
     table = Table(4)
     table.add_header_row([
@@ -64,7 +64,8 @@ def build_accounts_report(period, filename=None, format='pdf'):
 def build_operations_report(account, period, filename=None, format='pdf'):
     ''' PDF: List of operations '''
     doc = Document(title=_(u"The list of operations for the period %s.") \
-                    % period, landscape=False, stick_sections=True)
+                         % period.display_name(), \
+                           landscape=False, stick_sections=True)
 
     if account == None:
         accounts = session.query(Account).all()
