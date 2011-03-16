@@ -113,7 +113,7 @@ class OperationWidget(ANMWidget, ANMPeriodHolder):
              invoice_date < self.main_period.start_on:
             raise_error(_(u'Error date'), \
             _(u'The date is not included in the current quarter.'))
-        elif amount >= balance:
+        elif amount >= self.balance_:
             raise_error(_(u'Error money'),\
              _(u"There is not enough money for this operation."))
         else:
