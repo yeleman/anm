@@ -25,7 +25,7 @@ class OperationWidget(ANMWidget, ANMPeriodHolder):
         # set global account
         self.account = account
         self.main_period = period
-        self.balance_ = account_balance(self.account, period)
+        self.balance = account_balance(self.account, period)
 
         self.table = OperationTableWidget(parent=self, period=self.main_period)
 
@@ -34,9 +34,9 @@ class OperationWidget(ANMWidget, ANMPeriodHolder):
                                     % {'name': self.account.name, \
                                        'number': self.account.number})
 
-        self.balance = ANMPageTitle(_(u"Balance: " u"%(balance_)s FCFA") \
-                                    % {'balance_': \
-                                              formatted_number(self.balance_)})
+        self.balance_title = ANMPageTitle(_(u"Balance: " u"%(balance)s FCFA") \
+                                    % {'balance': \
+                                              formatted_number(account_balance(self.account, period))})
         hbox = QtGui.QHBoxLayout()
         hbox.addWidget(self.table)
 
@@ -71,7 +71,7 @@ class OperationWidget(ANMWidget, ANMPeriodHolder):
 
         vbox = QtGui.QVBoxLayout()
         vbox.addWidget(self.title)
-        vbox.addWidget(self.balance)
+        vbox.addWidget(self.balance_title)
         vbox.addWidget(self.periods_bar)
         vbox.addLayout(formbox1)
         vbox.addLayout(formbox)
@@ -91,9 +91,9 @@ class OperationWidget(ANMWidget, ANMPeriodHolder):
             amount = 0
 
         if self.order_number.text() and self.invoice_number.text() and \
-            invoice_date and self.provider.text()and self.amount.text()\
+            invoice_date and self.provider.text() and self.amount.text()\
             and invoice_date >= self.main_period.start_on and invoice_date <= \
-            self.main_period.end_on and amount < self.balance_:
+            self.main_period.end_on and amount < self.balance:
             operation = Operation(unicode(self.order_number.text()),
                         unicode(self.invoice_number.text()), invoice_date, \
                         unicode(self.provider.text()), amount)
@@ -112,7 +112,7 @@ class OperationWidget(ANMWidget, ANMPeriodHolder):
              invoice_date < self.main_period.start_on:
             raise_error(_(u'Error date'), \
             _(u'The date is not included in the current quarter.'))
-        elif amount >= self.balance_:
+        elif amount >= self.balance:
             raise_error(_(u'Error money'),\
              _(u"There is not enough money for this operation."))
         else:
@@ -128,10 +128,10 @@ class OperationWidget(ANMWidget, ANMPeriodHolder):
 
     def adjust_balance(self, period):
         ''' adjusts the balance by period '''
-        self.balance_ = account_balance(self.account, period)
-        self.balance.setText(_(u"Balance: " u"%(balance_)s FCFA") \
-                                    % {'balance_': \
-                                              formatted_number(self.balance_)})
+        self.balance = account_balance(self.account, period)
+        self.balance_title.setText(_(u"Balance: " u"%(balance)s FCFA") \
+                                    % {'balance': \
+                                              formatted_number(self.balance)})
 
     def adjust_date_field(self):
         if period_for(qdate2date(self.invoice_date.date())) ==\
