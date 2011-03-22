@@ -141,6 +141,7 @@ def check_periods(date_ref):
 
 
 def data_budget(period):
+    ''' Check if there is a budget in a given period. '''
     data = [budget.period.id for budget in session.query(Budget).all()]
     if period.id in data:
         return True
@@ -191,7 +192,7 @@ def checking_existence_budget(period):
                     filter_by(period=period).scalar()
     if total_budget == 0:
         return False
-    if total_budget != 0:
+    else:
         return True
 
 
