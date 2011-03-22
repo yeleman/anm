@@ -34,7 +34,6 @@ class RegistreWidget(QtGui.QDialog, ANMWidget):
         self.box_type = QtGui.QComboBox()
 
         # Data
-        current = current_period()
         self.all_active_periods = all_active_periods(session.query(Period).\
                            order_by(desc(Period.start_on)).all())
 
@@ -49,7 +48,7 @@ class RegistreWidget(QtGui.QDialog, ANMWidget):
         sel_index = 0
         for index in xrange(0, len(self.all_active_periods)):
             ped = self.all_active_periods[index]
-            if ped == current:
+            if ped == current_period():
                 sel_index = index
             self.box_period.addItem(_(u'%(display_name)s') %\
                                 {'display_name': ped.display_name()})
@@ -69,7 +68,6 @@ class RegistreWidget(QtGui.QDialog, ANMWidget):
         balance_but.clicked.connect(self.balance_pdf)
 
         combo_hbox = QtGui.QHBoxLayout()
-        combo_hbox1 = QtGui.QHBoxLayout()
         combo_hbox.addWidget(self.box_account)
         combo_hbox.addWidget(self.box_period)
 

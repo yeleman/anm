@@ -119,9 +119,11 @@ class OperationWidget(ANMWidget, ANMPeriodHolder):
             raise_error(_(u'Error field'), _(u'You must fill in all fields.'))
 
     def refresh(self):
+        ''' refreshed Table '''
         self.table.refresh_period(self.main_period)
 
     def change_period(self, period):
+        '''change period'''
         self.adjust_date_field()
         self.adjust_balance(period)
         self.table.refresh_period(period)
@@ -134,6 +136,7 @@ class OperationWidget(ANMWidget, ANMPeriodHolder):
                                               formatted_number(self.balance)})
 
     def adjust_date_field(self):
+        ''' adjusts the date '''
         if period_for(qdate2date(self.invoice_date.date())) ==\
                                                         self.main_period:
             # keep what's on
@@ -162,6 +165,7 @@ class OperationTableWidget(ANMTableWidget):
         self.refresh(True)
 
     def refresh_period(self, period):
+        ''' refreshed Period '''
         self._reset()
         self.main_period = period
         self.set_data_for(period)

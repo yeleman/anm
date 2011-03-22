@@ -19,11 +19,11 @@ class deleteViewWidget(QtGui.QDialog, ANMWidget):
     def __init__(self, parent, account, *args, **kwargs):
         QtGui.QDialog.__init__(self, parent, *args, **kwargs)
 
-        #Fill Combobox.
         self.data = session.query(Operation).\
                     filter_by(account=self.account, period=current_period()).\
                     order_by(desc(Operation.invoice_date)).all()
 
+        self.account = account
         title = QtGui.QLabel()
         self.setWindowTitle(_(u"Delete an operation"))
         if self.data == []:
@@ -36,9 +36,6 @@ class deleteViewWidget(QtGui.QDialog, ANMWidget):
             vbox.addWidget(ok_butt)
             self.setLayout(vbox)
         else:
-            # set global account
-            self.account = account
-            #Title widget
             title.setText(_(u"Select an operation to delete"))
             title.setAlignment(QtCore.Qt.AlignHCenter)
             title_hbox = QtGui.QHBoxLayout()

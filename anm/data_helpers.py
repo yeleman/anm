@@ -197,9 +197,9 @@ def checking_existence_budget(period):
 
 def all_active_periods(periods):
     ''' returns the list of periods that have budgets '''
-    list_ = []
+    list_period = []
     for period in periods:
         if checking_existence_budget(period):
-            list_.append(period)
+            list_period.append(period)
 
-    return list_
+    return list_period
