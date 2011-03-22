@@ -103,22 +103,22 @@ def write_xls(file_name):
 
     col = 2
     sheet.write(rowx1 + 1, col - 1, _(u"TOTALS"), style0)
-    for nber in range(len(periods)):
+    for number_period in range(len(periods)):
         # La somme de tout les operations
         total_budget, total_balance =\
-                            sum_budget_and_operation(periods[nber])
+                            sum_budget_and_operation(periods[number_period])
         sheet.col(col).width = 0x0d00 * 2
         sheet.col(col + 1).width = 0x0d00 * 2
         #We check if the total budget is not equal to zero and if so we write
-        if checking_existence_budget(periods[nber]):
+        if checking_existence_budget(periods[number_period]):
             sheet.write(rowx1 + 1, col, total_budget, style0)
             sheet.write(rowx1 + 1, col + 1, total_balance, style0)
             col += 2
     col = 2
-    for nber in range(len(periods)):
-        if checking_existence_budget(periods[nber]):
+    for number_period in range(len(periods)):
+        if checking_existence_budget(periods[number_period]):
             sheet.write_merge(4, 4, col, col + 1,\
-                                periods[nber].display_name(), style0)
+                                periods[number_period].display_name(), style0)
             sheet.write(5, col, _(u"Budget"), style0)
             sheet.write(5, col + 1, _(u"Balance"), style0)
             col += 2
