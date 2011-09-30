@@ -7,6 +7,8 @@ import sys
 from PyQt4 import QtGui, QtCore
 
 from database import Account
+from data_helpers import period_has_budgets, \
+                         current_period, create_empty_budgets
 from menubar import MenuBar
 from balanceview import BalanceViewWidget
 from operationview import OperationWidget
@@ -25,7 +27,12 @@ class MainWindow(QtGui.QMainWindow):
         self.menubar = MenuBar(self)
         self.setMenuBar(self.menubar)
 
-        self.change_context(BalanceViewWidget)
+        if not period_has_budgets(current_period()):
+            from balanceupdateview import BalanceUpdateWidget
+            create_empty_budgets(current_period())
+            self.change_context(BalanceUpdateWidget, force_current=True)
+        else:
+            self.change_context(BalanceViewWidget)
 
     def getaccount(self):
         return self._account

@@ -49,7 +49,10 @@ def account_budget(account, period):
         budget = session.query(Budget)\
                         .filter_by(period=period, account=account).one()
     except (exc.NoResultFound, exc.MultipleResultsFound):
-        raise AccountNotConfigured(account)
+        if period == period_for(date(2011, 1, 1)):
+            raise AccountNotConfigured(account)
+        else:
+            return 0
     return budget.amount
 
 

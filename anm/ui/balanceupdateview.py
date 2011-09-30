@@ -20,7 +20,7 @@ from common import ANMWidget, ANMTableWidget, ANMPageTitle
 
 class BalanceUpdateWidget(ANMWidget):
 
-    def __init__(self, parent=0, *args, **kwargs):
+    def __init__(self, parent=0, force_current=False, *args, **kwargs):
 
         super(BalanceUpdateWidget, self).__init__(parent=parent, \
                                                   *args, **kwargs)
@@ -28,7 +28,13 @@ class BalanceUpdateWidget(ANMWidget):
 
         # periods
         self.period1 = current_period()
-        self.period2 = self.period1.next()
+
+        # need to change data for current period since it does not exist.
+        if force_current:
+            self.period2 = current_period()
+            self.title = ANMPageTitle(_(u"You must enter bugets for current period before you can continue."))
+        else:
+            self.period2 = self.period1.next()
         self.table = NextBalanceUpdateTableWidget(parent=self, \
                                                   period1=self.period1, \
                                                   period2=self.period2)
@@ -134,5 +140,5 @@ class NextBalanceUpdateTableWidget(ANMTableWidget):
         except Exception as e:
             raise_success(_(u"Error updating budgets!"), \
                           _(u"There has been an error while trying to " \
-                            u"save the new budgets:\n%(erros)s") \
+                            u"save the new budgets:\n%(error)s") \
                             % {'error': e})
